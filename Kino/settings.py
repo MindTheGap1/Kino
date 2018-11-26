@@ -76,12 +76,18 @@ WSGI_APPLICATION = 'Kino.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'csmysql.cs.cf.ac.uk',
+        'NAME': 'group13_2018',
+        'USER': 'group13.2018',
+        'PASSWORD': 's7xFBTXshgE6Eue',
+        'PORT': '3306',
+    }
+}
+"""
         'OPTIONS': {
             'read_default_file': '/etc/mysql/details.cnf',
         },
-    }
-}
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -120,3 +126,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
