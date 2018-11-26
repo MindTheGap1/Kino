@@ -1,0 +1,81 @@
+VIRTUAL ENVIRONMENT
+
+Virtual environment lets you get a brand new python install temporarily
+	This helps us get on the same page for what pip packages we each have installed. (might make no sense going back to a fresh install but trust me it is probs worthwhile)
+
+To USE the virtual environment:
+	1. Go in command line
+	2. 'cd' to the project's directory, then 'cd' into Kino/Virtualenv/bin/
+	3. Type 'source activate' in command line
+	4. The virtual machine is now activated and you can 'cd' back up to Kino ('cd ../..')
+	5. I have already done 'pip install -r requirements.txt' so the right modules will already be installed
+
+To verify that you have it correct your command prompt should have (Virtualenv) at the start, and if you type 'pip freeze' and it /should/ output:
+	amqp==2.2.2
+	billiard==3.5.0.3
+	celery==4.1.0
+	Django==2.1.3
+	django-debug-toolbar==1.8
+	gunicorn==19.4.5
+	kombu==4.1.0
+	mysqlclient==1.3.13
+	Pillow==5.1.0
+	psycopg2==2.7.3.1
+	pytz==2018.4
+	sqlparse==0.2.4
+	vine==1.1.4
+	whitenoise==3.3.1
+
+
+Any time you reopen the command line to run the server you have to do steps 2 and 3 (you always have to 'source activate')
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DJANGO
+
+If you ever change any models.py files or create any new models.py files you will have to run the command:
+	python[3] manage.py makemigrations
+	python[3] manage.py migrate
+
+If you ever upload images in the admin menu:
+	python[3] manage.py collectstatic
+	(and then type yes when it asks)
+
+To RUN THE SERVER (the main command to use):
+	python[3] manage.py runserver
+	and then you can open http://127.0.0.1:8000/ in your browser
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+GIT
+
+To get the project:
+	git clone https://github.com/MindTheGap1/Kino
+
+DO NOT WORK IN MASTER BRANCH
+	git checkout dev
+
+If you have your own branch to work from, which is a good idea, then:
+	git checkout [branch name]
+
+Again, DO NOT WORK IN MASTER
+
+As per last years labs:
+	git add *
+	git commit -m "[whatever message, ideally descriptive]"
+	git push
+
+If you want to merge branches (something that could be done in weekly scrum meetings?)
+	make sure everything is added on your branch
+	git checkout [branch you want to merge TO]
+	git merge [branch to merge TO] [branch you want to merge FROM]
+
+	e.g. merging from a branch called 'david' to the main 'dev' branch:
+		git checkout dev
+		git merge dev david
+
+Merge conflicts will probably occur, the command line should say which files are affected and then you manually edit those files to be as they should be
+
+Make sure to commit and push after fixing any merge conflicts
+
+Assuming a bit of functionality takes a week to do (in line with the scrum meetings) then it might be a good idea to merge when we're all together in those meetings to be able to fix any minor issues at the time.
