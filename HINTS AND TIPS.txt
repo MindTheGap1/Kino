@@ -33,9 +33,11 @@ Any time you reopen the command line to run the server you have to do steps 2 an
 
 DJANGO
 
-If you ever change any models.py files or create any new models.py files you will have to run the command:
+YOU MUST RUN THE FOLLOWING COMMANDS WHEN YOU FIRST CLONE THE REPO:
 	python[3] manage.py makemigrations
 	python[3] manage.py migrate
+
+If you ever change any models.py files or create any new models.py files you will have to run those commands again:
 
 If you ever upload images in the admin menu:
 	python[3] manage.py collectstatic

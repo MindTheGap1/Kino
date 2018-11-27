@@ -82,7 +82,7 @@ DATABASES = {
         #'NAME': 'group13_2018',
         #'USER': 'group13.2018',
         #'PASSWORD': 's7xFBTXshgE6Eue',
-        #PORT': '3306',
+        #'PORT': '3306',
     }
 }
 """
