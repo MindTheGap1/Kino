@@ -75,12 +75,14 @@ WSGI_APPLICATION = 'Kino.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'csmysql.cs.cf.ac.uk',
-        'NAME': 'group13_2018',
-        'USER': 'group13.2018',
-        'PASSWORD': 's7xFBTXshgE6Eue',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.mysql',
+        #'HOST': 'csmysql.cs.cf.ac.uk',
+        #'NAME': 'group13_2018',
+        #'USER': 'group13.2018',
+        #'PASSWORD': 's7xFBTXshgE6Eue',
+        #PORT': '3306',
     }
 }
 """

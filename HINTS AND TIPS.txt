@@ -5,9 +5,9 @@ Virtual environment lets you get a brand new python install temporarily
 
 To USE the virtual environment:
 	1. Go in command line
-	2. 'cd' to the project's directory, then 'cd' into Kino/Virtualenv/bin/
+	2. 'cd' to the project's directory, then 'cd' into ./Virtualenv/bin/
 	3. Type 'source activate' in command line
-	4. The virtual machine is now activated and you can 'cd' back up to Kino ('cd ../..')
+	4. The virtual machine is now activated and you can 'cd' back up to the main folder ('cd ../..')
 	5. I have already done 'pip install -r requirements.txt' so the right modules will already be installed
 
 To verify that you have it correct your command prompt should have (Virtualenv) at the start, and if you type 'pip freeze' and it /should/ output:
