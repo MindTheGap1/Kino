@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ movie.movieName }}</h1>
+<ul>
+  {{ movie.description }}
+</ul>
+<ul>
+  <a>
+    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+  </a>
+</ul>
+{% endblock %}

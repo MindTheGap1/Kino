@@ -1,0 +1,16 @@
+body {
+	background-color: black;
+	color: yellow;
+}
+
+a:hover, a:visited, a {
+	color: yellow;
+}
+
+#footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
