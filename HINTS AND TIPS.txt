@@ -37,7 +37,10 @@ YOU MUST RUN THE FOLLOWING COMMANDS WHEN YOU FIRST CLONE THE REPO:
 	python[3] manage.py makemigrations
 	python[3] manage.py migrate
 
-If you ever change any models.py files or create any new models.py files you will have to run those commands again:
+If you ever change any models.py files or create any new models.py files you will have to run those commands again
+
+If you want to add a couple of pre-done movies and actors etc (for the sake of saving a little time):
+	python[3] manage.py loaddata marvelmovies
 
 If you ever upload images in the admin menu:
 	python[3] manage.py collectstatic

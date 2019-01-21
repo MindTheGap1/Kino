@@ -90,5 +90,6 @@ local_settings.py
 .env
 db.sqlite3
 
+### REMOVE THESE MEDIA BITS WHEN ACTUALLY DEPLOYING ###
 media/*
 media/*/*
