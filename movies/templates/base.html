@@ -3,22 +3,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>{% block title %}Kino{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body>
 
-<div id="navtools">
-
-
+<div id="header">
   <nav>
-    <a href="/" class="logo">
-      <img src="{% static "img/Logo.png" %}" >
-    </a>
-    <ul>
-      <li><a href="/">Home</a></li>
-    </ul>
+    <div id="headleft">
+      <ul>
+        <li><a href="/">RECENTLY ADDED</a></li>
+      </ul>
+    </div>
+    <div id="headright">
+      <ul>
+        <li><a href="/">MY COLLECTION</a></li>
+        <li><a href="/"><img src="{% static "img/Search.png" %}" class="icon"></a></li>
+        <li><a href="/">Account Icon</a>
+      </ul>
+    </div>
 
+    <div>
+      <a href="/" class="logo">
+        <img src="{% static "img/Logo.png" %}">
+      </a>
+    </div>
 
   </nav>
 </div>
@@ -29,9 +38,8 @@
 	{% endblock %}
 </div>
 
-
 <div id="footer">
-  KINO 2019
 </div>
+
 </body>
 </html>

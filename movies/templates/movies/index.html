@@ -1,24 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Kino{% endblock %}
+
 
 {% block content %}
-<h3>Movies</h3>
-{% if movie_list %}
+<div id="sidebar">
+    <h3>GENRES</h3>
     <ul>
-    {% for movie in movie_list %}
-        <li>
-            <a>
-              <div>
-                <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-                <a href="{% url 'movies:detail' movie.movieId %}">{{ movie.movieName }}</a>
-              </div>
-            </div>
-            </a>
-        </li>
-    {% endfor %}
+    {% if genre_list %}
+        {% for genre in genre_list %}
+            <li>{{ genre.genreName }}</li>
+        {% endfor %}
+    {% endif %}
     </ul>
-{% else %}
-    <p>No Movies :(</p>
-{% endif %}
+
+</div>
+<div id="index">
+    <h3>Movies</h3>
+    {% if movie_list %}
+        {% for movie in movie_list %}
+            <div class="item">
+                <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"><br>
+                <a href="{% url 'movies:detail' movie.movieId %}">{{ movie.movieName }}</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No Movies :(</p>
+    {% endif %}
+</div>
 {% endblock %}
