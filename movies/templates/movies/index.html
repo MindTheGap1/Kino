@@ -21,8 +21,11 @@
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">
-                <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"><br>
-                <a href="{% url 'movies:detail' movie.movieId %}">{{ movie.movieName }}</a>
+                <a href="{% url 'movies:detail' movie.movieId %}">
+                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                    <br>
+                    {{ movie.movieName }}
+                </a>
             </div>
         {% endfor %}
     {% else %}

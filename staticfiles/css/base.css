@@ -1,6 +1,7 @@
 body {
 	background-color: black;
 	color: white;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 a:hover, a:visited, a {
@@ -11,6 +12,8 @@ a:hover, a:visited, a {
 ul {
 	list-style-type: none;
 }
+
+/* HEADER & FOOTER - BASE.HTML */
 
 #footer {
 	/*height:40px;
@@ -32,6 +35,7 @@ ul {
 	height: 75px;
 	width: 100%;
 	overflow-y: hidden;
+	z-index: 5;
 }
 
 #header ul {
@@ -71,10 +75,13 @@ ul {
 	vertical-align: middle;
 }
 
+/* SIDEBAR */
+/* Used in index.html */
+
 #sidebar {
+	position: fixed;
 	display: block;
 	z-index: -1;
-	position: fixed;
 	overflow: auto;
 	width: 15%;
 	left: 0;
@@ -82,7 +89,10 @@ ul {
 	bottom: 0;
 	padding-top: 20px;
 	border-right: 5px solid yellow;
+	overflow-y: scroll;
 }
+
+/* INDEX.HTML */
 
 #index {
 	margin: 80px 0 100px 15%;
@@ -91,7 +101,7 @@ ul {
 }
 
 .item {
-    width:20%;
+    width:22%;
     padding:10px 20px 10px 0;
     float:left;
     text-align:center;
@@ -103,4 +113,63 @@ ul {
     width:275px;
     max-width: 95%;
     height: 450px;
+}
+
+/* DETAIL.HTML */
+
+#detailleftpane {
+	position: fixed;
+	width: 55%;
+	bottom: 0;
+	top: 75px;
+	padding-top: 1%;
+	border-bottom: 5px solid yellow;
+}
+
+#detailrightpane {
+	position: fixed;
+	width: 45%;
+	bottom: 0;
+	top: 75px;
+	margin: 0 0 0 55%;
+	padding-top: 1%;
+	border-left: 5px solid yellow;
+	border-bottom: 5px solid yellow;
+	text-align: center;
+}
+
+#detailleftpane iframe {
+	display: block;
+    margin: 0 auto;
+    width: 80%;
+    height: 60%;
+}
+
+#detailback {
+	margin: 20px;
+	border: 2px solid yellow;
+	max-width: 5%;
+	overflow-x: hidden;
+	text-align: center;
+}
+
+#detaildesc {
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+	border: 5px solid yellow;
+	overflow-y: scroll;
+	height: 50%;
+	text-align: left;
+}
+
+#detailrating {
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+	border: 5px solid yellow;
+	overflow-y: hidden;
+	height: 30%;
+	text-align: center;
+	margin-top: 5%;
 }

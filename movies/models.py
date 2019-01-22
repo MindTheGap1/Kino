@@ -10,6 +10,7 @@ class Movies(models.Model):
     trailerLink = models.CharField(max_length=100)
     image = models.ImageField(upload_to='img', blank=True)
     noRents = models.PositiveIntegerField()
+    releaseDate = models.DateField()
     addedDate = models.DateTimeField(auto_now_add=True)
     overallRating = models.DecimalField(decimal_places=2, max_digits=4)
     ageRating = models.CharField(max_length=3)

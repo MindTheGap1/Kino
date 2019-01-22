@@ -1,14 +1,77 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}{{movie.movieName}}{% endblock %}
+
 {% block content %}
-<h1>{{ movie.movieName }}</h1>
-<ul>
-  {{ movie.description }}
-</ul>
-<ul>
-  <a>
-    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-  </a>
-</ul>
+
+<div id="detailleftpane">
+	<div id="detailback"><a href="/">GO BACK</a></div>
+	<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
+</div>
+<div id="detailrightpane">
+	<h1>{{ movie.movieName }}</h1>
+	<div id="detaildesc">
+		<ul>
+			<li>{{ movie.description }}</li>
+			<br>
+			<li>Release Date: {{ movie.releaseDate }}</li>
+			<br>
+
+			{% if genres %}
+				<li>Genres:
+					<ul>
+					{% for genre in genres %}
+						<li>{{ genre }}</li>
+					{% endfor %}
+					</ul>
+				</li>
+			{% else %}
+				<li>Genres are unknown</li>
+			{% endif %}
+			<br>
+
+			{% if directors %}
+				<li>Directors: 
+					<ul>
+					{% for director in directors %}
+						<li>{{ director }}</li>
+					{% endfor %}
+					</ul>
+				</li>
+			{% else %}
+				<li>Directors are unknown</li>
+			{% endif %}
+			<br>
+
+			{% if actors %}
+				<li>Cast: 
+					<ul>
+					{% for actor in actors %}
+						<li>{{ actor }}</li> 
+					{% endfor %}
+					</ul>
+				</li>
+			{% else %}
+				<li>Actors are unknown</li>
+			{% endif %}
+			<br>
+
+			{% if writers %}
+				<li>Story by:
+					<ul>
+					{% for writer in writers %}
+						<li>{{ writer }}</li>
+					{% endfor %}
+					</ul>
+				</li>
+			{% else %}
+				<li>Writers are unknown</li>
+			{% endif %}
+		</ul>
+	</div>
+	<div id="detailrating">
+		<h2>Average Customer Review:</h2>
+	</div>
+</div>
 {% endblock %}
