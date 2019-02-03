@@ -90,7 +90,7 @@ local_settings.py
 .env
 db.sqlite3
 
-VirtualEnv/
+Virtualenv/
 
 ### REMOVE THESE MEDIA BITS WHEN ACTUALLY DEPLOYING ###
 media/*
