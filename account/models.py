@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
-from phonenumber_field.modelfields import PhoneNumberField
+#from phonenumber_field.modelfields import PhoneNumberField
 from movies.models import Movies
 
 
@@ -11,7 +11,7 @@ class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dob = models.DateField(auto_now_add=True)
     profilePic = models.ImageField(upload_to='profile_img', blank=True)
-    mobileNumber = PhoneNumberField()
+    #mobileNumber = PhoneNumberField()
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):

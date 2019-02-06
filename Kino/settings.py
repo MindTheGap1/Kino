@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'phonenumber_field',
+    #'phonenumber_field',
     'movies.apps.MovieConfig',
     'account.apps.AccountConfig',
     'orders.apps.OrderConfig',
@@ -70,6 +70,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'Kino.wsgi.application'
 
