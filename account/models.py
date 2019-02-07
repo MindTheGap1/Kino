@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
-from movies.models import Movies
+from movies.models import Movies, Genres
 
 
 class User(models.Model):
@@ -27,3 +27,6 @@ class UserMovieStats(models.Model):
     lastWatchPos = models.DurationField()
     allowRecommend = models.BooleanField(default=True)
 
+class FavouriteGenres(models.Model):
+    userId = models.ForeignKey(User, related_name='favouritegenres', on_delete=models.CASCADE)
+    genreId = models.ForeignKey(User, related_name='usersfavourite', on_delete=models.CASCADE)

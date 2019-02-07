@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('movies/', include('movies.urls', namespace= 'movies')),
     path('',include('movies.urls'),name ='main'),
+    path('account/',include('account.urls'),name='account'),
 ]
 
 if settings.DEBUG:

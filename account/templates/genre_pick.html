@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pick Your Favourite Genres{% endblock %}
+
+{% block content %}
+
+<h2>Let us know more about your taste in movies!</h2>
+
+<form method='post'>
+    {% csrf_token %}
+    {{ genre_form.as_p }}
+    <input type='submit' value='submit'>
+</form>
+
+{% endblock %}
