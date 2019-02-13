@@ -24,6 +24,7 @@ urlpatterns = [
     #path('movies/', include('movies.urls', namespace= 'movies')),
     path('',include('movies.urls'),name ='main'),
     path('account/',include('account.urls'),name='account'),
+    path('search/', include('search.urls'),name='search'),
 ]
 
 if settings.DEBUG:

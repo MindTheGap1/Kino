@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'movies.apps.MovieConfig',
     'account.apps.AccountConfig',
     'orders.apps.OrderConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [

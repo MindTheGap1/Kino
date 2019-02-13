@@ -1,16 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
+from search.forms import SearchBar
 
 from .models import *
 
 def index(request):
     movie_list = Movies.objects.order_by('overallRating')
     genre_list = Genres.objects.order_by('genreName')
+    search_form = SearchBar
+
     template = 'movies/index.html'
     context = {
         'movie_list': movie_list,
-        'genre_list': genre_list
+        'genre_list': genre_list,
+        'search_form': search_form,
     }
     return render(request, template, context)
 
@@ -54,11 +58,13 @@ def genre_detail(request, genre_id):
     moviesQ = MovieGenres.objects.filter(genreId=genre_id)
     movie_list = Movies.objects.filter(genres__in=moviesQ).order_by('overallRating')
     genre_list = Genres.objects.order_by('genreName')
+    search_form = SearchBar
 
     template = 'movies/genre_detail.html'
     context = {
         'selected_genre': selected_genre,
         'movie_list': movie_list,
         'genre_list': genre_list,
+        'search_form': search_form,
     }
     return render(request, template, context)

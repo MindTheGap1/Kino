@@ -75,6 +75,10 @@ ul {
 	vertical-align: middle;
 }
 
+#content {
+	height: 0;
+}
+
 /* SIDEBAR */
 /* Used in index.html */
 
