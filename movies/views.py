@@ -36,6 +36,7 @@ def detail(request, movie_id):
     genreQ = MovieGenres.objects.filter(movieId=movie_id)
     genres = Genres.objects.filter(movies__in=genreQ)
 
+    template = 'movies/detail.html'
     context = {
         'movie': movie,
         'vidId': vidId,
@@ -44,4 +45,20 @@ def detail(request, movie_id):
         'actors': actors,
         'genres': genres,
     }
-    return render(request, 'movies/detail.html', context)
+    return render(request, template, context)
+
+
+def genre_detail(request, genre_id):
+    selected_genre = get_object_or_404(Genres, pk=genre_id)
+
+    moviesQ = MovieGenres.objects.filter(genreId=genre_id)
+    movie_list = Movies.objects.filter(genres__in=moviesQ).order_by('overallRating')
+    genre_list = Genres.objects.order_by('genreName')
+
+    template = 'movies/genre_detail.html'
+    context = {
+        'selected_genre': selected_genre,
+        'movie_list': movie_list,
+        'genre_list': genre_list,
+    }
+    return render(request, template, context)

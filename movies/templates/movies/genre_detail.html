@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Kino{% endblock %}
-
+{% block title %}{{selected_genre.genreName}} Movies{% endblock %}
 
 {% block content %}
 <div id="sidebar">
@@ -10,13 +9,17 @@
     <ul>
     {% if genre_list %}
         {% for genre in genre_list %}
-            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+        	{% if genre == selected_genre %}
+        		<li><strong>{{ genre.genreName }}</strong></li>
+        	{% else %}
+            	<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+        	{% endif %}
         {% endfor %}
     {% endif %}
     </ul>
 </div>
 <div id="index">
-    <h3>Movies</h3>
+	<h3>{{genre.genreName}}</h3>
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">
