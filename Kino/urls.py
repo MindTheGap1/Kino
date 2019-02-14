@@ -20,6 +20,8 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
+from account import views as account_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,9 +30,14 @@ urlpatterns = [
     #TODO: Include these in their own account/urls.py file
     url(r'^login/$', auth_views.LoginView.as_view(template_name="account/login.html"), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name="account/logout.html"), name='logout'),
+    url(r'^signup/$', account_views.signup, name="signup"),
     #TODO: Create profile view to dynamically add user profile info
     url(r'^profile/$', TemplateView.as_view(template_name="account/profile.html"), name='profile'),
     url(r'^admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='account/landing.html'), name='landing'),
+
+    path('account/', include('django.contrib.auth.urls')),
+    path('account/', include('account.urls')),
 ]
 
 if settings.DEBUG:
