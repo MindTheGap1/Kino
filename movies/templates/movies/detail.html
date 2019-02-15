@@ -22,7 +22,7 @@
 				<li>Genres:
 					<ul>
 					{% for genre in genres %}
-						<li>{{ genre }}</li>
+						<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
 					{% endfor %}
 					</ul>
 				</li>
@@ -35,7 +35,7 @@
 				<li>Directors: 
 					<ul>
 					{% for director in directors %}
-						<li>{{ director }}</li>
+						<li><a href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
 					{% endfor %}
 					</ul>
 				</li>
@@ -48,7 +48,7 @@
 				<li>Cast: 
 					<ul>
 					{% for actor in actors %}
-						<li>{{ actor }}</li> 
+						<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</li> 
 					{% endfor %}
 					</ul>
 				</li>
@@ -61,7 +61,7 @@
 				<li>Story by:
 					<ul>
 					{% for writer in writers %}
-						<li>{{ writer }}</li>
+						<li><a href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
 					{% endfor %}
 					</ul>
 				</li>
