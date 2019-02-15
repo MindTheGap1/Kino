@@ -38,10 +38,9 @@ def genrePick(request):
 				genres = form.cleaned_data.get('pickedGenres')
 				genreObjects = []
 				for genre in genres:
-					genreObjects += [Genres.objects.get(genreId=genre)]
-				for genre in genreObjects:
+					genreObject += [Genres.objects.get(genreId=genre)]
 					FavouriteGenres.objects.create(userId = current_user_object,
-													genreId = genre)
+													genreId = genreObject)
 
 				return redirect('/')
 
