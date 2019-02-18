@@ -5,8 +5,8 @@ from django.views.generic.base import TemplateView
 from account import views
 
 urlpatterns = [
-    url(r'^login/$', auth_views.LoginView.as_view(template_name="account/login.html"), name='login'),
-    url(r'^logout/$', auth_views.LogoutView.as_view(template_name="account/logout.html"), name='logout'),
-    url(r'^profile/$', TemplateView.as_view(template_name="account/profile.html"), name='profile'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(template_name="logout.html"), name='logout'),
+    url(r'^profile/$', TemplateView.as_view(template_name="profile.html"), name='profile'),
     url(r'^signup/$', views.signup.as_view(), name="signup"),
 ]
