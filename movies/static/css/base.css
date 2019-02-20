@@ -13,6 +13,38 @@ ul {
 	list-style-type: none;
 }
 
+/* MOVIE RATING CSS */
+
+.ratingLabel{
+display: none !important;
+width: 10%;
+height: 10%;
+}
+
+.ratingLabel [type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.label_item {
+opacity: 0.1;
+}
+
+.ratingLabel:checked + label {
+opacity: 1;
+}
+
+#userRating {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+}
+
 /* HEADER & FOOTER - BASE.HTML */
 
 #footer {
