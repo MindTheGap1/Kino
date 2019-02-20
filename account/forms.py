@@ -6,7 +6,5 @@ from movies.models import Genres
 
 class GenreSelect(forms.Form):
 	genres = Genres.objects.all()
-	options = ()
-	for genre in genres:
-		options = options + ((genre.genreId, genre.genreName, ), )
-	pickedGenres = forms.MultipleChoiceField(label='Pick your favourite genres:', widget=forms.CheckboxSelectMultiple, choices=options)
+	options = [(genre.genreId, genre.genreName) for genre in genres]
+	pickedGenres = forms.MultipleChoiceField(label='', widget=forms.CheckboxSelectMultiple, choices=options)

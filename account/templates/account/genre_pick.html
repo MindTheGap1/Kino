@@ -5,12 +5,22 @@
 
 {% block content %}
 
-<h2>Let us know more about your taste in movies!</h2>
-
+<h1 id="genreselecttitle">Let us know more about your taste in movies!<br>
+Pick your favorite genres:</h1>
 <div id="genreselection">
 	<form method='post'>
 	    {% csrf_token %}
-	    {{ genre_form.as_p }}
+	    <ul>
+	    	{% for field in genre_form %}
+	    		{% for choice in field %}
+
+    			{% with v=forloop.counter %}
+	    		<li><input type="checkbox" name="pickedGenres" value ="{{v}}" id="{{choice.id_for_label}}" {%if v in field.initial %}checked="checked"{%endif%}>
+	    		<label for="{{choice.id_for_label}}">{{choice.choice_label}}</label></li>
+	    		{% endwith %}
+	    		{% endfor %}
+	    	{% endfor %}
+		</ul>
 	    <input type='submit' value='Submit'>
 	</form>
 </div>

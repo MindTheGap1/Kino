@@ -36,9 +36,8 @@ def genrePick(request):
 			if form.is_valid():
 				FavouriteGenres.objects.filter(userId = current_user_object).delete()
 				genres = form.cleaned_data.get('pickedGenres')
-				genreObjects = []
 				for genre in genres:
-					genreObject += [Genres.objects.get(genreId=genre)]
+					genreObject = Genres.objects.get(genreId=genre)
 					FavouriteGenres.objects.create(userId = current_user_object,
 													genreId = genreObject)
 
