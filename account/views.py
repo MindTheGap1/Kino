@@ -11,7 +11,7 @@ from .forms import GenreSelect
 
 class signup(generic.CreateView):
 	form_class = UserCreationForm
-	success_url = reverse_lazy('login')
+	success_url = '/account/genre'
 	template_name = 'signup.html'
 
 def profile(request):
@@ -22,6 +22,8 @@ def profile(request):
 		return render(request, template)
 
 def genrePick(request):
+	if not request.user.is_authenticated:
+		return redirect('/login/?next=/account/genre')
 	if request.user.is_authenticated:
 		user_id = request.user.id
 		current_user_object = Auth_User.objects.get(id=user_id)
