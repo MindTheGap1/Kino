@@ -69,9 +69,17 @@ form {
 	background-color: black;
 }
 
-input {
+input#login {
 	border-color: yellow;
 	background-color: #a6a6a6;
-	padding: 10px 76px;
+	width: 286px;
+	padding: 10px 7px;
+	border-radius: 4px;  
+}
+input#reg {
+	border-color: yellow;
+	background-color: white;
+	width: 286px;
+	padding: 10px 7px;
 	border-radius: 4px;  
 }
