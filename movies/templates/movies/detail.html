@@ -18,10 +18,10 @@
 			<li>Release Date: {{ movie.releaseDate }}</li>
 			<br>
 
-			{% if genres %}
+			{% if movie.genres.all %}
 				<li>Genres:
 					<ul>
-					{% for genre in genres %}
+					{% for genre in movie.genres.all %}
 						<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
 					{% endfor %}
 					</ul>
@@ -31,10 +31,10 @@
 			{% endif %}
 			<br>
 
-			{% if directors %}
+			{% if movie.directors.all %}
 				<li>Directors: 
 					<ul>
-					{% for director in directors %}
+					{% for director in movie.directors.all %}
 						<li><a href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
 					{% endfor %}
 					</ul>
@@ -44,10 +44,10 @@
 			{% endif %}
 			<br>
 
-			{% if actors %}
+			{% if movie.actors.all %}
 				<li>Cast: 
 					<ul>
-					{% for actor in actors %}
+					{% for actor in movie.actors.all %}
 						<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</li> 
 					{% endfor %}
 					</ul>
@@ -57,10 +57,10 @@
 			{% endif %}
 			<br>
 
-			{% if writers %}
+			{% if movie.writers.all %}
 				<li>Story by:
 					<ul>
-					{% for writer in writers %}
+					{% for writer in movie.writers.all %}
 						<li><a href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
 					{% endfor %}
 					</ul>

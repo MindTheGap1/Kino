@@ -15,10 +15,10 @@
         {% endfor %}
     {% endif %}
     </ul>
-     <div id="search">
+    <div id="search">
         <form method="post" action="{% url "search:search_movie" %}">
             {% csrf_token %}
-            {{ search_form }}
+            {{ search_form }}<br>
             <input type="submit" value="Search">
         </form>
     </div>
