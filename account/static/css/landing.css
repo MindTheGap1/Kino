@@ -1,6 +1,7 @@
 body {
 	text-align: center;
 	background-color: black;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 }
 h2 {
@@ -16,9 +17,30 @@ div.form {
 	border-style: solid;
 	padding-top: 10%;
 }
-
-form {
-	color: white;
-	display: inline-block;
-	background-color: black;
+.about {
+	padding-top: 24rem;
+	font-size: 35px;
+	color: yellow;
 }
+.header {
+	position: fixed;
+	right: 0;
+	top: 0;
+	padding-top: 15px;
+	padding-right: 25px;
+	text-align: center;
+	color: yellow;
+	font-size: 20px;
+}
+a { 
+	color: yellow; 
+}
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	padding-bottom: 5px;
+	width: 100%;
+	color: white;
+	text-align: center;
+  }
