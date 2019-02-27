@@ -14,10 +14,10 @@ class Movie(models.Model):
     addedDate = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     overallRating = models.DecimalField(decimal_places=2, max_digits=4,null=True,blank=True)
     ageRating = models.CharField(max_length=3,null=True,blank=True)
-    actors = models.ManyToManyField('Actor',blank=True)
-    genres = models.ManyToManyField('Genre',blank=True)
-    directors = models.ManyToManyField('Director',blank=True)
-    writers = models.ManyToManyField('Writer',blank=True)
+    actors = models.ManyToManyField('Actor',blank=True, related_name='movies')
+    genres = models.ManyToManyField('Genre',blank=True, related_name='movies')
+    directors = models.ManyToManyField('Director',blank=True, related_name='movies')
+    writers = models.ManyToManyField('Writer',blank=True, related_name='movies')
 
     def __str__(self):
         return self.movieName
