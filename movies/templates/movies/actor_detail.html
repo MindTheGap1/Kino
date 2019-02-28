@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Kino{% endblock %}
-
+{% block title %}Movies with {{selected_actor}}{% endblock %}
 
 {% block content %}
 <div id="sidebar">
@@ -10,11 +9,11 @@
     <ul>
     {% if genre_list %}
         {% for genre in genre_list %}
-            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+        	<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
         {% endfor %}
     {% endif %}
     </ul>
-     <div id="search">
+    <div id="search">
         <form method="post" action="{% url "search:search_movie" %}">
             {% csrf_token %}
             {{ search_form }}
@@ -23,7 +22,7 @@
     </div>
 </div>
 <div id="index">
-    <h3>Movies</h3>
+	<h3>{{selected_actor}}</h3>
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">

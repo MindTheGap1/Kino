@@ -1,2 +1,9 @@
 https://github.com/stefanfoulis/django-phonenumber-field
 	https://github.com/stefanfoulis/django-phonenumber-field/blob/master/LICENSE
+
+
+POTENTIAL APPS TO USE:
+
+If we want to deal with legal issues such as only certain countries being able to view certain films (like netflix) then we should use a pre-made country app:
+https://github.com/SmileyChris/django-countries/ 
+	https://github.com/SmileyChris/django-countries/blob/master/LICENSE

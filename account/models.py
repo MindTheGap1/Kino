@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 #from phonenumber_field.modelfields import PhoneNumberField
-from movies.models import Movies, Genres
+from movies.models import Movie, Genre
 
 
 class User(models.Model):
@@ -22,7 +22,7 @@ def update_user_profile(sender, instance, created, **kwargs):
 
 class UserMovieStats(models.Model):
     userId = models.ForeignKey(User, related_name='moviestats', on_delete=models.CASCADE)
-    movieId = models.ForeignKey(Movies, related_name='userstats', on_delete=models.CASCADE)
+    movieId = models.ForeignKey(Movie, related_name='userstats', on_delete=models.CASCADE)
     rating = models.IntegerField(default=1, validators=[MaxValueValidator(10), MinValueValidator(1)])
     lastWatchPos = models.DurationField()
     allowRecommend = models.BooleanField(default=True)

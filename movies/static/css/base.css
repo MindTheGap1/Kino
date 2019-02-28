@@ -107,6 +107,10 @@ opacity: 1;
 	vertical-align: middle;
 }
 
+#content {
+	height: 0;
+}
+
 /* SIDEBAR */
 /* Used in index.html */
 
@@ -133,7 +137,7 @@ opacity: 1;
 }
 
 .item {
-    width:22%;
+    width:275px;
     padding:10px 20px 10px 0;
     float:left;
     text-align:center;

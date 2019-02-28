@@ -1,36 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Kino{% endblock %}
-
+{% block title %}
+    Results for "{{ phrase }}"
+{% endblock %}
 
 {% block content %}
 <div id="sidebar">
     <h3>GENRES</h3>
     <ul>
-    {% if genre_list %}
-        {% for genre in genre_list %}
+    {% if total_genre_list %}
+        {% for genre in total_genre_list %}
             <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
         {% endfor %}
     {% endif %}
     </ul>
-     <div id="search">
+    <div id="search">
         <form method="post" action="{% url "search:search_movie" %}">
             {% csrf_token %}
-            {{ search_form }}
+            {{ search_form }}<br>
             <input type="submit" value="Search">
         </form>
     </div>
 </div>
 <div id="index">
-    <h3>Movies</h3>
+    <h1>Results for "{{ phrase }}"</h1>
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">
                 <a href="{% url 'movies:detail' movie.movieId %}">
-                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-                    <br>
-                    {{ movie.movieName }}
+                <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                <br>
+                {{ movie.movieName }}
                 </a>
             </div>
         {% endfor %}
