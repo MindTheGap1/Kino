@@ -1,0 +1,17 @@
+{% load static %}
+
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Welcome to Kino{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}" rel="stylesheet">
+</head>
+
+{% block content %}
+<br>
+<br>
+<div class="form">
+    <img src="{% static 'img/logo.png' %}" alt="Logo">
+    <h2>Welcome to Kino</h2>
+    <h2>You must <a href="/login">login</a> to continue</h2>
+</div> 
+{% endblock %}

@@ -1,33 +1,9 @@
-VIRTUAL ENVIRONMENT
+VIRTUAL ENVIRONMENT IS OPTIONAL
 
-Virtual environment lets you get a brand new python install temporarily
-	This helps us get on the same page for what pip packages we each have installed. (might make no sense going back to a fresh install but trust me it is probs worthwhile)
+IF YOU HAVE AN ISSUE WITH INSTALLED PACKAGES DO
+	pip[3] install -r requirements.txt
 
-To USE the virtual environment:
-	1. Go in command line
-	2. 'cd' to the project's directory, then 'cd' into ./Virtualenv/bin/
-	3. Type 'source activate' in command line
-	4. The virtual machine is now activated and you can 'cd' back up to the main folder ('cd ../..')
-	5. I have already done 'pip install -r requirements.txt' so the right modules will already be installed
-
-To verify that you have it correct your command prompt should have (Virtualenv) at the start, and if you type 'pip freeze' and it /should/ output:
-	amqp==2.2.2
-	billiard==3.5.0.3
-	celery==4.1.0
-	Django==2.1.3
-	django-debug-toolbar==1.8
-	gunicorn==19.4.5
-	kombu==4.1.0
-	mysqlclient==1.3.13
-	Pillow==5.1.0
-	psycopg2==2.7.3.1
-	pytz==2018.4
-	sqlparse==0.2.4
-	vine==1.1.4
-	whitenoise==3.3.1
-
-
-Any time you reopen the command line to run the server you have to do steps 2 and 3 (you always have to 'source activate')
+and then you /should/ have all the required packages - if a package still isn't installed then you can manually install it and add it to requirements.txt (or let me (david) know and I'll do it myself)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

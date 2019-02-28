@@ -1,0 +1,2 @@
+https://github.com/stefanfoulis/django-phonenumber-field
+	https://github.com/stefanfoulis/django-phonenumber-field/blob/master/LICENSE
