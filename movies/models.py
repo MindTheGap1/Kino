@@ -1,19 +1,23 @@
 from django.db import models
 
 
-class Movies(models.Model):
+class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
     movieName = models.CharField(max_length=200)
-    description = models.TextField()
-    length = models.DurationField()
-    price = models.DecimalField(decimal_places=2, max_digits=20)
-    trailerLink = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='img', blank=True)
-    noRents = models.PositiveIntegerField()
-    releaseDate = models.DateField()
-    addedDate = models.DateTimeField(auto_now_add=True)
-    overallRating = models.DecimalField(decimal_places=2, max_digits=4)
-    ageRating = models.CharField(max_length=3)
+    description = models.TextField(null=True,blank=True)
+    length = models.DurationField(null=True,blank=True)
+    price = models.DecimalField(decimal_places=2, max_digits=20,null=True,blank=True)
+    trailerLink = models.CharField(max_length=100,null=True,blank=True)
+    image = models.ImageField(upload_to='img',null=True,blank=True)
+    noRents = models.PositiveIntegerField(null=True,blank=True)
+    releaseDate = models.DateField(null=True,blank=True)
+    addedDate = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    overallRating = models.DecimalField(decimal_places=2, max_digits=4,null=True,blank=True)
+    ageRating = models.CharField(max_length=3,null=True,blank=True)
+    actors = models.ManyToManyField('Actor',blank=True, related_name='movies')
+    genres = models.ManyToManyField('Genre',blank=True, related_name='movies')
+    directors = models.ManyToManyField('Director',blank=True, related_name='movies')
+    writers = models.ManyToManyField('Writer',blank=True, related_name='movies')
 
     def __str__(self):
         return self.movieName
@@ -22,7 +26,7 @@ class Movies(models.Model):
         return reverse('movies:movie_detail', args=[self.movieId])
 
 
-class Actors(models.Model):
+class Actor(models.Model):
     actorId = models.AutoField(primary_key=True)
     actorFirstName = models.CharField(max_length=100)
     actorLastName = models.CharField(max_length=100)
@@ -30,14 +34,14 @@ class Actors(models.Model):
     def __str__(self):
         return self.actorFirstName + " " + self.actorLastName
 
-class Genres(models.Model):
+class Genre(models.Model):
     genreId = models.AutoField(primary_key=True)
     genreName = models.CharField(max_length=200)
 
     def __str__(self):
         return self.genreName
 
-class Directors(models.Model):
+class Director(models.Model):
     directorId = models.AutoField(primary_key=True)
     directorFirstName = models.CharField(max_length=100)
     directorLastName = models.CharField(max_length=100)
@@ -45,39 +49,10 @@ class Directors(models.Model):
     def __str__(self):
         return self.directorFirstName + " " + directorLastName
 
-class Writers(models.Model):
+class Writer(models.Model):
     writerId = models.AutoField(primary_key=True)
     writerFirstName = models.CharField(max_length=100)
     writerLastName = models.CharField(max_length=100)
 
     def __str__(self):
         return self.writerFirstName + " " + writerLastName
-
-
-class MovieActors(models.Model):
-    movieId = models.ForeignKey(Movies, related_name='actors', on_delete=models.CASCADE)
-    actorId = models.ForeignKey(Actors, related_name='movies', on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('movieId', 'actorId')
-
-class MovieGenres(models.Model):
-    movieId = models.ForeignKey(Movies, related_name='genres', on_delete=models.CASCADE)
-    genreId = models.ForeignKey(Genres, related_name='movies', on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('movieId', 'genreId')    
-
-class MovieDirectors(models.Model):
-    movieId = models.ForeignKey(Movies, related_name='directors', on_delete=models.CASCADE)
-    directorId = models.ForeignKey(Directors, related_name='movies', on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('movieId', 'directorId')
-
-class MovieWriters(models.Model):
-    movieId = models.ForeignKey(Movies, related_name='writers', on_delete=models.CASCADE)
-    writerId = models.ForeignKey(Writers, related_name='movies', on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('movieId', 'writerId')
