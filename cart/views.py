@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from movies.models import Movies
+from movies.models import Movie
 from .cart import Cart
 from .forms import CartAddProductForm
 
@@ -8,7 +8,7 @@ from .forms import CartAddProductForm
 @require_POST
 def cart_add(request, movieId):
     cart = Cart(request)
-    movie = get_object_or_404(Movies, id=movieId)
+    movie = get_object_or_404(Movie, id=movieId)
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
@@ -20,7 +20,7 @@ def cart_add(request, movieId):
 
 def cart_remove(request, movieId):
     cart = Cart(request)
-    movie = get_object_or_404(Movies, id=movieId)
+    movie = get_object_or_404(Movie, id=movieId)
     cart.remove(movie)
     return redirect('cart:cart_detail')
 

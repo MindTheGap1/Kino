@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from movies.models import movies
+from movies.models import Movie
 
 
 class Cart(object):
