@@ -48,7 +48,7 @@
 				<li>Cast: 
 					<ul>
 					{% for actor in movie.actors.all %}
-						<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</li> 
+						<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</a></li> 
 					{% endfor %}
 					</ul>
 				</li>

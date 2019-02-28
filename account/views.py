@@ -4,7 +4,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User as Auth_User
-from movies.models import Genres
+from movies.models import Genre
 from .models import FavouriteGenres, User
 from .forms import GenreSelect
 
@@ -33,7 +33,7 @@ def genrePick(request):
 				FavouriteGenres.objects.filter(userId = current_user_object).delete()
 				genres = form.cleaned_data.get('pickedGenres')
 				for genre in genres:
-					genreObject = Genres.objects.get(genreId=genre)
+					genreObject = Genre.objects.get(genreId=genre)
 					FavouriteGenres.objects.create(userId = current_user_object,
 													genreId = genreObject)
 
