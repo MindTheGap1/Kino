@@ -1,0 +1,85 @@
+body {
+	text-align: center;
+	background-color: black;
+
+}
+h1 {
+	text-align: center;
+	color: yellow;
+	font-size: 60px;
+}
+p {
+	color: white;
+}
+div.form {
+	background-color: black;
+	border-style: solid;
+	padding-top: 10%;
+}
+.button1 {
+	background-color: yellow;
+	font-size: 24px;
+	padding: 5px 114px;
+	border-radius: 4px;
+	border-color: yellow;
+	cursor: pointer;
+}
+section {
+	width: 300px;
+	margin: auto;
+	padding: 10px;
+}
+div#left {
+	width: 50%;
+    background: black;
+    float: left;
+}
+.button2 {
+	background-color: black;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+div#right {
+	margin-left: 15%;
+    background: black;
+}
+.button3 {
+	background-color: black;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+div#footer {
+	margin-top: 300px;
+	color: white;
+	background-color: black;
+
+}
+.button4 {
+	font-size: 14px;
+	background-color: black;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+form {
+	color: white;
+	display: inline-block;
+	background-color: black;
+}
+
+input#login {
+	border-color: yellow;
+	background-color: #a6a6a6;
+	width: 286px;
+	padding: 10px 7px;
+	border-radius: 4px;  
+}
+input#reg {
+	border-color: yellow;
+	background-color: white;
+	width: 286px;
+	padding: 10px 7px;
+	border-radius: 4px;  
+}
