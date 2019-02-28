@@ -29,7 +29,7 @@ class UserMovieStats(models.Model):
 
 class FavouriteGenres(models.Model):
     userId = models.ForeignKey(Auth_User, related_name='favouritegenres', on_delete=models.CASCADE)
-    genreId = models.ForeignKey(Genres, related_name='usersfavourite', on_delete=models.CASCADE)
+    genreId = models.ForeignKey(Genre, related_name='usersfavourite', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('userId', 'genreId')
