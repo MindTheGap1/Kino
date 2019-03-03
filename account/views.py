@@ -18,7 +18,7 @@ def profile(request):
 	if not request.user.is_authenticated:
 		return redirect('/landing/')
 	else:
-		template = 'profile.html'
+		template = 'account/profile.html'
 		return render(request, template)
 
 def genrePick(request):

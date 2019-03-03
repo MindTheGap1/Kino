@@ -19,7 +19,7 @@ def searchMovie(request):
 			phrase_sep = phrase.split(" ")
 
 			
-			movie_list += Movie.objects.filter(		  reduce(operator.or_, (Q(movieName__icontains=word) for word in phrase_sep))
+			movie_list = Movie.objects.filter(		  reduce(operator.or_, (Q(movieName__icontains=word) for word in phrase_sep))
 													| reduce(operator.or_, (Q(description__icontains=word) for word in phrase_sep))
 													| reduce(operator.or_, (Q(actors__actorFirstName__icontains=word) for word in phrase_sep))
 													| reduce(operator.or_, (Q(actors__actorLastName__icontains=word) for word in phrase_sep))
