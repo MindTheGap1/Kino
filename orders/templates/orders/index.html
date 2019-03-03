@@ -61,6 +61,8 @@
                         </a>
                         You last ordered this movie on <b>{{ movie.latestOrder|date:'d/m/Y' }}</b>
                         <br>
+                        You have {{ movie.isUnwatched }} unwatched cop{% if movie.isUnwatched > 1 %}ies {% else %}y{% endif %} of this movie
+                        <br>
                         <h4><a href="{% url 'orders:watch' movie.movieId %}">WATCH NOW</a></h4>
                     </div>
                 {% endif %}

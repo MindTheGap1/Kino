@@ -64,8 +64,11 @@ def watch(request, movie_id):
 		if movie[0].startedWatching < 1 and movie[0].isUnwatched < 1:
 			return redirect('/')
 
-		if movie[0].isUnwatched > 0:
-			OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None)).update(movieStartTime = datetime.now())
+		if movie[0].isUnwatched > 0 and movie[0].startedWatching < 1:
+			latest_film = OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None)).latest('-orderId__orderCreated')
+			latest_film.movieStartTime = datetime.now()
+			latest_film.save(update_fields=['movieStartTime'])
+			#.update(movieStartTime = datetime.now())
 
 
 		two_days = timedelta(days=2)
