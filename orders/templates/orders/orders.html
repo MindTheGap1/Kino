@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Order History{% endblock %}
+
+
+{% block content %}
+<div id="orderhistory">
+	<h2>Orders</h2>
+	{% for order in orders %}
+		<h3>Order {{ order.orderId }}:</h3>
+		<ul>
+			{% for item in order_info_list %}
+			{% if item.orderId == order %}
+				<li>- {{item.movieId.movieName}}, £{{ item.cost }}</li>
+			{% endif %}
+			{% endfor %}
+			<br><li><b>Total: £{{ order.get_total_cost }}</b></li>
+			<li><b>Ordered on: {{ order.orderCreated|date:'d/m/Y G:i' }}</b></li>
+		</ul>
+	{% endfor %}
+</div>
+{% endblock %}

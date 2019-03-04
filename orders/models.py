@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+from django.contrib.auth.models import User
 from movies.models import Movie
 
 
@@ -21,4 +21,4 @@ class OrderItem(models.Model):
     orderId = models.ForeignKey(Order, related_name='movies', on_delete=models.CASCADE)
     movieId = models.ForeignKey(Movie, related_name='order', on_delete=models.CASCADE)
     cost = models.DecimalField(decimal_places=2, max_digits=20)
-    movieStartTime = models.DateTimeField(blank=True)
+    movieStartTime = models.DateTimeField(blank=True, null=True) # when the user first watches the movie

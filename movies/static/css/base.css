@@ -136,6 +136,20 @@ opacity: 1;
 	padding-left: 2%;
 }
 
+#index h4, #index h4 a, #index h4 a:hover, #index h4 a:visited {
+	background: yellow;
+	color: black;
+	margin: 2px 0;
+	padding: 3px;
+}
+
+#unwatched, #allOrdered, #started {
+	width: 100%;
+	display: inline-block;
+	border-bottom: 5px solid yellow;
+	border-top: 5px solid yellow;
+}
+
 .item {
     width:275px;
     padding:10px 20px 10px 0;
@@ -210,6 +224,13 @@ opacity: 1;
 	margin-top: 5%;
 }
 
+/* PROFILE.HTML */
+
+#profile {
+	margin-top: 100px;
+	text-align: center;
+}
+
 /* GENRE_PICK.HTML */
 
 #genreselecttitle {
@@ -274,4 +295,18 @@ opacity: 1;
 	width: 18px;
 	margin-right: 10px;
 	transition: all .25s linear;
+}
+
+/* WATCH.HTML */
+
+#watching {
+	align-content: center;
+	text-align: center;
+	margin-top: 200px;
+}
+
+/* ORDERS.HTML */
+
+#orderhistory {
+	margin-top: 100px;
 }
