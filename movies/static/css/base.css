@@ -15,6 +15,15 @@ ul {
 
 /* MOVIE RATING CSS */
 
+.ratingbutton {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+}
+
 .ratingLabel{
 display: none !important;
 width: 10%;

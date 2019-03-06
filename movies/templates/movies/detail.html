@@ -81,8 +81,12 @@
 		</div>
 
 
-		<form class="ratingForm">
+		<form class="ratingForm" name="ratingForm" method="POST">
+			{% csrf_token %}
 			<h2>Your Rating:</h2>
+			{{form.as_p}}
+			<input type="submit" value="Submit" />
+			<!--
 			<div id="userRating">
 				<input type="radio" name="rating" value="1" id="1rating" class="ratingLabel"> 
 				<label class="label_item" for="1rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
@@ -99,6 +103,7 @@
 				<input type="radio" name="rating" value="5" id="5rating" class="ratingLabel"> 
 				<label class="label_item" for="5rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
 			</div>
+		-->
 		</form>
 	</div>
 

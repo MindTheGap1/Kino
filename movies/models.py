@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
     movieName = models.CharField(max_length=200)

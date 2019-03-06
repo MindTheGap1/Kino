@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.db.models import Q
 from search.forms import SearchForm
+from movies.forms import RatingForm
+from account.models import UserMovieStats
+from django.contrib import auth
+from django.contrib.auth.models import User
 
 from .models import *
 
@@ -23,11 +27,24 @@ def detail(request, movie_id):
     link = movie.trailerLink
     pos = link.find('?v=')
     vidId = link[pos + 3: len(link)]
+    form = RatingForm(request.POST)
+    if form.is_valid():
+        post = form.save(commit=False)
+        #IMPORTANT: for some reason my own copy of the database IDs users in auth_users starting from 8 whereas
+        # it IDs users in Users starting from 1, this means that it is not able to find foreign keys unless you subtract 7
+        # this needs to be fixed 
+        post.userId_id = request.user.id - 7
+        post.movieId_id = movie_id
+        post.save()
+        rating = form.cleaned_data['rating']
 
+    #form.save()
+    
     template = 'movies/detail.html'
     context = {
         'movie': movie,
         'vidId': vidId,
+        'form': form
     }
     return render(request, template, context)
 
