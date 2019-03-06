@@ -28,6 +28,7 @@ urlpatterns = [
     #path('movies/', include('movies.urls', namespace= 'movies')),
     path('',include('movies.urls'),name ='main'),
     path('',include('account.urls'),name='account'),
+    path('',include('cart.urls'),name='cart'),
     #TODO: Include these in their own account/urls.py file
     #url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
     #url(r'^logout/$', auth_views.LogoutView.as_view(template_name="logout.html"), name='logout'),
