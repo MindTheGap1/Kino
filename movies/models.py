@@ -25,6 +25,11 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse('movies:movie_detail', args=[self.movieId])
 
+class UserRating(models.Model):
+    ratingId = models.AutoField(primary_key=True)
+    userId_Id = models.PositiveIntegerField()
+    movieId_Id = models.PositiveIntegerField()
+    rating = models.PositiveIntegerField()
 
 class Actor(models.Model):
     actorId = models.AutoField(primary_key=True)

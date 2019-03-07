@@ -5,6 +5,7 @@
 
 {% block content %}
 
+
 <div id="detailleftpane">
 	<div id="detailback"><a href="/">GO BACK</a></div>
 	<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
@@ -73,32 +74,36 @@
 	<div id="detailrating">
 		<h2>Average Customer Review:</h2>
 		<div>
-			{% if overallRating %}
-				<p> {{overallRating}} </p>
+			{% if movie.overallRating %}
+				<p> {{ movie.overallRating }} </p>
 			{% else %}
 				<p> Nobody has rated this film yet! </p>
 			{% endif %}
 		</div>
 
-
-		<form class="ratingForm">
+		<form method="post" action="" class="ratingForm" name="rating">
+			{% csrf_token %}
 			<h2>Your Rating:</h2>
-			<div id="userRating">
-				<input type="radio" name="rating" value="1" id="1rating" class="ratingLabel"> 
-				<label class="label_item" for="1rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
 
-				<input type="radio" name="rating" value="2" id="2rating" class="ratingLabel">  
-				<label class="label_item" for="2rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
+			<div class="userRating">
+				<input type="radio" value="1" class="rating1" id="rating1"> 
+				<label class="rating1" for="rating1"> 1 </label>
 
-				<input type="radio" name="rating" value="3" id="3rating" class="ratingLabel"> 
-				<label class="label_item" for="3rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
+				<input type="radio" value="2" class="rating2" id="rating2">  
+				<label class="rating2" for="rating2"> 2 </label>
 
-				<input type="radio" name="rating" value="4" id="4rating" class="ratingLabel"> 
-				<label class="label_item" for="4rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
+				<input type="radio" value="3" class="rating3" id="rating3"> 
+				<label class="rating3" for="rating3"> 3 </label>
 
-				<input type="radio" name="rating" value="5" id="5rating" class="ratingLabel"> 
-				<label class="label_item" for="5rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
+				<input type="radio" value="4" class="rating4" id="rating4"> 
+				<label class="rating4" for="rating4"> 4 </label>
+
+				<input type="radio" value="5" class="rating5" id="rating5"> 
+				<label class="rating5" for="rating5"> 5 </label>
+				<span>  </span>
+
 			</div>
+			<input type="submit" value="Submit">
 		</form>
 	</div>
 

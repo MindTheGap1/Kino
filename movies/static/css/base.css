@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 body {
 	background-color: black;
 	color: white;
@@ -15,34 +17,72 @@ ul {
 
 /* MOVIE RATING CSS */
 
-.ratingLabel{
-display: none !important;
-width: 10%;
-height: 10%;
+
+form .userRating{
+	background: url("clapper.png") repeat-x 0 0px;
+	width: 150px;
+	margin: 0 auto;
+	border: solid 2px;
+	border-color: yellow;
 }
 
-.ratingLabel [type=radio] { 
+form .userRating input[type="radio"] {
   position: absolute;
   opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+
+form .userRating input[type="radio"].rating5:checked ~ span { width: 100%; }
+
+form .userRating input[type="radio"].rating4:checked ~ span { width: 80%; }
+
+form .userRating input[type="radio"].rating3:checked ~ span { width: 60%; }
+
+form .userRating input[type="radio"].rating2:checked ~ span { width: 40%; }
+
+form .userRating input[type="radio"].rating1:checked ~ span { width: 20%; }
+
+
+form .userRating label {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 0!important;
+  padding: 0!important;
+  text-indent: -999em;
+  float: left;
+  position: relative;
+  z-index: 10;
+  background: transparent!important;
+  cursor: pointer;
+}
+
+form .userRating label:hover ~ span { background-position: 0 -30px; }
+
+form .userRating label.rating5:hover ~ span { width: 100% !important; }
+
+form .userRating label.rating4:hover ~ span { width: 80% !important; }
+
+form .userRating label.rating3:hover ~ span { width: 60% !important; }
+
+form .userRating label.rating2:hover ~ span { width: 40% !important; }
+
+form .userRating label.rating1:hover ~ span { width: 20% !important; }
+
+form .userRating span {
+  display: block;
   width: 0;
-  height: 0;
-}
-
-.label_item {
-opacity: 0.1;
-}
-
-.ratingLabel:checked + label {
-opacity: 1;
-}
-
-#userRating {
-	position: absolute;
-	margin-left: 25%;
-	margin-right: 25%;
-	width: 40%;
-	white-space: nowrap;
-	background: gray;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 30px;
+  -webkit-transition: -webkit-width 0.5s;
+  -moz-transition: -moz-width 0.5s;
+  -ms-transition: -ms-width 0.5s;
+  -o-transition: -o-width 0.5s;
+  transition: width 0.5s;
+  background: url("clapper.png") repeat-x 0 -60px;
 }
 
 /* HEADER & FOOTER - BASE.HTML */
