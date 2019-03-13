@@ -28,15 +28,29 @@ def detail(request, movie_id):
     pos = link.find('?v=')
     vidId = link[pos + 3: len(link)]
     form = RatingForm(request.POST)
-    if form.is_valid():
-        post = form.save(commit=False)
-        #IMPORTANT: for some reason my own copy of the database IDs users in auth_users starting from 8 whereas
-        # it IDs users in Users starting from 1, this means that it is not able to find foreign keys unless you subtract 7
-        # this needs to be fixed 
-        post.userId_id = request.user.id - 7
-        post.movieId_id = movie_id
-        post.save()
-        rating = form.cleaned_data['rating']
+    match = UserMovieStats.objects.filter(userId_id=(request.user.id - 7))
+    if form.is_valid() :
+        if bool(match) == False:
+            #User is rating for first time
+            post = form.save(commit=False)
+            #IMPORTANT: for some reason my own copy of the database IDs users in auth_users starting from 8 whereas
+            # it IDs users in Users starting from 1, this means that it is not able to find foreign keys unless you subtract 7
+            # this needs to be fixed
+            post.userId_id = request.user.id - 7
+            post.movieId_id = movie_id
+            post.save()
+            rating = form.cleaned_data['rating']
+        else:
+            post = form.save(commit=False)
+            match = UserMovieStats.objects.get(userId_id=(request.user.id - 7))
+            match.userId_id = request.user.id - 7
+            match.movieId_id = movie_id
+            match.rating = form.cleaned_data['rating']
+            match.save()
+            #post.userId_id = request.user.id - 7
+            #post.movieId_id = movie_id
+            #post.save()
+            #rating = form.cleaned_data['rating']
 
     #form.save()
     
