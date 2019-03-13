@@ -13,6 +13,38 @@ ul {
 	list-style-type: none;
 }
 
+/* MOVIE RATING CSS */
+
+.ratingLabel{
+display: none !important;
+width: 10%;
+height: 10%;
+}
+
+.ratingLabel [type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.label_item {
+opacity: 0.1;
+}
+
+.ratingLabel:checked + label {
+opacity: 1;
+}
+
+#userRating {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+}
+
 /* HEADER & FOOTER - BASE.HTML */
 
 #footer {
@@ -75,6 +107,10 @@ ul {
 	vertical-align: middle;
 }
 
+#content {
+	height: 0;
+}
+
 /* SIDEBAR */
 /* Used in index.html */
 
@@ -100,8 +136,45 @@ ul {
 	padding-left: 2%;
 }
 
+h4, h4 a, h4 a:hover, h4 a:visited {
+	background: yellow;
+	color: black;
+	margin: 2px 0;
+	padding: 3px;
+}
+
+#collectionindex {
+	display: block;
+	margin: 80px 0 100px 0;
+	width: 100%;
+	padding: 1%;
+}
+
+#unwatched, #allOrdered, #started {
+	width: 100%;
+	display: inline-block;
+	border-bottom: 5px solid yellow;
+	border-top: 5px solid yellow;
+}
+
+#collectionindex #collectiontitle {
+	float: left;
+	width: auto;
+	display: inline-block;
+	line-height: 30px;
+}
+
+#collectionindex #collectionsort {
+	float: right;
+	display: inline-block;
+	width: auto;
+	margin-right: 50px;
+	margin-top: 20px;
+}
+
 .item {
-    width:22%;
+	position: relative;
+    width:275px;
     padding:10px 20px 10px 0;
     float:left;
     text-align:center;
@@ -113,6 +186,20 @@ ul {
     width:275px;
     max-width: 95%;
     height: 450px;
+}
+
+.rentedlabel {
+	position: absolute;
+	top: 4%;
+	right: 12%;
+	height: 70px;
+	width: 70px;
+	background-color: #555;
+	border-radius: 50%;
+	border: 2px solid yellow;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 70px;
 }
 
 /* DETAIL.HTML */
@@ -174,8 +261,89 @@ ul {
 	margin-top: 5%;
 }
 
+/* PROFILE.HTML */
+
+#profile {
+	margin-top: 100px;
+	text-align: center;
+}
+
 /* GENRE_PICK.HTML */
 
+#genreselecttitle {
+	margin: 100px auto 0 auto;
+	text-align: center;
+}
+
 #genreselection {
-	margin-top: 75px;
+  	flex: 0 80%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 960px;
+	min-height: 50vh;
+	margin: 0 auto;
+}
+
+#genreselection li {
+  position: relative;
+}
+#genreselection li:hover label {
+  color: #BB4430;
+}
+#genreselection li:hover label::before {
+  border: 7px solid #BB4430;
+  margin-right: 30px;
+}
+
+#genreselection input[type=checkbox] {
+  position: absolute;
+  visibility: hidden;	
+}
+
+#genreselection input[type=checkbox]:checked ~ label {
+  color: #BB4430;
+}
+
+#genreselection input[type=checkbox]:checked ~ label::before {
+  margin-right: 30px;
+  border: 7px solid #BB4430;
+  background: #F8F7FF;
+}
+
+#genreselection label {
+	display: flex;
+	align-items: center;
+	padding: 25px 0 25px 20px;
+	color: #F8F7FF;
+	font-size: 20px;
+	font-weight: 300;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all 0.25s linear;
+}
+
+#genreselection label::before {
+	display: block;
+	content: '';
+	border: 7px solid #F8F7FF;
+	border-radius: 50%;
+	height: 18px;
+	width: 18px;
+	margin-right: 10px;
+	transition: all .25s linear;
+}
+
+/* WATCH.HTML */
+
+#watching {
+	align-content: center;
+	text-align: center;
+	margin-top: 200px;
+}
+
+/* ORDERS.HTML */
+
+#orderhistory {
+	margin-top: 100px;
 }

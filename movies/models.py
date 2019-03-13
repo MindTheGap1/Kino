@@ -47,7 +47,7 @@ class Director(models.Model):
     directorLastName = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.directorFirstName + " " + directorLastName
+        return self.directorFirstName + " " + self.directorLastName
 
 class Writer(models.Model):
     writerId = models.AutoField(primary_key=True)
@@ -55,4 +55,4 @@ class Writer(models.Model):
     writerLastName = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.writerFirstName + " " + writerLastName
+        return self.writerFirstName + " " + self.writerLastName
