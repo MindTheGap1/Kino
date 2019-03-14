@@ -21,9 +21,9 @@ def update_user_profile(sender, instance, created, **kwargs):
 class UserMovieStats(models.Model):
     userId = models.ForeignKey(Auth_User, related_name='moviestats', on_delete=models.CASCADE)
     movieId = models.ForeignKey(Movie, related_name='userstats', on_delete=models.CASCADE)
-    rating = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    rating = models.IntegerField(default=None, validators=[MaxValueValidator(5), MinValueValidator(1)], blank=True, null=True)
     lastWatchPos = models.DurationField(blank=True, null=True)
-    recommendValue = models.DecimalField(decimal_places=2, max_digits=4, default=1,validators=[MaxValueValidator(5),MinValueValidator(0)])
+    recommendValue = models.DecimalField(decimal_places=2, max_digits=4, default=None,validators=[MaxValueValidator(5),MinValueValidator(0)], blank=True, null=True)
     allowRecommend = models.BooleanField(default=True)
 
 class FavouriteGenres(models.Model):

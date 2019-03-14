@@ -13,6 +13,7 @@ class Command(BaseCommand):
 			for movie_id in options['movie_id']:
 				movie = Movie.objects.get(movieId=movie_id)
 				ratings = UserMovieStats.objects.filter(movieId=movie).values_list('rating', flat=True)
+				ratings = list(filter(None, ratings))
 				if ratings:
 					overallRating = sum(ratings)/len(ratings)
 					movie.overallRating = overallRating
@@ -24,6 +25,7 @@ class Command(BaseCommand):
 			movie_list = Movie.objects.all()
 			for movie in movie_list:
 				ratings = UserMovieStats.objects.filter(movieId=movie).values_list('rating', flat=True)
+				ratings = list(filter(None, ratings))
 				if ratings:
 					overallRating = sum(ratings)/len(ratings)
 					movie.overallRating = overallRating

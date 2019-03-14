@@ -12,7 +12,7 @@ from .forms import GenreSelect
 class signup(generic.CreateView):
 	form_class = UserCreationForm
 	success_url = '/account/genre'
-	template_name = 'signup.html'
+	template_name = 'account/signup.html'
 
 def profile(request):
 	if not request.user.is_authenticated:
