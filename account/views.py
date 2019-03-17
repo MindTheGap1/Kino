@@ -1,11 +1,13 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.core.management import call_command
+from django.db.models import Q
 from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User as Auth_User
 from movies.models import Genre
-from .models import FavouriteGenres, User
+from .models import FavouriteGenres, User, UserMovieStats
 from .forms import GenreSelect
 
 
@@ -24,7 +26,7 @@ def profile(request):
 def genrePick(request):
 	if not request.user.is_authenticated:
 		return redirect('/login/?next=/account/genre')
-	if request.user.is_authenticated:
+	else:
 		user_id = request.user.id
 		current_user_object = Auth_User.objects.get(id=user_id)
 		if request.method == 'POST':
@@ -37,6 +39,11 @@ def genrePick(request):
 					FavouriteGenres.objects.create(userId = current_user_object,
 													genreId = genreObject)
 
+				ratings = UserMovieStats.objects.filter(Q(userId = current_user_object), ~Q(rating=None))
+				if ratings:
+					call_command('getrecommends', user_id=[user_id])
+				else:
+					call_command('getcoldstart', user_id=[user_id])
 				return redirect('/')
 
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)
@@ -49,5 +56,3 @@ def genrePick(request):
 			'genre_form': form,
 		}
 		return render(request, template, context)
-	else:
-		return redirect('/')

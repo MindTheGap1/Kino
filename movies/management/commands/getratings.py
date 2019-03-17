@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from decimal import Decimal
 from movies.models import Movie
 from account.models import UserMovieStats
 
@@ -16,9 +17,14 @@ class Command(BaseCommand):
 				ratings = list(filter(None, ratings))
 				if ratings:
 					overallRating = sum(ratings)/len(ratings)
-					movie.overallRating = overallRating
-					movie.save()
-					self.stdout.write("Updated ratings for " + movie.movieName)
+					if movie.overallRating:
+						existingRating = movie.overallRating
+					else:
+						existingRating = 0
+					if abs(existingRating - Decimal(overallRating)) > 0.005:
+						movie.overallRating = overallRating
+						movie.save()
+						self.stdout.write("Updated ratings for " + movie.movieName)
 				else:
 					self.stdout.write("No ratings for " + movie.movieName)
 		else:
@@ -28,7 +34,12 @@ class Command(BaseCommand):
 				ratings = list(filter(None, ratings))
 				if ratings:
 					overallRating = sum(ratings)/len(ratings)
-					movie.overallRating = overallRating
-					movie.save()
-					self.stdout.write("Updated ratings for " + movie.movieName)
+					if movie.overallRating:
+						existingRating = movie.overallRating
+					else:
+						existingRating = 0
+					if abs(existingRating - Decimal(overallRating)) > 0.005:
+						movie.overallRating = overallRating
+						movie.save()
+						self.stdout.write("Updated ratings for " + movie.movieName)
 

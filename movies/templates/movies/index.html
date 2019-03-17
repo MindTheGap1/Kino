@@ -37,6 +37,8 @@
                 <a href="{% url 'movies:detail' movie.movieId %}">
                     {{ movie.movieName }}
                 </a>
+                <br>
+                {{ movie.recValue }}
             </div>
         {% endfor %}
     {% else %}
