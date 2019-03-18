@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.db.models import Exists, OuterRef, Subquery
 from search.forms import SearchForm
 from movies.forms import RatingForm
+from cart.forms import CartAddProductForm
 from account.models import UserMovieStats
 from django.contrib.auth.models import User as Auth_User
 from datetime import datetime, timedelta
@@ -50,8 +51,9 @@ def detail(request, movie_id):
     pos = link.find('?v=')
     vidId = link[pos + 3: len(link)]
     form = RatingForm(request.POST)
+    #test=a()
     match = UserMovieStats.objects.filter(userId=current_user_object, movieId = movie)
-    if form.is_valid() :
+    if form.is_valid():
         if not match:
             #User is rating for first time
             post = form.save(commit=False)
@@ -64,13 +66,19 @@ def detail(request, movie_id):
             match[0].rating = form.cleaned_data['rating']
             match[0].save()
 
-    #form.save()
-    
+    if match[0].rating:
+        filmrating = int(match[0].rating)
+    else:
+        filmrating = 0
+
+    cart_form = CartAddProductForm()
     template = 'movies/detail.html'
     context = {
         'movie': movie,
         'vidId': vidId,
-        'form': form
+        'form': form,
+        'cart_form': cart_form,
+        'rating': filmrating,
     }
     return render(request, template, context)
 

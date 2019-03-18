@@ -8,6 +8,13 @@
 <div id="detailleftpane">
 	<div id="detailback"><a href="/">GO BACK</a></div>
 	<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
+	<div id="cartbutton">
+		<form method="POST" action="{% url 'cart:cart_add' movie.movieId %}">
+			{% csrf_token %}
+			{{ cart_form }}<br>
+			<input type="submit" value="ADD TO CART" />
+		</form>
+	</div>
 </div>
 <div id="detailrightpane">
 	<h1>{{ movie.movieName }}</h1>
@@ -73,37 +80,28 @@
 	<div id="detailrating">
 		<h2>Average Customer Review:</h2>
 		<div>
-			{% if overallRating %}
-				<p> {{overallRating}} </p>
+			{% if movie.overallRating %}
+				<p> {{movie.overallRating}} </p>
 			{% else %}
 				<p> Nobody has rated this film yet! </p>
 			{% endif %}
 		</div>
 
 
-		<form class="ratingForm" name="ratingForm" method="POST">
+		<form method="POST" action="">
 			{% csrf_token %}
 			<h2>Your Rating:</h2>
-			{{form.as_p}}
+			{% for field in form %}
+    			{% for choice in field %}
+    			{% with v=forloop.counter %}
+    			<input type="radio" name="rating" value="{{v}}" class="ratingLabel" id="{{choice.id_for_label}}" {% if v == rating %}checked="checked"{%endif%}> 
+				<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper.png' %}" class="icon" height="50" width="50"> </label>
+				{% endwith %}
+    			{% endfor %}
+			{% endfor %}
+			<br>
 			<input type="submit" value="Submit" />
-			<!--
-			<div id="userRating">
-				<input type="radio" name="rating" value="1" id="1rating" class="ratingLabel"> 
-				<label class="label_item" for="1rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
 
-				<input type="radio" name="rating" value="2" id="2rating" class="ratingLabel">  
-				<label class="label_item" for="2rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
-
-				<input type="radio" name="rating" value="3" id="3rating" class="ratingLabel"> 
-				<label class="label_item" for="3rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
-
-				<input type="radio" name="rating" value="4" id="4rating" class="ratingLabel"> 
-				<label class="label_item" for="4rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
-
-				<input type="radio" name="rating" value="5" id="5rating" class="ratingLabel"> 
-				<label class="label_item" for="5rating"> <img src="{% static "img/clapper.png" %}" class="icon" height="50" width="50"> </label>
-			</div>
-		-->
 		</form>
 	</div>
 

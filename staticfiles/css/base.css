@@ -15,25 +15,34 @@ ul {
 
 /* MOVIE RATING CSS */
 
+.ratingbutton {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+}
+
 .ratingLabel{
-display: none !important;
-width: 10%;
-height: 10%;
+	display: none !important;
+	width: 10%;
+	height: 10%;
 }
 
 .ratingLabel [type=radio] { 
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 .label_item {
-opacity: 0.1;
+	opacity: 1;
 }
 
-.ratingLabel:checked + label {
-opacity: 1;
+.ratingLabel:checked + label ~ label {
+	opacity: 0.5;
 }
 
 #userRating {
@@ -230,6 +239,20 @@ h4, h4 a, h4 a:hover, h4 a:visited {
     margin: 0 auto;
     width: 80%;
     height: 60%;
+}
+
+#detailleftpane #cartbutton {
+	display: block;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+#cartbutton form {
+	background-color: grey;
+	padding: 30px;
+	margin-top: 50px;
+	display: inline-block;
 }
 
 #detailback {
