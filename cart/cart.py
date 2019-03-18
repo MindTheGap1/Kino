@@ -24,40 +24,40 @@ class Cart(object):
 
     def __iter__(self):
         """
-        Iterate over the items in the cart and get the 'movies' from the database.
+        Iterate over the items in the cart and get the movie from the database.
         """
         movie_ids = self.cart.keys()
-        # get the 'movies' objects and add them to the cart
-        movie_list = Movies.objects.filter(id__in = movie_ids)
-        for movies in movie_list:
-            self.cart[str(movies.movieId)]['movies'] = movies
+        # get the movie objects and add them to the cart
+        movies = Movie.objects.filter(movieId__in = movie_ids)
+        for movie in movies:
+            self.cart[str(movie.movieId)]['movie'] = movie
 
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
 
-    def add(self, movies, quantity=1, update_quantity=False):
+    def add(self, movie, quantity=1, update_quantity=False):
         """
-        Add a 'Movies' to the cart or update its quantity.
+        Add a movie to the cart or update its quantity.
         """
-        movieIds = str(movies.movieId)
-        if movies_id not in self.cart:
-            self.cart[movieIds] = {'quantity': 0,
-                                      'price': str(movies.price)}
+        movie_id = str(movie.movieId)
+        if movie_id not in self.cart:
+            self.cart[movie_id] = {'quantity': 0,
+                                      'price': str(movie.price)}
         if update_quantity:
-            self.cart[movieIds]['quantity'] = quantity
+            self.cart[movie_id]['quantity'] = quantity
         else:
-            self.cart[movieIds]['quantity'] += quantity
+            self.cart[movie_id]['quantity'] += quantity
         self.save()
 
-    def remove(self, movies):
+    def remove(self, movie):
         """
-        Remove a 'Movies' from the cart.
+        Remove a movie from the cart.
         """
-        movieIds = str(movies.movieId)
-        if movieIds in self.cart:
-            del self.cart[movieIds]
+        movie_id = str(movie.movieId)
+        if movie_id in self.cart:
+            del self.cart[movie_id]
             self.save()
 
     def save(self):
