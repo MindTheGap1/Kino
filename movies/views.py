@@ -24,33 +24,24 @@ def index(request):
 
 def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
+    current_user_object = User.objects.get(pk=request.user.id)
     link = movie.trailerLink
     pos = link.find('?v=')
     vidId = link[pos + 3: len(link)]
     form = RatingForm(request.POST)
-    match = UserMovieStats.objects.filter(userId_id=(request.user.id - 7), movieId_id = movie_id)
+    match = UserMovieStats.objects.filter(userId=current_user_object, movieId = movie)
     if form.is_valid() :
-        if bool(match) == False:
+        if not match:
             #User is rating for first time
             post = form.save(commit=False)
-            #IMPORTANT: for some reason my own copy of the database IDs users in auth_users starting from 8 whereas
-            # it IDs users in Users starting from 1, this means that it is not able to find foreign keys unless you subtract 7
-            # this needs to be fixed
-            post.userId_id = request.user.id - 7
-            post.movieId_id = movie_id
+            post.userId = current_user_object
+            post.movieId = movie
             post.save()
-            rating = form.cleaned_data['rating']
         else:
-            post = form.save(commit=False)
-            match = UserMovieStats.objects.get(userId_id=(request.user.id - 7), movieId_id = movie_id)
-            match.userId_id = request.user.id - 7
-            match.movieId_id = movie_id
-            match.rating = form.cleaned_data['rating']
-            match.save()
-            #post.userId_id = request.user.id - 7
-            #post.movieId_id = movie_id
-            #post.save()
-            #rating = form.cleaned_data['rating']
+            match[0].userId = current_user_object
+            match[0].movieId = movie
+            match[0].rating = form.cleaned_data['rating']
+            match[0].save()
 
     #form.save()
     

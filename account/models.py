@@ -19,7 +19,7 @@ class User(models.Model):
 
 
 class UserMovieStats(models.Model):
-    userId = models.ForeignKey(User, related_name='moviestats', on_delete=models.CASCADE)
+    userId = models.ForeignKey(Auth_User, related_name='moviestats', on_delete=models.CASCADE)
     movieId = models.ForeignKey(Movie, related_name='userstats', on_delete=models.CASCADE)
     rating = models.IntegerField(default=1, validators=[MaxValueValidator(10), MinValueValidator(1)])
     lastWatchPos = models.DurationField(null=True)
