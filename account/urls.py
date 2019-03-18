@@ -6,8 +6,8 @@ from . import views
 
 urlpatterns = [
     path('account/', include('django.contrib.auth.urls')),
-    url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
-    url(r'^logout/$', auth_views.LogoutView.as_view(template_name="logout.html"), name='logout'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name="account/login.html"), name='login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(template_name="account/logout.html"), name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^signup/$', views.signup.as_view(), name="signup"),
     path('genre/', views.genrePick, name='genreselect'),

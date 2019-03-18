@@ -30,9 +30,14 @@
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">
+                <a href="{% url 'orders:order_list' %}">
+                    {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
+                </a>
                 <a href="{% url 'movies:detail' movie.movieId %}">
                     <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-                    <br>
+                </a>
+                <br>
+                <a href="{% url 'movies:detail' movie.movieId %}">
                     {{ movie.movieName }}
                 </a>
             </div>
