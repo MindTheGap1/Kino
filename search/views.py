@@ -9,7 +9,9 @@ from datetime import datetime, timedelta
 from functools import reduce
 import operator
 from .forms import SearchForm
+import pytz
 
+@require_POST
 def searchMovie(request):
 	if not request.user.is_authenticated:
 		return redirect('/landing/')
@@ -21,7 +23,7 @@ def searchMovie(request):
 		sort_select = int(request.POST.get("sort_select")) if request.POST.get("sort_select") != None else 0
 		movie_list, new_movie_list = [], []
 		sorting_list = ['movieName', '-movieName', 'price', '-price', 'overallRating', '-overallRating', 'length', '-length', 'releaseDate', '-releaseDate']
-		twoDaysAgo = datetime.now() - timedelta(days=2)
+		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
 
 		ordersUnwatched = OrderItem.objects.filter(orderId__userId = current_user_object,
 												movieId__movieId = OuterRef('pk'),

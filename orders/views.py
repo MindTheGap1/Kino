@@ -6,6 +6,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db.models import Q, Count, Max, Min
 from datetime import datetime, timedelta
+from cart.cart import Cart
+import pytz
+
+def checkout(request):
+	#THIS IS NOT THE ACTUAL CHECKOUT
+	#THIS IS FOR THE SAKE OF DEMONSTRATING
+	if not request.user.is_authenticated:
+		return redirect('/landing/')
+	else:
+		current_user_object = User.objects.get(id=request.user.id)
+		cart = Cart(request)
+		order = Order(userId = current_user_object, paid=True,
+									    		card_number=str(1), cardholder_name="test",
+									    		expiry_date="1/1", CVV_code=str(111))
+
+		order.save()
+		for item in cart:
+			order_item = OrderItem(orderId=order, movieId=item['movie'], cost=item['price'])
+			order_item.save()
+		
+		return redirect('/')
+
+
 
 def order_list(request):
 	if request.user.is_authenticated:
@@ -17,7 +40,7 @@ def order_list(request):
 		sort_select = int(request.POST.get("sort_select")) if request.POST.get("sort_select") != None else 0
 		sorting_list = ['movieName', '-movieName', 'price', '-price', 'overallRating', '-overallRating', 'length', '-length', 'releaseDate', '-releaseDate']
 
-		twoDaysAgo = datetime.now() - timedelta(days=2)
+		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
 		two_days = timedelta(days=2)
 		movie_list = Movie.objects.filter(Q(order__in=all_order_items)).order_by(sorting_list[sort_select]).annotate(
 								numOrders=Count('movieId'),
