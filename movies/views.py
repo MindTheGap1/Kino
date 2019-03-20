@@ -5,7 +5,7 @@ from django.db.models import Exists, OuterRef, Subquery
 from search.forms import SearchForm
 from movies.forms import RatingForm
 from cart.forms import CartAddProductForm
-from account.models import UserMovieStats
+from account.models import UserMovieStats, User
 from django.contrib.auth.models import User as Auth_User
 from datetime import datetime, timedelta
 from .models import *
@@ -15,6 +15,9 @@ import pytz
 def index(request):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    #if user has not completed cold-start
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         user_id = request.user.id
         current_user_object = Auth_User.objects.get(id=user_id)
@@ -48,6 +51,8 @@ def index(request):
 def detail(request, movie_id):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         movie = get_object_or_404(Movie, pk=movie_id)
         current_user_object = Auth_User.objects.get(pk=request.user.id)
@@ -96,6 +101,8 @@ def detail(request, movie_id):
 def genre_detail(request, genre_id):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         user_id = request.user.id
         current_user_object = Auth_User.objects.get(id=user_id)
@@ -130,6 +137,8 @@ def genre_detail(request, genre_id):
 def actor_detail(request, actor_id):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         user_id = request.user.id
         current_user_object = Auth_User.objects.get(id=user_id)
@@ -164,6 +173,8 @@ def actor_detail(request, actor_id):
 def director_detail(request, director_id):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         user_id = request.user.id
         current_user_object = Auth_User.objects.get(id=user_id)
@@ -198,6 +209,8 @@ def director_detail(request, director_id):
 def writer_detail(request, writer_id):
     if not request.user.is_authenticated:
         return redirect('/landing/')
+    elif User.objects.get(user_id = request.user.id).completedTutorial == False:
+        return redirect('/genre/')
     else:
         user_id = request.user.id
         current_user_object = Auth_User.objects.get(id=user_id)

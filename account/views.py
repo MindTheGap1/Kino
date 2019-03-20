@@ -44,6 +44,8 @@ def genrePick(request):
 					call_command('getrecommends', user_id=[user_id])
 				else:
 					call_command('getcoldstart', user_id=[user_id])
+				#Tell DB that this user has done the cold-start
+				User.objects.filter(user_id = current_user_object).update(completedTutorial=True)
 				return redirect('/')
 
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)

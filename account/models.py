@@ -7,7 +7,9 @@ from movies.models import Movie, Genre
 
 
 class User(models.Model):
+    name = models.CharField(max_length=100, null=True)
     user = models.OneToOneField(Auth_User, on_delete=models.CASCADE)
+    completedTutorial = models.BooleanField(default=False)
     dob = models.DateField(auto_now_add=True)
     profilePic = models.ImageField(upload_to='profile_img', blank=True)
 
