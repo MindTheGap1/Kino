@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from functools import reduce
 import operator
 from .forms import SearchForm
+from account.models import User
 import pytz
 
 @require_POST
@@ -17,6 +18,13 @@ def searchMovie(request):
 		return redirect('/landing/')
 	else:
 		user_id = request.user.id
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+
 		current_user_object = Auth_User.objects.get(id=user_id)
 		phrase = request.POST.get("phrase") if request.POST.get("phrase") != "" else "" #Stops it displaying "None"
 		genre_select = request.POST.get("genre_select")

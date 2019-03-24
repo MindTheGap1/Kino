@@ -152,6 +152,13 @@ h4, h4 a, h4 a:hover, h4 a:visited {
 	padding: 3px;
 }
 
+#rated_popular, #ordered_popular {
+	width: 100%;
+	display: inline-block;
+	border-bottom: 5px solid yellow;
+	border-top: 5px solid yellow;
+}
+
 #collectionindex {
 	display: block;
 	margin: 80px 0 100px 0;

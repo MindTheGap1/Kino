@@ -20,6 +20,13 @@ def profile(request):
 	if not request.user.is_authenticated:
 		return redirect('/landing/')
 	else:
+		user_id = request.user.id
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
 		template = 'account/profile.html'
 		return render(request, template)
 
@@ -45,7 +52,10 @@ def genrePick(request):
 				else:
 					call_command('getcoldstart', user_id=[user_id])
 				#Tell DB that this user has done the cold-start
-				User.objects.filter(user_id = current_user_object).update(completedTutorial=True)
+				if User.objects.filter(user_id = current_user_object):
+					User.objects.filter(user_id = current_user_object).update(completedTutorial=True)
+				else:
+					User.objects.create(user = current_user_object, completedTutorial=True)
 				return redirect('/')
 
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)

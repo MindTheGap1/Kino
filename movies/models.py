@@ -1,5 +1,7 @@
 from django.urls import reverse
 from django.db import models
+from datetime import datetime, timedelta
+import pytz
 
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
@@ -24,6 +26,19 @@ class Movie(models.Model):
 
     def get_absolute_url(self):
         return reverse('movies:detail', args=[self.movieId])
+
+    def get_ratings(self):
+        sevenDaysAgo = datetime.now(pytz.UTC) - timedelta(days=7)
+        weeksRatings = Movie.objects.filter(userstats__movieId=self,
+                                                userstats__lastRating__gte=sevenDaysAgo,
+                                                userstats__rating__gte=3).values('userstats').count()
+        return weeksRatings
+
+    def get_orders(self):
+        sevenDaysAgo = datetime.now(pytz.UTC) - timedelta(days=7)
+        weeksOrders = Movie.objects.filter(order__movieId=self,
+                                                order__orderId__orderCreated__gte=sevenDaysAgo).values('order').count()
+        return weeksOrders
 
 
 class Actor(models.Model):
