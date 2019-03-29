@@ -23,12 +23,18 @@ def profile(request):
 		template = 'account/profile.html'
 		return render(request, template)
 
+
 def genrePick(request):
 	if not request.user.is_authenticated:
 		return redirect('/login/?next=/account/genre')
 	else:
 		user_id = request.user.id
 		current_user_object = Auth_User.objects.get(id=user_id)
+		try:
+			user_entry = User.objects.get(user_id = user_id)
+		except User.DoesNotExist:
+			user_entry = User.objects.create(user_id = user_id, name = current_user_object.username, completedTutorial=False)
+			user_entry.save()
 		if request.method == 'POST':
 			form = GenreSelect(request.POST)
 			if form.is_valid():
@@ -45,6 +51,7 @@ def genrePick(request):
 				else:
 					call_command('getcoldstart', user_id=[user_id])
 				#Tell DB that this user has done the cold-start
+				
 				User.objects.filter(user_id = current_user_object).update(completedTutorial=True)
 				return redirect('/')
 
