@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'orders.apps.OrderConfig',
     'search.apps.SearchConfig',
     'cart',
+    'help.apps.HelpConfig'
 ]
 
 MIDDLEWARE = [
