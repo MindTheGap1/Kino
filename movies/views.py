@@ -11,8 +11,9 @@ from datetime import datetime, timedelta
 from .models import *
 from orders.models import OrderItem, Order
 import pytz
+import math
 
-def index(request):
+def index(request,page_no=1):
     if not request.user.is_authenticated:
         return redirect('/landing/')
     #if user has not completed cold-start
@@ -41,6 +42,8 @@ def index(request):
                                 isUnwatched=Exists(ordersUnwatched),
                                 startedWatching=Exists(ordersStarted)).order_by(
                                 '-recValue')
+        page_total = math.ceil(len(movie_list) / 15)
+        movie_list = movie_list[(page_no - 1) * 15:page_no * 15]
         
 
         genre_list = Genre.objects.order_by('genreName')
@@ -51,6 +54,8 @@ def index(request):
             'movie_list': movie_list,
             'genre_list': genre_list,
             'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
         }
         return render(request, template, context)
 
@@ -139,6 +144,7 @@ def popular(request):
                                 isUnwatched=Exists(ordersUnwatched),
                                 startedWatching=Exists(ordersStarted),
                                 )
+
         ratings_movie_list = sorted(movie_list, key=lambda i: i.get_ratings(), reverse=True)[:5]
         orders_movie_list = sorted(movie_list, key=lambda i: i.get_orders(), reverse=True)[:5]
 
@@ -154,7 +160,97 @@ def popular(request):
         }
         return render(request, template, context)
 
-def genre_detail(request, genre_id):
+def popular_orders(request, page_no=1):
+    if not request.user.is_authenticated:
+        return redirect('/landing/')
+    #if user has not completed cold-start
+    else:
+        user_id = request.user.id
+        current_user_object = Auth_User.objects.get(id=user_id)
+        if User.objects.filter(user_id = user_id):
+            if User.objects.get(user_id = user_id).completedTutorial == False:
+                return redirect('/genre/')
+        else:
+            User.objects.create(user_id = user_id, completedTutorial = False)
+            return redirect('/genre/')
+
+
+        twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
+        sevenDaysAgo = datetime.now(pytz.UTC) - timedelta(days=7)
+        ordersUnwatched = OrderItem.objects.filter(orderId__userId = current_user_object,
+                                                    movieId__movieId = OuterRef('pk'),
+                                                    movieStartTime = None).values('movieStartTime')
+        ordersStarted = OrderItem.objects.filter(orderId__userId = current_user_object, 
+                                                    movieId__movieId = OuterRef('pk'), 
+                                                    movieStartTime__gte = twoDaysAgo).values('movieStartTime')
+        movie_list = Movie.objects.annotate(
+                                isUnwatched=Exists(ordersUnwatched),
+                                startedWatching=Exists(ordersStarted),
+                                )
+
+        orders_movie_list = sorted(movie_list, key=lambda i: i.get_orders(), reverse=True)
+        page_total = math.ceil(len(orders_movie_list) / 15)
+        orders_movie_list = orders_movie_list[(page_no - 1) * 15:page_no * 15]
+
+        genre_list = Genre.objects.order_by('genreName')
+        search_form = SearchForm
+
+        template = 'movies/popular_orders.html'
+        context = {
+            'movie_list': orders_movie_list,
+            'genre_list': genre_list,
+            'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
+        }
+        return render(request, template, context)
+
+def popular_ratings(request, page_no=1):
+    if not request.user.is_authenticated:
+        return redirect('/landing/')
+    #if user has not completed cold-start
+    else:
+        user_id = request.user.id
+        current_user_object = Auth_User.objects.get(id=user_id)
+        if User.objects.filter(user_id = user_id):
+            if User.objects.get(user_id = user_id).completedTutorial == False:
+                return redirect('/genre/')
+        else:
+            User.objects.create(user_id = user_id, completedTutorial = False)
+            return redirect('/genre/')
+
+
+        twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
+        sevenDaysAgo = datetime.now(pytz.UTC) - timedelta(days=7)
+        ordersUnwatched = OrderItem.objects.filter(orderId__userId = current_user_object,
+                                                    movieId__movieId = OuterRef('pk'),
+                                                    movieStartTime = None).values('movieStartTime')
+        ordersStarted = OrderItem.objects.filter(orderId__userId = current_user_object, 
+                                                    movieId__movieId = OuterRef('pk'), 
+                                                    movieStartTime__gte = twoDaysAgo).values('movieStartTime')
+        movie_list = Movie.objects.annotate(
+                                isUnwatched=Exists(ordersUnwatched),
+                                startedWatching=Exists(ordersStarted),
+                                )
+
+        ratings_movie_list = sorted(movie_list, key=lambda i: i.get_ratings(), reverse=True)
+        page_total = math.ceil(len(ratings_movie_list) / 15)
+        ratings_movie_list = ratings_movie_list[(page_no - 1) * 15:page_no * 15]
+
+        genre_list = Genre.objects.order_by('genreName')
+        search_form = SearchForm
+
+        template = 'movies/popular_ratings.html'
+        context = {
+            'movie_list': ratings_movie_list,
+            'genre_list': genre_list,
+            'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
+        }
+        return render(request, template, context)
+
+def genre_detail(request, genre_id, page_no=1):
     if not request.user.is_authenticated:
         return redirect('/landing/')
     else:
@@ -183,19 +279,25 @@ def genre_detail(request, genre_id):
                                 startedWatching=Exists(ordersStarted)).order_by(
                                 '-recValue')
 
+        page_total = math.ceil(len(movie_list) / 15)
+        movie_list = movie_list[(page_no - 1) * 15:page_no * 15]
+
         genre_list = Genre.objects.order_by('genreName')
         search_form = SearchForm
 
         template = 'movies/genre_detail.html'
         context = {
+            'current_id': genre_id,
             'selected_genre': selected_genre,
             'movie_list': movie_list,
             'genre_list': genre_list,
             'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
         }
         return render(request, template, context)
 
-def actor_detail(request, actor_id):
+def actor_detail(request, actor_id, page_no=1):
     if not request.user.is_authenticated:
         return redirect('/landing/')
     else:
@@ -223,20 +325,25 @@ def actor_detail(request, actor_id):
                                 isUnwatched=Exists(ordersUnwatched),
                                 startedWatching=Exists(ordersStarted)).order_by(
                                 '-recValue')
+        page_total = math.ceil(len(movie_list) / 15)
+        movie_list = movie_list[(page_no - 1) * 15:page_no * 15]
         
         genre_list = Genre.objects.order_by('genreName')
         search_form = SearchForm
 
         template = 'movies/actor_detail.html'
         context = {
+            'current_id': actor_id,
             'selected_actor': selected_actor,
             'movie_list': movie_list,
             'genre_list': genre_list,
             'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
         }
         return render(request, template, context)
 
-def director_detail(request, director_id):
+def director_detail(request, director_id, page_no=1):
     if not request.user.is_authenticated:
         return redirect('/landing/')
     else:
@@ -264,19 +371,25 @@ def director_detail(request, director_id):
                                 startedWatching=Exists(ordersStarted)).order_by(
                                 '-recValue')
         
+        page_total = math.ceil(len(movie_list) / 15)
+        movie_list = movie_list[(page_no - 1) * 15:page_no * 15]
+
         genre_list = Genre.objects.order_by('genreName')
         search_form = SearchForm
 
-        template = 'movies/genre_detail.html'
+        template = 'movies/director_detail.html'
         context = {
+            'current_id': director_id,
             'selected_director': selected_director,
             'movie_list': movie_list,
             'genre_list': genre_list,
             'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
         }
         return render(request, template, context)
 
-def writer_detail(request, writer_id):
+def writer_detail(request, writer_id, page_no=1):
     if not request.user.is_authenticated:
         return redirect('/landing/')
     else:
@@ -304,14 +417,20 @@ def writer_detail(request, writer_id):
                                 startedWatching=Exists(ordersStarted)).order_by(
                                 '-recValue')
         
+        page_total = math.ceil(len(movie_list) / 15)
+        movie_list = movie_list[(page_no - 1) * 15:page_no * 15]
+
         genre_list = Genre.objects.order_by('genreName')
         search_form = SearchForm
 
         template = 'movies/writer_detail.html'
         context = {
+            'current_id': writer_id,
             'selected_writer': selected_writer,
             'movie_list': movie_list,
             'genre_list': genre_list,
             'search_form': search_form,
+            'page_no': page_no,
+            'page_total': page_total,
         }
         return render(request, template, context)
