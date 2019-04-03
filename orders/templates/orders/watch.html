@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kino{% endblock %}
+
+
+{% block content %}
+
+<div id="watching">
+	<h1>
+		You are watching {{movie}}<br>
+		You have {{ movie.latestWatch|add:two_days|timeuntil }} left to watch this film
+
+	</h1>
+</div>
+
+{% endblock %}
