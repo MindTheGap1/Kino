@@ -25,23 +25,13 @@ from account import views as account_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('movies/', include('movies.urls', namespace= 'movies')),
     path('',include('movies.urls'),name ='main'),
     path('',include('account.urls'),name='account'),
-    #TODO: Include these in their own account/urls.py file
-    #url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
-    #url(r'^logout/$', auth_views.LogoutView.as_view(template_name="logout.html"), name='logout'),
-    #url(r'^signup/$', account_views.signup.as_view(), name="signup"),
-    #url(r'^landing/$', TemplateView.as_view(template_name="landing.html"), name='landing'),
-    #TODO: Create profile view to dynamically add user profile info
-    #url(r'^profile/$', TemplateView.as_view(template_name="profile.html"), name='profile'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^landing', TemplateView.as_view(template_name='landing.html'), name='landing'),
-    #path('', TemplateView.as_view(template_name='landing.html'), name='landing'),
+    path('landing/', TemplateView.as_view(template_name='account/landing.html'), name='landing'),
     path('account/', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('search/', include('search.urls'),name='search'),
-    path('',include('cart.urls'),name='cart'),
+    path('cart/',include('cart.urls'),name='cart'),
     path('orders/', include('orders.urls'), name='orders')
 ]
 

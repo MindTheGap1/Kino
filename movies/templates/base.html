@@ -16,13 +16,29 @@
       </ul>
     </div>
     <div id="headright">
+        <!--<div class="cart">
+            {% with total_items=cart|length %}
+            {% if cart|length > 0 %}
+            Your cart: 
+            <a href="{% url "cart:cart_detail" %}">
+            {{ total_items }} item{{ total_items|pluralize }}, €{{ cart.get_total_price }}
+            </a>
+            {% else %}
+            Your cart is empty.
+            {% endif %}
+            {% endwith %}
+        </div>-->
       <ul>
+        <li><a href="{% url 'cart:cart_detail' %}">MY CART</a></li>
         <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a></li>
-        <li><a href="/"><img src="{% static "img/Search.png" %}" class="icon"></a></li>
+        <li><a href="/"><img src="{% static 'img/Search.png' %}" class="icon"></a></li>
         <li><a href="/profile/">My Account</a></li>
         <li><a href="/logout/">Logout</a></li>
       </ul>
     </div>
+
+
+
 
     <div>
       <a href="/" class="logo">

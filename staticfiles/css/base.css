@@ -17,6 +17,7 @@ ul {
 
 /* MOVIE RATING CSS */
 
+<<<<<<< HEAD
 
 form .userRating{
 	width: 150px;
@@ -79,6 +80,45 @@ form .userRating span {
   -ms-transition: -ms-width 0.5s;
   -o-transition: -o-width 0.5s;
   transition: width 0.5s;
+=======
+.ratingbutton {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+}
+
+.ratingLabel{
+	display: none !important;
+	width: 10%;
+	height: 10%;
+}
+
+.ratingLabel [type=radio] { 
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.label_item {
+	opacity: 1;
+}
+
+.ratingLabel:checked + label ~ label {
+	opacity: 0.5;
+}
+
+#userRating {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 40%;
+	white-space: nowrap;
+	background: gray;
+>>>>>>> 2105ebee5a4802987251f72383949e7a6d54b5b6
 }
 
 /* HEADER & FOOTER - BASE.HTML */
@@ -172,13 +212,27 @@ form .userRating span {
 	padding-left: 2%;
 }
 
+<<<<<<< HEAD
 #index h4, #index h4 a, #index h4 a:hover, #index h4 a:visited {
+=======
+h4, h4 a, h4 a:hover, h4 a:visited {
+>>>>>>> 2105ebee5a4802987251f72383949e7a6d54b5b6
 	background: yellow;
 	color: black;
 	margin: 2px 0;
 	padding: 3px;
 }
 
+<<<<<<< HEAD
+=======
+#collectionindex {
+	display: block;
+	margin: 80px 0 100px 0;
+	width: 100%;
+	padding: 1%;
+}
+
+>>>>>>> 2105ebee5a4802987251f72383949e7a6d54b5b6
 #unwatched, #allOrdered, #started {
 	width: 100%;
 	display: inline-block;
@@ -186,7 +240,27 @@ form .userRating span {
 	border-top: 5px solid yellow;
 }
 
+<<<<<<< HEAD
 .item {
+=======
+#collectionindex #collectiontitle {
+	float: left;
+	width: auto;
+	display: inline-block;
+	line-height: 30px;
+}
+
+#collectionindex #collectionsort {
+	float: right;
+	display: inline-block;
+	width: auto;
+	margin-right: 50px;
+	margin-top: 20px;
+}
+
+.item {
+	position: relative;
+>>>>>>> 2105ebee5a4802987251f72383949e7a6d54b5b6
     width:275px;
     padding:10px 20px 10px 0;
     float:left;
@@ -199,6 +273,20 @@ form .userRating span {
     width:275px;
     max-width: 95%;
     height: 450px;
+}
+
+.rentedlabel {
+	position: absolute;
+	top: 4%;
+	right: 12%;
+	height: 70px;
+	width: 70px;
+	background-color: #555;
+	border-radius: 50%;
+	border: 2px solid yellow;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 70px;
 }
 
 /* DETAIL.HTML */
@@ -229,6 +317,20 @@ form .userRating span {
     margin: 0 auto;
     width: 80%;
     height: 60%;
+}
+
+#detailleftpane #cartbutton {
+	display: block;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+#cartbutton form {
+	background-color: grey;
+	padding: 30px;
+	margin-top: 50px;
+	display: inline-block;
 }
 
 #detailback {

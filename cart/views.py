@@ -6,28 +6,41 @@ from .forms import CartAddProductForm
 
 
 @require_POST
-def cart_add(request, movieId):
-    cart = Cart(request)
-    movie = get_object_or_404(Movie, id=movieId)
-    form = CartAddProductForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
-        cart.add(movies=movie,
-                 quantity=cd['quantity'],
-                 update_quantity=cd['update'])
-    return redirect('cart:cart_detail')
+def cart_add(request, movie_id):
+    if not request.user.is_authenticated:
+        return redirect('/landing/')
+    else:
+        cart = Cart(request)
+        movie = get_object_or_404(Movie, movieId=movie_id)
+        form = CartAddProductForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            cart.add(movie=movie,
+                     quantity=cd['quantity'],
+                     update_quantity=cd['update'])
+        return redirect('cart:cart_detail')
 
 
-def cart_remove(request, movieId):
-    cart = Cart(request)
-    movie = get_object_or_404(Movie, id=movieId)
-    cart.remove(movie)
-    return redirect('cart:cart_detail')
+def cart_remove(request, movie_id):
+    if not request.user.is_authenticated:
+        return redirect('/landing/')
+    else:
+        cart = Cart(request)
+        movie = get_object_or_404(Movie, movieId=movie_id)
+        cart.remove(movie)
+        return redirect('cart:cart_detail')
 
 
 def cart_detail(request):
-    cart = Cart(request)
-    for item in cart:
-        item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'],
-                                                                   'update': True})
-    return render(request, 'cart/detail.html', {'cart': cart})
+    if not request.user.is_authenticated:
+        return redirect('/landing/')
+    else:
+        cart = Cart(request)
+        for item in cart:
+            item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'],
+                                                                       'update': True})
+        context = {
+            'cart': cart,
+        }
+        template = 'cart/detail.html'
+        return render(request, template, context)

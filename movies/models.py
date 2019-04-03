@@ -1,5 +1,5 @@
+from django.urls import reverse
 from django.db import models
-
 
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
@@ -23,7 +23,7 @@ class Movie(models.Model):
         return self.movieName
 
     def get_absolute_url(self):
-        return reverse('movies:movie_detail', args=[self.movieId])
+        return reverse('movies:detail', args=[self.movieId])
 
 class UserRating(models.Model):
     ratingId = models.AutoField(primary_key=True)
@@ -52,7 +52,7 @@ class Director(models.Model):
     directorLastName = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.directorFirstName + " " + directorLastName
+        return self.directorFirstName + " " + self.directorLastName
 
 class Writer(models.Model):
     writerId = models.AutoField(primary_key=True)
@@ -60,4 +60,4 @@ class Writer(models.Model):
     writerLastName = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.writerFirstName + " " + writerLastName
+        return self.writerFirstName + " " + self.writerLastName

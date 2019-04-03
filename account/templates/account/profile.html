@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Your Profile{% endblock %}
 
 {% block content %}
 <div id="profile">
-  <h2>Your profile</h2>
+	<h2>Your profile</h2>
 
-  <h3><a href="{% url 'orders:order_history' %}">Your Order History</a></h3>
-  <h3><a href="{% url 'orders:order_list' %}">Your Movie Collection</a></h3>
+	<h3><a href="{% url 'orders:order_history' %}">Your Order History</a></h3>
+	<h3><a href="{% url 'orders:order_list' %}">Your Movie Collection</a></h3>
 </div> 
 {% endblock %}

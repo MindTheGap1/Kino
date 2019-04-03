@@ -1,18 +1,20 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.core.management import call_command
+from django.db.models import Q
 from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User as Auth_User
 from movies.models import Genre
-from .models import FavouriteGenres, User
+from .models import FavouriteGenres, User, UserMovieStats
 from .forms import GenreSelect
 
 
 class signup(generic.CreateView):
 	form_class = UserCreationForm
 	success_url = '/account/genre'
-	template_name = 'signup.html'
+	template_name = 'account/signup.html'
 
 def profile(request):
 	if not request.user.is_authenticated:
@@ -21,12 +23,18 @@ def profile(request):
 		template = 'account/profile.html'
 		return render(request, template)
 
+
 def genrePick(request):
 	if not request.user.is_authenticated:
 		return redirect('/login/?next=/account/genre')
-	if request.user.is_authenticated:
+	else:
 		user_id = request.user.id
 		current_user_object = Auth_User.objects.get(id=user_id)
+		try:
+			user_entry = User.objects.get(user_id = user_id)
+		except User.DoesNotExist:
+			user_entry = User.objects.create(user_id = user_id, name = current_user_object.username, completedTutorial=False)
+			user_entry.save()
 		if request.method == 'POST':
 			form = GenreSelect(request.POST)
 			if form.is_valid():
@@ -37,6 +45,14 @@ def genrePick(request):
 					FavouriteGenres.objects.create(userId = current_user_object,
 													genreId = genreObject)
 
+				ratings = UserMovieStats.objects.filter(Q(userId = current_user_object), ~Q(rating=None))
+				if ratings:
+					call_command('getrecommends', user_id=[user_id])
+				else:
+					call_command('getcoldstart', user_id=[user_id])
+				#Tell DB that this user has done the cold-start
+				
+				User.objects.filter(user_id = current_user_object).update(completedTutorial=True)
 				return redirect('/')
 
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)
@@ -46,8 +62,6 @@ def genrePick(request):
 		template = 'account/genre_pick.html'
 		form = GenreSelect(initial={'pickedGenres': preselect})
 		context = {
-			'genre_form': form,
+			'genre_form': form
 		}
 		return render(request, template, context)
-	else:
-		return redirect('/')

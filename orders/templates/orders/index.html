@@ -5,25 +5,17 @@
 
 
 {% block content %}
-<div id="sidebar">
-    <h3>GENRES</h3>
-    <ul>
-    {% if genre_list %}
-        {% for genre in genre_list %}
-            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
-        {% endfor %}
-    {% endif %}
-    </ul>
-     <div id="search">
-        <form method="post" action="{% url "search:search_movie" %}">
+<div id="collectionindex">
+    <div id="collectiontitle">
+        <h2>Your Orders</h2>
+    </div>
+    <div id="collectionsort">
+        <form method="post" action="{% url "orders:order_list" %}">
             {% csrf_token %}
-            {{ search_form }}
-            <input type="submit" value="Search">
+            {{ sort_form }}
+            <input type="submit" value="Sort">
         </form>
     </div>
-</div>
-<div id="index">
-    <h2>Your Orders</h2>
     <div id="started">
         <h3>Movies You Have Already Started:</h3>
         {% if started_list %}

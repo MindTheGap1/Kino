@@ -1,11 +1,34 @@
 from account.models import User as User_Profile
 from .models import Order, OrderItem
 from movies.models import Movie, Genre
-from search.forms import SearchForm
+from search.forms import SortForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db.models import Q, Count, Max, Min
 from datetime import datetime, timedelta
+from cart.cart import Cart
+import pytz
+
+def checkout(request):
+	#THIS IS NOT THE ACTUAL CHECKOUT
+	#THIS IS FOR THE SAKE OF DEMONSTRATING
+	if not request.user.is_authenticated:
+		return redirect('/landing/')
+	else:
+		current_user_object = User.objects.get(id=request.user.id)
+		cart = Cart(request)
+		order = Order(userId = current_user_object, paid=True,
+									    		card_number=str(1), cardholder_name="test",
+									    		expiry_date="1/1", CVV_code=str(111))
+
+		order.save()
+		for item in cart:
+			order_item = OrderItem(orderId=order, movieId=item['movie'], cost=item['price'])
+			order_item.save()
+		
+		return redirect('/')
+
+
 
 def order_list(request):
 	if request.user.is_authenticated:
@@ -14,17 +37,17 @@ def order_list(request):
 		all_orders = Order.objects.filter(userId=current_user_object)
 		all_order_items = OrderItem.objects.filter(Q(orderId__in=all_orders))
 		
-		genre_list = Genre.objects.all().order_by('genreName')
+		sort_select = int(request.POST.get("sort_select")) if request.POST.get("sort_select") != None else 0
+		sorting_list = ['movieName', '-movieName', 'price', '-price', 'overallRating', '-overallRating', 'length', '-length', 'releaseDate', '-releaseDate']
 
-		twoDaysAgo = datetime.now() - timedelta(days=2)
+		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
 		two_days = timedelta(days=2)
-		movie_list = Movie.objects.filter(Q(order__in=all_order_items)
-													).order_by('movieId').annotate(
-													numOrders=Count('movieId'),
-													latestOrder=Max('order__orderId__orderCreated'),
-													latestWatch=Max('order__movieStartTime'),
-													isUnwatched=Count('order', filter=Q(order__movieStartTime = None)),
-													startedWatching=Count('order', filter=Q(order__movieStartTime__gte = twoDaysAgo )))
+		movie_list = Movie.objects.filter(Q(order__in=all_order_items)).order_by(sorting_list[sort_select]).annotate(
+								numOrders=Count('movieId'),
+								latestOrder=Max('order__orderId__orderCreated'),
+								latestWatch=Max('order__movieStartTime'),
+								isUnwatched=Count('order', filter=Q(order__movieStartTime = None)),
+								startedWatching=Count('order', filter=Q(order__movieStartTime__gte = twoDaysAgo )))
 
 		
 
@@ -35,15 +58,14 @@ def order_list(request):
 			if movie.isUnwatched > 0:
 				unwatched_list += [movie]
 
+		sort_form = SortForm()
 		#test = a()
-		search_form = SearchForm()
 		context = {
 	        'movie_list': movie_list,
 	        'started_list': started_list,
 	        'unwatched_list': unwatched_list,
-	        'genre_list': genre_list,
-	        'search_form': search_form,
 	        'two_days': two_days,
+	        'sort_form': sort_form,
 		}
 		template = "orders/index.html"
 		return render(request, template, context)
@@ -68,7 +90,6 @@ def watch(request, movie_id):
 			latest_film = OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None)).latest('-orderId__orderCreated')
 			latest_film.movieStartTime = datetime.now()
 			latest_film.save(update_fields=['movieStartTime'])
-			#.update(movieStartTime = datetime.now())
 
 
 		two_days = timedelta(days=2)
