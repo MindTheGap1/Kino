@@ -34,3 +34,9 @@ class FavouriteGenres(models.Model):
 
     class Meta:
         unique_together = ('userId', 'genreId')
+
+#class rentalTimer(models.Model):
+    #rentalID = models.AutoField(primary_key=True)
+    #movieID = models.ForeignKey(related_name='movie', on_delete=models.CASCADE)
+    #userId = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    #rentTime = orderCreated = models.DateTimeField(auto_now_add=True)
