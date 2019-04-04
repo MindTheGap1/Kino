@@ -48,7 +48,7 @@ class Cart(object):
         if update_quantity:
             self.cart[movie_id]['quantity'] = quantity
         else:
-            self.cart[movie_id]['quantity'] += quantity
+            self.cart[movie_id]['quantity'] = 1
         self.save()
 
     def remove(self, movie):
