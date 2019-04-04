@@ -100,8 +100,9 @@ def detail(request, movie_id):
                 movie = get_object_or_404(Movie, pk=movie_id)
 
 
-        if match[0].rating:
-            filmRating = int(match[0].rating)
+        if match:
+            if match[0].rating:
+                filmRating = int(match[0].rating)
         else:
             filmRating = 0
 
