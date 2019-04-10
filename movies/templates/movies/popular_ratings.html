@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Movies by {{selected_director}}{% endblock %}
+
+{% block content %}
+<div id="sidebar">
+    <h3>GENRES</h3>
+    <ul>
+    {% if genre_list %}
+        {% for genre in genre_list %}
+            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+        {% endfor %}
+    {% endif %}
+    </ul>
+    <div id="search">
+        <form method="post" action="{% url 'search:search_movie' %}">
+            {% csrf_token %}
+            {{ search_form }}
+            <input type="submit" value="Search">
+        </form>
+    </div>
+</div>
+<div id="index">
+    <h3>The most positively rated movies recently</h3>
+    {% if movie_list %}
+        {% for movie in movie_list %}
+            <div class="item">
+                <a href="{% url 'orders:order_list' %}">
+                    {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
+                </a>
+                <a href="{% url 'movies:detail' movie.movieId %}">
+                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                </a>
+                <br>
+                <a href="{% url 'movies:detail' movie.movieId %}">
+                    {{ movie.movieName }}
+                </a>
+                <br>
+                Rated positively {{ movie.get_ratings }} time{% if movie.get_ratings != 1 %}s{% endif %} this week
+            </div>
+        {% endfor %}
+        <div id="button_box">
+            {% if page_no > 1 %}
+            <div id="back_button">
+                <a href="{% url 'movies:popular_ratings' page_no|add:'-1' %}">Previous Page</a>
+            </div>
+            {% endif %}
+            {% if page_no < page_total %}
+            <div id="next_button">
+                <a href="{% url 'movies:popular_ratings' page_no|add:'1' %}">Next Page</a>
+            </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No Movies :(</p>
+    {% endif %}
+</div>
+{% endblock %}

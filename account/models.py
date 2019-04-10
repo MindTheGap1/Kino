@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User as Auth_User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from movies.models import Movie, Genre
 
@@ -27,6 +28,7 @@ class UserMovieStats(models.Model):
     lastWatchPos = models.DurationField(blank=True, null=True)
     recommendValue = models.DecimalField(decimal_places=2, max_digits=4, default=None,validators=[MaxValueValidator(5),MinValueValidator(0)], blank=True, null=True)
     allowRecommend = models.BooleanField(default=True)
+    lastRating = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
 class FavouriteGenres(models.Model):
     userId = models.ForeignKey(Auth_User, related_name='favouritegenres', on_delete=models.CASCADE)

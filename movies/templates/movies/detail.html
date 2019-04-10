@@ -4,107 +4,104 @@
 {% block title %}{{movie.movieName}}{% endblock %}
 
 {% block content %}
-
-<div id="detailleftpane">
-	<div id="detailback"><a href="/">GO BACK</a></div>
-	<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
-	<div id="cartbutton">
-		<form method="POST" action="{% url 'cart:cart_add' movie.movieId %}">
-			{% csrf_token %}
-			{{ cart_form }}<br>
-			<input type="submit" value="ADD TO CART" />
-		</form>
-	</div>
-</div>
-<div id="detailrightpane">
-	<h1>{{ movie.movieName }}</h1>
-	<div id="detaildesc">
-		<ul>
-			<li>{{ movie.description }}</li>
-			<br>
-			<li>Release Date: {{ movie.releaseDate }}</li>
-			<br>
-
-			{% if movie.genres.all %}
-				<li>Genres:
-					<ul>
-					{% for genre in movie.genres.all %}
-						<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
-					{% endfor %}
-					</ul>
-				</li>
-			{% else %}
-				<li>Genres are unknown</li>
-			{% endif %}
-			<br>
-
-			{% if movie.directors.all %}
-				<li>Directors: 
-					<ul>
-					{% for director in movie.directors.all %}
-						<li><a href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
-					{% endfor %}
-					</ul>
-				</li>
-			{% else %}
-				<li>Directors are unknown</li>
-			{% endif %}
-			<br>
-
-			{% if movie.actors.all %}
-				<li>Cast: 
-					<ul>
-					{% for actor in movie.actors.all %}
-						<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</a></li> 
-					{% endfor %}
-					</ul>
-				</li>
-			{% else %}
-				<li>Actors are unknown</li>
-			{% endif %}
-			<br>
-
-			{% if movie.writers.all %}
-				<li>Story by:
-					<ul>
-					{% for writer in movie.writers.all %}
-						<li><a href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
-					{% endfor %}
-					</ul>
-				</li>
-			{% else %}
-				<li>Writers are unknown</li>
-			{% endif %}
-		</ul>
-	</div>
-	<div id="detailrating">
-		<h2>Average Customer Review:</h2>
-		<div>
-			{% if movie.overallRating %}
-				<p> {{movie.overallRating}} </p>
-			{% else %}
-				<p> Nobody has rated this film yet! </p>
-			{% endif %}
+	<div id="detailleftpane">
+		<div id="detailback"><a href="/">GO BACK</a></div>
+		<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
+		<div id="cartbutton">
+			<form method="POST" action="{% url 'cart:cart_add' movie.movieId %}">
+				{% csrf_token %}
+				{{ cart_form }}<br>
+				<input type="submit" value="ADD TO CART" />
+			</form>
 		</div>
-
-
-		<form method="POST" action="">
-			{% csrf_token %}
-			<h2>Your Rating:</h2>
-			{% for field in form %}
-    			{% for choice in field %}
-    			{% with v=forloop.counter %}
-    			<input type="radio" name="rating" value="{{v}}" class="ratingLabel" id="{{choice.id_for_label}}" {% if v == rating %}checked="checked"{%endif%}> 
-				<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper.png' %}" class="icon" height="50" width="50"> </label>
-				{% endwith %}
-    			{% endfor %}
-			{% endfor %}
-			<br>
-			<input type="submit" value="Submit" />
-
-		</form>
 	</div>
+	<div id="detailrightpane">
+		<h1>{{ movie.movieName }}</h1>
+		<div id="detaildesc">
+			<ul>
+				<li>{{ movie.description }}</li>
+				<br>
+				<li>Release Date: {{ movie.releaseDate }}</li>
+				<br>
+
+				{% if movie.genres.all %}
+					<li>Genres:
+						<ul>
+						{% for genre in movie.genres.all %}
+							<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+					<li>Genres are unknown</li>
+				{% endif %}
+				<br>
+
+				{% if movie.directors.all %}
+					<li>Directors: 
+						<ul>
+						{% for director in movie.directors.all %}
+							<li><a href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+					<li>Directors are unknown</li>
+				{% endif %}
+				<br>
+
+				{% if movie.actors.all %}
+					<li>Cast: 
+						<ul>
+						{% for actor in movie.actors.all %}
+							<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</a></li> 
+						{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+					<li>Actors are unknown</li>
+				{% endif %}
+				<br>
+
+				{% if movie.writers.all %}
+					<li>Story by:
+						<ul>
+						{% for writer in movie.writers.all %}
+							<li><a href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+					<li>Writers are unknown</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div id="detailrating">
+			<h2>Average Customer Review:</h2>
+			<div>
+				{% if movie.overallRating %}
+					<p> {{movie.overallRating}} </p>
+				{% else %}
+					<p> Nobody has rated this film yet! </p>
+				{% endif %}
+			</div>
 
 
-</div>
+			<form method="POST" action="">
+				{% csrf_token %}
+				<h2>Your Rating:</h2>
+				{% for field in form %}
+	    			{% for choice in field %}
+	    			{% with v=forloop.counter %}
+	    			<input type="radio" name="rating" value="{{v}}" class="ratingLabel" id="{{choice.id_for_label}}" {% if v == rating %}checked="checked"{%endif%}> 
+					<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper.png' %}" class="icon" height="50" width="50"> </label>
+					{% endwith %}
+	    			{% endfor %}
+				{% endfor %}
+				<br>
+				<input type="submit" value="Submit" />
+
+			</form>
+		</div>
+	</div>
 {% endblock %}

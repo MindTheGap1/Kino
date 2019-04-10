@@ -29,7 +29,7 @@ urlpatterns = [
     path('',include('account.urls'),name='account'),
     path('landing/', TemplateView.as_view(template_name='account/landing.html'), name='landing'),
     path('account/', include('django.contrib.auth.urls')),
-    path('account/', include('account.urls')),
+    #path('account/', include('account.urls')),
     path('search/', include('search.urls'),name='search'),
     path('cart/',include('cart.urls'),name='cart'),
     path('orders/', include('orders.urls'), name='orders')

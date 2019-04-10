@@ -4,58 +4,67 @@
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
 </head>
 <body>
-
-<div id="header">
-  <nav>
-    <div id="headleft">
-      <ul>
-        <li><a href="/">RECENTLY ADDED</a></li>
-      </ul>
-    </div>
-    <div id="headright">
-        <!--<div class="cart">
-            {% with total_items=cart|length %}
-            {% if cart|length > 0 %}
-            Your cart: 
-            <a href="{% url "cart:cart_detail" %}">
-            {{ total_items }} item{{ total_items|pluralize }}, €{{ cart.get_total_price }}
-            </a>
-            {% else %}
-            Your cart is empty.
-            {% endif %}
-            {% endwith %}
-        </div>-->
-      <ul>
-        <li><a href="{% url 'cart:cart_detail' %}">MY CART</a></li>
-        <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a></li>
-        <li><a href="/"><img src="{% static 'img/Search.png' %}" class="icon"></a></li>
-        <li><a href="/profile/">My Account</a></li>
-        <li><a href="/logout/">Logout</a></li>
-      </ul>
-    </div>
-
-
-
-
-    <div>
-      <a href="/" class="logo">
-        <img src="{% static "img/Logo.png" %}">
-      </a>
-    </div>
-
-  </nav>
+<div id="container">
+  <div id="header">
+    <nav>
+      <div id="headleft">
+        <ul>
+          <li><a href="/">ALL FILMS</a></li>
+          <li><a href="{% url 'movies:popular' %}">POPULAR</a></li>
+        </ul>
+      </div>
+      <div id="headright">
+        <ul>
+          <li><a href="{% url 'cart:cart_detail' %}">MY CART</a></li>
+          <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a></li>
+          <li><a href="/"><img src="{% static 'img/Search.png' %}" class="icon"></a></li>
+          <li><a href="/profile/">My Account</a></li>
+          <li><a href="/logout/">Logout</a></li>
+        </ul>
+      </div>
+      <div>
+        <a href="/" class="logo">
+          <img src="{% static 'img/Logo.png' %}">
+        </a>
+      </div>
+    </nav>
+  </div>
 </div>
 
 
-<div id="content">
-	{% block content %}
-	{% endblock %}
-</div>
+  <div id="content">
+    hello
+  	{% block content %}
+  	{% endblock %}
+  </div>
 
-<div id="footer">
+  <div class="footer">
+    <div class="footer-content">
+      <div class="footer-columns" id="footer-column1">
+        <p class="footer-content-text"><a href="#">Audio & Subtitles</a></p>
+        <p class="footer-content-text"><a href="#">Privacy Policy</a></p>
+        <p class="footer-content-text"><a href="#">Terms of Use</a></p>
+      </div>
+      <div class="footer-columns" id="footer-column2">
+        <p class="footer-content-text"><a href="#">Help Center</a></p>
+        <p class="footer-content-text"><a href="#">Cookie Preferences</a></p>
+        <p class="footer-content-text"><a href="#">FAQ</a></p>
+      </div>
+      <div class="footer-columns" id="footer-column3">
+        <p class="footer-content-text"><a href="#">Contact Us</a></p>
+        <p class="footer-content-text">5 The Parade<br/>Cardiff<br/>CF24 3AA</p>
+        <p class="footer-content-text"></p>
+      </div>
+      <div id="footer-copyright">
+        <p id="footer-copyright-text">
+          Copyright Kino .Inc {i-bc4a6764533348735gdfshb3}
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>

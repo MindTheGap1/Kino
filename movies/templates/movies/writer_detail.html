@@ -38,6 +38,18 @@
                 </a>
             </div>
         {% endfor %}
+        <div id="button_box">
+            {% if page_no > 1 %}
+            <div id="back_button">
+                <a href="{% url 'movies:writer' current_id page_no|add:'-1' %}">Previous Page</a>
+            </div>
+            {% endif %}
+            {% if page_no < page_total %}
+            <div id="next_button">
+                <a href="{% url 'movies:writer' current_id page_no|add:'1' %}">Next Page</a>
+            </div>
+            {% endif %}
+        </div>
     {% else %}
         <p>No Movies :(</p>
     {% endif %}

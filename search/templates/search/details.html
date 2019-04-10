@@ -16,7 +16,7 @@
     {% endif %}
     </ul>
     <div id="search">
-        <form method="post" action="{% url "search:search_movie" %}">
+        <form method="post" action="{% url 'search:search_movie' %}">
             {% csrf_token %}
             {{ search_form }}<br>
             <input type="submit" value="Search">
@@ -40,6 +40,32 @@
                 </a>
             </div>
         {% endfor %}
+        <div id="button_box">
+            {% if page_no > 1 %}
+            <div id="back_button">
+                <form method="post" action="{% url 'search:search_movie' %}">
+                    <div style="display:none">
+                        {% csrf_token %}
+                        {{ search_form }}
+                        <input type="number" name="page_no" value="{{page_no|add:'-1'}}" readonly>
+                    </div>
+                    <input class="buttonlink" type="submit" value="Previous Page">
+                </form>
+            </div>
+            {% endif %}
+            {% if page_no < page_total %}
+            <div id="next_button">
+                <form method="post" action="{% url 'search:search_movie' %}">
+                    <div style="display:none">
+                        {% csrf_token %}
+                        {{ search_form }}
+                        <input type="number" name="page_no" value="{{page_no|add:'1'}}" readonly>
+                    </div>
+                    <input class="buttonlink" type="submit" value="Next Page">
+                </form>
+            </div>
+            {% endif %}
+        </div>
     {% else %}
         <p>No Movies :(</p>
     {% endif %}

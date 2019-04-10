@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kino{% endblock %}
+
+
+{% block content %}
+<div id="sidebar">
+    <h3>GENRES</h3>
+    <ul>
+    {% if genre_list %}
+        {% for genre in genre_list %}
+            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+        {% endfor %}
+    {% endif %}
+    </ul>
+     <div id="search">
+        <form method="post" action="{% url 'search:search_movie' %}">
+            {% csrf_token %}
+            {{ search_form }}
+            <input type="submit" value="Search">
+        </form>
+    </div>
+</div>
+<div id="index">
+    <h2>Currently Hot</h2>
+    <div id="rated_popular">
+        <h3>The most positively rated movies recently</h3>
+        <h5><a href="{% url 'movies:popular_ratings' %}">See all</a></h5>
+        {% if ratings_movie_list %}
+            {% for movie in ratings_movie_list %}
+                <div class="item">
+                    <a href="{% url 'orders:order_list' %}">
+                        {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
+                    </a>
+                    <a href="{% url 'movies:detail' movie.movieId %}">
+                        <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                    </a>
+                    <br>
+                    <a href="{% url 'movies:detail' movie.movieId %}">
+                        {{ movie.movieName }}
+                    </a>
+                    <br>
+                    Rated positively {{ movie.get_ratings }} time{% if movie.get_ratings != 1 %}s{% endif %} this week
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No Movies :(</p>
+        {% endif %}
+    </div>
+    <div id="ordered_popular">
+        <h3>The most ordered movies recently</h3>
+        <h5><a href="{% url 'movies:popular_orders' %}">See all</a></h5>
+        {% if orders_movie_list %}
+            {% for movie in orders_movie_list %}
+                <div class="item">
+                    <a href="{% url 'orders:order_list' %}">
+                        {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
+                    </a>
+                    <a href="{% url 'movies:detail' movie.movieId %}">
+                        <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                    </a>
+                    <br>
+                    <a href="{% url 'movies:detail' movie.movieId %}">
+                        {{ movie.movieName }}
+                    </a>
+                    <br>
+                    Ordered {{ movie.get_orders }} time{% if movie.get_orders != 1 %}s{% endif %} this week
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No Movies :(</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

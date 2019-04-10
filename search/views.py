@@ -9,7 +9,9 @@ from datetime import datetime, timedelta
 from functools import reduce
 import operator
 from .forms import SearchForm
+from account.models import User
 import pytz
+import math
 
 @require_POST
 def searchMovie(request):
@@ -17,6 +19,13 @@ def searchMovie(request):
 		return redirect('/landing/')
 	else:
 		user_id = request.user.id
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+
 		current_user_object = Auth_User.objects.get(id=user_id)
 		phrase = request.POST.get("phrase") if request.POST.get("phrase") != "" else "" #Stops it displaying "None"
 		genre_select = request.POST.get("genre_select")
@@ -65,6 +74,13 @@ def searchMovie(request):
 			movie_list = new_movie_list
 			movie_list.order_by(sorting_list[sort_select], '-recValue')
 
+		if request.POST.get("page_no"):
+			page_no = int(request.POST.get("page_no"))
+		else:
+			page_no = 1
+		page_total = math.ceil(len(movie_list) / 15)
+		movie_list = movie_list[(page_no - 1)*15:page_no*15]
+
 		total_genre_list = Genre.objects.order_by('genreName')
 		search_form = SearchForm(initial={'genre_select': genre_select, 
 											'phrase': phrase,
@@ -76,5 +92,7 @@ def searchMovie(request):
 			'total_genre_list': total_genre_list,
 	    	'search_form': search_form,
 			'phrase': phrase,
+			'page_total': page_total,
+			'page_no': page_no,
 			}
 		return render(request, template, context)

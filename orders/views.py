@@ -1,10 +1,11 @@
 from account.models import User as User_Profile
 from .models import Order, OrderItem
 from movies.models import Movie, Genre
+from account.models import User
 from search.forms import SortForm
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.db.models import Q, Count, Max, Min
+from django.contrib.auth.models import User as Auth_User
+from django.db.models import Q, Count, Max, Min, Exists, OuterRef, Subquery, Value
 from datetime import datetime, timedelta
 from cart.cart import Cart
 import pytz
@@ -15,16 +16,25 @@ def checkout(request):
 	if not request.user.is_authenticated:
 		return redirect('/landing/')
 	else:
-		current_user_object = User.objects.get(id=request.user.id)
+		user_id = request.user.id
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+
+		current_user_object = Auth_User.objects.get(id=request.user.id)
 		cart = Cart(request)
 		order = Order(userId = current_user_object, paid=True,
-									    		card_number=str(1), cardholder_name="test",
-									    		expiry_date="1/1", CVV_code=str(111))
+					card_number=str(1), cardholder_name="test",
+					expiry_date="1/1", CVV_code=str(111))
 
 		order.save()
 		for item in cart:
 			order_item = OrderItem(orderId=order, movieId=item['movie'], cost=item['price'])
 			order_item.save()
+		cart.clear()
 		
 		return redirect('/')
 
@@ -33,7 +43,15 @@ def checkout(request):
 def order_list(request):
 	if request.user.is_authenticated:
 		user_id = request.user.id
-		current_user_object = User.objects.get(id=user_id)
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+
+
+		current_user_object = Auth_User.objects.get(id=user_id)
 		all_orders = Order.objects.filter(userId=current_user_object)
 		all_order_items = OrderItem.objects.filter(Q(orderId__in=all_orders))
 		
@@ -76,19 +94,33 @@ def order_list(request):
 def watch(request, movie_id):
 	if request.user.is_authenticated:
 		user_id = request.user.id
-		current_user_object = User.objects.get(id=user_id)
-		twoDaysAgo = datetime.now() - timedelta(days=2)
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+			
+		current_user_object = Auth_User.objects.get(id=user_id)
+		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
+		ordersUnwatched = OrderItem.objects.filter(
+							orderId__userId = current_user_object,
+							movieId__movieId = OuterRef('pk'),
+							movieStartTime = None).values('movieStartTime')
+		ordersStarted = OrderItem.objects.filter(
+							orderId__userId = current_user_object, 
+							movieId__movieId = OuterRef('pk'), 
+							movieStartTime__gte = twoDaysAgo).values('movieStartTime')
 		movie = Movie.objects.filter(movieId=movie_id).annotate(
-							isUnwatched=Count('order', filter=Q(order__movieStartTime = None)),
-							startedWatching=Count('order', filter=Q(order__movieStartTime__gte = twoDaysAgo )),
-							latestWatch=Max('order__movieStartTime'),
-							)
+							isUnwatched=Count(Subquery(ordersUnwatched)),
+							startedWatching=Count(Subquery(ordersStarted)),
+							latestWatch=Subquery(ordersStarted[:1]))
 		if movie[0].startedWatching < 1 and movie[0].isUnwatched < 1:
 			return redirect('/')
 
 		if movie[0].isUnwatched > 0 and movie[0].startedWatching < 1:
-			latest_film = OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None)).latest('-orderId__orderCreated')
-			latest_film.movieStartTime = datetime.now()
+			latest_film = OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None) & Q(orderId__userId = current_user_object)).latest('-orderId__orderCreated')
+			latest_film.movieStartTime = datetime.now(pytz.UTC)
 			latest_film.save(update_fields=['movieStartTime'])
 
 
@@ -106,7 +138,14 @@ def watch(request, movie_id):
 def order_history(request):
 	if request.user.is_authenticated:
 		user_id = request.user.id
-		current_user_object = User.objects.get(id=user_id)
+		if User.objects.filter(user_id = user_id):
+			if User.objects.get(user_id = user_id).completedTutorial == False:
+				return redirect('/genre/')
+		else:
+			User.objects.create(user_id = user_id, completedTutorial = False)
+			return redirect('/genre/')
+			
+		current_user_object = Auth_User.objects.get(id=user_id)
 		orders = Order.objects.filter(userId=current_user_object)
 
 		order_info_list = []
