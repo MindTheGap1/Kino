@@ -1,7 +1,5 @@
 from django import forms
 
-
-
 class CartAddProductForm(forms.Form):
 
     update = forms.BooleanField(required=False,

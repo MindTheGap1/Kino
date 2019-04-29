@@ -37,13 +37,13 @@ class Cart(object):
             item['total_price'] = item['price'] * item['quantity']
             yield item
 
-    def add(self, movie, quantity=1, update_quantity=False):
+    def add(self, movie, update_quantity=False):
         """
         Add a movie to the cart or update its quantity.
         """
         movie_id = str(movie.movieId)
         if movie_id not in self.cart:
-            self.cart[movie_id] = {'quantity': 0,
+            self.cart[movie_id] = {'quantity': 1,
                                       'price': str(movie.price)}
         if update_quantity:
             self.cart[movie_id]['quantity'] = quantity
@@ -70,6 +70,12 @@ class Cart(object):
         # empty cart
         self.session[settings.CART_SESSION_ID] = {}
         self.session.modified = True
+
+    def count(self):
+        if(self.__len__() < 1):
+            return ""
+        else:
+            return "(" + str(self.__len__()) + ")"
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())

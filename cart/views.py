@@ -17,8 +17,7 @@ def cart_add(request, movie_id):
         if form.is_valid():
             cd = form.cleaned_data
             cart.add(movie=movie,
-                     quantity=1,
-                     update_quantity=1)
+                     update_quantity=cd['update'])
         return redirect('cart:cart_detail')
 
 
@@ -46,7 +45,8 @@ def cart_detail(request):
             
         cart = Cart(request)
         for item in cart:
-            item['update_quantity_form'] = CartAddProductForm(initial={'update': True})
+            item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'],
+                                                                       'update': True})
         context = {
             'cart': cart,
         }

@@ -8,27 +8,37 @@
 
 {% block content %}
 <div class="header">
-  <a href="/login">Log in</a>
+  <a href="/login" id="link">Log in</a>
 </div>
 <br>
 <br>
 <div class="form">
     <img src="{% static 'img/logo.png' %}" alt="Logo">
     <h2>Welcome to Kino</h2>
-    <a href="/signup"><h2 style = "font-size:20px">Sign up for free today</h2></a>
+    <a href="/signup" id="link"><h2 style="font-size:20px;" id="link">Sign up for free today</h2></a>
 </div>
-<div class="about">
-  <img src="{% static 'img/kinopromo1.png' %}" alt="KinoPromo1" width=1000px>
+<div class="about" height="80vh" width="80vw">
+  <img src="{% static 'img/kinopromo3.png' %}" alt="KinoPromo1" maxheight="100%" width="100%">
+  <br>
+  <br>
   <br>
   Kino possesses a huge library to choose from.
   <br>
-  <img src="{% static 'img/kinopromo2.png' %}" alt="KinoPromo1" width=1000px>
+  <br>
+  <br>
+  <img src="{% static 'img/kinopromo4.png' %}" alt="KinoPromo2" maxheight="100%" width="100%">
+  <br>
+  <br>
   <br>
   Rent films and watch them, any time, anywhere.
   <br>
   <br>
-  <a href="/signup"><h2 style = "font-size:20px"><h2>Sign up for free today</h2></a>
+  <br>
+  <a href="/signup" id="link"><h2 style="font-size:20px" id="link"><h2>Sign up for free today</h2></a>
   No subscription required!
+  <br>
+  <br>
+  <br>
 </div> 
 <div class="footer">
   

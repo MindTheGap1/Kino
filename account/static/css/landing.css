@@ -53,3 +53,13 @@ a {
 	color: white;
 	text-align: center;
   }
+
+#link{
+	text-decoration:none;
+	color:yellow;
+}
+
+#link:hover{
+	color:#a5a5a5;
+}
+

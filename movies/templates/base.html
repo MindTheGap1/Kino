@@ -12,16 +12,16 @@
     <nav>
       <div id="headleft">
         <ul>
-          <li><a href="/">ALL FILMS</a><img src="{% static 'img/clapper_yellow.png' %}" class="icon"></li>
-          <li><a href="{% url 'movies:popular' %}">POPULAR</a><img src="{% static 'img/popular.png' %}" class="icon"></li>
+          <li><a href="/" id="headerlist">ALL FILMS</a><img src="{% static 'img/clapper_yellow.png' %}" class="icon"></li>
+          <li><a href="{% url 'movies:popular' %}" id="headerlist">POPULAR</a><img src="{% static 'img/popular.png' %}" class="icon"></li>
         </ul>
       </div>
       <div id="headright">
         <ul>
-          <li><a href="{% url 'cart:cart_detail' %}">MY CART</a> <img src="{% static 'img/cart.png' %}" class="icon"></li>
-          <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a><img src="{% static 'img/collection.png' %}" class="icon"></li>
-          <li><a href="/profile/">My Account</a></li>
-          <li><a href="/logout/">Logout</a></li>
+          <li><a href="{% url 'cart:cart_detail' %}" id="headerlist">MY CART</a> <img src="{% static 'img/cart.png' %}" class="icon"></li>
+          <li><a href="{% url 'orders:order_list' %}" id="headerlist">MY COLLECTION</a><img src="{% static 'img/collection.png' %}" class="icon"></li>
+          <li><a href="/profile/" id="headerlist">My Account</a></li>
+          <li><a href="/logout/" id="headerlist">Logout</a></li>
         </ul>
       </div>
       <div>
@@ -35,7 +35,6 @@
 
 
   <div id="content">
-    hello
   	{% block content %}
   	{% endblock %}
   </div>

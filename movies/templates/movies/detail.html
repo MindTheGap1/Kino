@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load humanize %}
 {% block title %}{{movie.movieName}}{% endblock %}
 
 {% block content %}
 	<div id="detailleftpane">
 		<div id="detailback"><a href="/">GO BACK</a></div>
 		<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
+		<div align = "center">
+			<h1> Price: £{{movie.price}} </h1>
+			<p> Buy now to add this to your collection for two weeks </p>
+		</div>
 		<div id="cartbutton">
 			<form method="POST" action="{% url 'cart:cart_add' movie.movieId %}">
 				{% csrf_token %}
-				{{ cart_form }}<br>
+				{{ cart_form }}
 				<input type="submit" value="ADD TO CART" />
 			</form>
 		</div>
@@ -80,7 +84,7 @@
 			<h2>Average Customer Review:</h2>
 			<div>
 				{% if movie.overallRating %}
-					<p> {{movie.overallRating}} </p>
+					<p>{{movie.overallRating|floatformat:"1"|intcomma}} <img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%">/ 5<img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%"></p>
 				{% else %}
 					<p> Nobody has rated this film yet! </p>
 				{% endif %}
@@ -89,12 +93,12 @@
 
 			<form method="POST" action="">
 				{% csrf_token %}
-				<h2>Your Rating:</h2>
+				<h2>Rate this film:</h2>
 				{% for field in form %}
 	    			{% for choice in field %}
 	    			{% with v=forloop.counter %}
 	    			<input type="radio" name="rating" value="{{v}}" class="ratingLabel" id="{{choice.id_for_label}}" {% if v == rating %}checked="checked"{%endif%}> 
-					<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper.png' %}" class="icon" height="50" width="50"> </label>
+					<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper_yellow.png' %}" class="icon" height="10%" width="10%"> </label>
 					{% endwith %}
 	    			{% endfor %}
 				{% endfor %}

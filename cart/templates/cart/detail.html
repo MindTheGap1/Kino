@@ -1,38 +1,62 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 {% load static %}
+
 {% block title %}
     Your shopping cart
 {% endblock %}
 
 {% block content %}
-    <h1>Your shopping cart</h1>
-    <table class="cart">
-        <thead>
-            <tr>
-                <th>Movie</th>
-                <th>Price</th>              
-                <th></th>
+
+
+<div id="cartinfo">
+    <div style="background-color:#080808; border-style:solid; border-color:yellow">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 align="center">Your shopping cart</h1>
+        <table id="cartinfotable" align="center" width="80%">
+            <thead>
+                <tr>
+                    <th align="left" style="font-size:20px">Movie</th>
+                    <th align="left" style="font-size:20px">Price</th>              
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                {% with movie=item.movie %}
+                <tr>
+                    <td>{{ movie.movieName }}</td>
+                    <td class="num">£{{ item.price }}</td>
+                    <td><a href="{% url "cart:cart_remove" movie.movieId %}">(Remove)</a></td>
+                </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr class="total">
+                <td>Total</td>
+                <td colspan="4"></td>
+                <td class="num">£{{ cart.get_total_price }}</td>
             </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
-            {% with movie=item.movie %}
-            <tr>
-                <td>{{ movie.movieName }}</td>
-                <td class="num">${{ item.price }}</td>
-                <td><a href="{% url "cart:cart_remove" movie.movieId %}">Remove</a></td>
-            </tr>
-            {% endwith %}
-        {% endfor %}
-        <tr class="total">
-            <td>Total</td>
-            <td colspan="4"></td>
-            <td class="num">${{ cart.get_total_price }}</td>
-        </tr>
-        </tbody>
-    </table>
-    <p class="text-right">
-        <a href="{% url "movies:index" %}" class="button light">Continue shopping</a>
-        <a href="{% url "orders:checkout" %}" class="button">Checkout</a>
-    </p>
+            </tbody>
+        </table>
+        <br>
+        <div  id="checkout">
+            <div>
+                <h2 align="center"><a href="{% url "movies:index" %}" class="button" id="checkouttext">Continue Shopping</a></h2>
+            </div>
+            <div>
+                <h2 align="center"><a href="{% url "orders:checkout" %}" class="button" id="checkouttext">Checkout</a></h2>
+            </div>
+        </div>
+    </div>
+    <div style="background-color:#080808; border-style:solid; border-color:yellow">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 align="center">About your order:</h1>
+        <br>
+    </div>
+</div>
 {% endblock %}

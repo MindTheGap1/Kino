@@ -22,8 +22,10 @@
             {% for movie in started_list %}
                 {% if movie.startedWatching > 0 %}
                     <div class="item">
+                        <div class="zoom">
                         <a href="{% url 'movies:detail' movie.movieId %}">
                             <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                        </div>
                             <br>
                             <h4>{{ movie.movieName }}</h4>
                         </a>
@@ -46,9 +48,10 @@
             {% for movie in movie_list %}
                 {% if movie.isUnwatched > 0 %}
                     <div class="item">
+                        <div class="zoom">
                         <a href="{% url 'movies:detail' movie.movieId %}">
                             <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-                            <br>
+                        </div>
                             <h4>{{ movie.movieName }}</h4>
                         </a>
                         You last ordered this movie on <b>{{ movie.latestOrder|date:'d/m/Y' }}</b>
@@ -68,9 +71,10 @@
         {% if movie_list %}
             {% for movie in movie_list %}
                 <div class="item">
-                    <a href="{% url 'movies:detail' movie.movieId %}">
-                        <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-                        <br>
+                        <div class="zoom">
+                        <a href="{% url 'movies:detail' movie.movieId %}">
+                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                        </div>
                         <h4>{{ movie.movieName }}</h4>
                     </a>
                     You have ordered this {{ movie.numOrders }} time{% if movie.numOrders > 1 %}s{% endif %}

@@ -2,7 +2,7 @@ from django import forms
 from movies.models import Genre
 
 class SearchForm(forms.Form):
-	phrase = forms.CharField(max_length=30,label='Search', required=False)
+	phrase = forms.CharField(max_length=30,label='', required=False)
 	total_genre_list = Genre.objects.order_by('genreName')
 	genre_select = forms.ModelChoiceField(queryset=total_genre_list, empty_label='Any Genre',label='', required=False)
 	sorting_choices = [(0, 'Name Ascending'), 

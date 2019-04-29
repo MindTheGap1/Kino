@@ -5,33 +5,55 @@
 
 {% block content %}
 <div id="sidebar">
-    <h3>GENRES</h3>
-    <ul>
-    {% if genre_list %}
-        {% for genre in genre_list %}
-            <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
-        {% endfor %}
-    {% endif %}
-    </ul>
-    <div id="search">
+    <br>
+
+
+
+
+    <div id="search" align="left" style="margin-left:4%">
         <form method="post" action="{% url 'search:search_movie' %}">
             {% csrf_token %}
-            {{ search_form }}
-            <input type="submit" value="Search">
+            <table>
+                <h3> SEARCH <img src="{% static 'img/search.png' %}" width="10%" height="10%"></h3>
+                {{ search_form.as_table }}
+            </table>
+            <br>
+        <div align="center">
+            <input type="submit" value="Search" align = "center">
+        </div>
         </form>
     </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div align="left" style="margin-left:4%">
+        <h3>GENRES <img src="{% static 'img/genre.png' %}" width="10%" height="10%"></h3>
+        <ul id="genrelist">
+        {% if genre_list %}
+            {% for genre in genre_list %}
+                <li id="genrelistitem"><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+    </div>
+
+
 </div>
 <div id="index">
-    <h3>The most ordered movies recently</h3>
+    <h1>The most ordered movies recently</h1>
     {% if movie_list %}
         {% for movie in movie_list %}
             <div class="item">
                 <a href="{% url 'orders:order_list' %}">
                     {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
                 </a>
+                <div class = "zoom">
                 <a href="{% url 'movies:detail' movie.movieId %}">
                     <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
                 </a>
+                </div>
                 <br>
                 <a href="{% url 'movies:detail' movie.movieId %}">
                     {{ movie.movieName }}
