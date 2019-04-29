@@ -7,11 +7,19 @@
 </head>
 
 {% block content %}
-  <img src="{% static 'img/logo.png' %}" alt="Logo">
+  <div>
+      <a href="/" class="logo">
+        <img src="{% static 'img/Logo.png' %}">
+      </a>
+  </div>
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
+      <table>
+        {{ form.as_table }}
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+      <button type="submit">Sign up</button>
 {% endblock %}

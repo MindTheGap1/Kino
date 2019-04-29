@@ -12,14 +12,15 @@
     <nav>
       <div id="headleft">
         <ul>
-          <li><a href="/">ALL FILMS</a><img src="{% static 'img/clapper_yellow.png' %}" class="icon"></li>
-          <li><a href="{% url 'movies:popular' %}">POPULAR</a><img src="{% static 'img/popular.png' %}" class="icon"></li>
+          <li><a href="/">ALL FILMS</a></li>
+          <li><a href="{% url 'movies:popular' %}">POPULAR</a></li>
         </ul>
       </div>
       <div id="headright">
         <ul>
-          <li><a href="{% url 'cart:cart_detail' %}">MY CART</a> <img src="{% static 'img/cart.png' %}" class="icon"></li>
-          <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a><img src="{% static 'img/collection.png' %}" class="icon"></li>
+          <li><a href="{% url 'cart:cart_detail' %}">MY CART</a></li>
+          <li><a href="{% url 'orders:order_list' %}">MY COLLECTION</a></li>
+          <li><a href="/"><img src="{% static 'img/Search.png' %}" class="icon"></a></li>
           <li><a href="/profile/">My Account</a></li>
           <li><a href="/logout/">Logout</a></li>
         </ul>

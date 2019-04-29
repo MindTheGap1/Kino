@@ -12,6 +12,15 @@ h2 {
 p {
 	color: white;
 }
+table {
+	color: white;
+}
+td {
+	color: white;
+}
+tr {
+	color: white;
+}
 div.form {
 	background-color: black;
 	border-style: solid;
