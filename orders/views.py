@@ -112,7 +112,7 @@ def watch(request, movie_id):
 		movie = Movie.objects.filter(movieId=movie_id).annotate(
 							isUnwatched=Exists(ordersUnwatched),
 							startedWatching=Exists(ordersStarted),
-							latestWatch=Max('order__movieStartTime'))
+							latestWatch=Subquery(ordersStarted[:1]))
 		x = movie[0].startedWatching
 		y = movie[0].isUnwatched
 		if not movie[0].startedWatching and not movie[0].isUnwatched:
