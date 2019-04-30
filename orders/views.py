@@ -103,22 +103,22 @@ def watch(request, movie_id):
 			
 		current_user_object = Auth_User.objects.get(id=user_id)
 		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
-		ordersUnwatched = OrderItem.objects.filter(
-							orderId__userId = current_user_object,
-							movieId__movieId = OuterRef('pk'),
-							movieStartTime = None).values('movieStartTime')
-		ordersStarted = OrderItem.objects.filter(
-							orderId__userId = current_user_object, 
-							movieId__movieId = OuterRef('pk'), 
-							movieStartTime__gte = twoDaysAgo).values('movieStartTime')
+		ordersUnwatched = OrderItem.objects.filter(orderId__userId = current_user_object,
+													movieId__movieId = OuterRef('pk'),
+													movieStartTime = None).values('movieStartTime')
+		ordersStarted = OrderItem.objects.filter(orderId__userId = current_user_object, 
+													movieId__movieId = OuterRef('pk'), 
+													movieStartTime__gte = twoDaysAgo).values('movieStartTime')
 		movie = Movie.objects.filter(movieId=movie_id).annotate(
-							isUnwatched=Count(Subquery(ordersUnwatched)),
-							startedWatching=Count(Subquery(ordersStarted)),
-							latestWatch=Subquery(ordersStarted[:1]))
-		if movie[0].startedWatching < 1 and movie[0].isUnwatched < 1:
+							isUnwatched=Exists(ordersUnwatched),
+							startedWatching=Exists(ordersStarted),
+							latestWatch=Max('order__movieStartTime'))
+		x = movie[0].startedWatching
+		y = movie[0].isUnwatched
+		if not movie[0].startedWatching and not movie[0].isUnwatched:
 			return redirect('/')
 
-		if movie[0].isUnwatched > 0 and movie[0].startedWatching < 1:
+		if movie[0].isUnwatched and not movie[0].startedWatching:
 			latest_film = OrderItem.objects.filter(Q(movieId=movie_id) & Q(movieStartTime = None) & Q(orderId__userId = current_user_object)).latest('-orderId__orderCreated')
 			latest_film.movieStartTime = datetime.now(pytz.UTC)
 			latest_film.save(update_fields=['movieStartTime'])
