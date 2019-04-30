@@ -1,5 +1,5 @@
 body, html {
-	background-color: #080808;
+	background-color: #101010;
 	color: white;
 	margin: 0;
 	padding: 0;
@@ -83,6 +83,7 @@ ul {
 	width: 100%;
 	overflow-y: hidden;
 	z-index: 5;
+	position: fixed;
 }
 
 #header ul {
@@ -172,10 +173,22 @@ ul {
 	top:75px;
 	bottom: 0;
 	padding-top: 20px;
-	margin-bottom: 100px;
 	border-right: 5px solid yellow;
 	background-color: black;
-	/*overflow-y: scroll;*/
+	position: fixed;
+}
+
+#sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  padding-top: 20px;
+  border-right: 5px solid yellow;
 }
 
 /* INDEX.HTML */
@@ -344,8 +357,7 @@ h4, h4 a, h4 a:hover, h4 a:visited {
 
 #cartbutton form {
 	background-color: grey;
-	padding: 30px;
-	margin-top: 50px;
+	padding: 20px;
 	display: inline-block;
 }
 
@@ -397,6 +409,21 @@ h4, h4 a, h4 a:hover, h4 a:visited {
 
 #headerlist:hover{
 	color:#a5a5a5;
+}
+
+#desclist{
+	color:white;
+}
+
+#desclist:hover{
+	color:#a5a5a5;
+}
+
+#detailinner{
+	display:flex;
+}
+#detailinner div{
+	flex:50%;
 }
 /* PROFILE.HTML */
 
@@ -470,6 +497,8 @@ h4, h4 a, h4 a:hover, h4 a:visited {
 	margin-right: 10px;
 	transition: all .25s linear;
 }
+
+
 
 /* WATCH.HTML */
 

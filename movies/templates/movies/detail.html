@@ -6,7 +6,7 @@
 {% block content %}
 	<div id="detailleftpane">
 		<div id="detailback"><a href="/">GO BACK</a></div>
-		<iframe src="https://www.youtube.com/embed/{{ vidId }}"></iframe>
+		<iframe allow="autoplay" src="https://www.youtube.com/embed/{{ vidId }}?&autoplay=1" frameborder="0"></iframe>
 		<div align = "center">
 			<h1> Price: £{{movie.price}} </h1>
 			<p> Buy now to add this to your collection for two weeks </p>
@@ -22,64 +22,61 @@
 	<div id="detailrightpane">
 		<h1>{{ movie.movieName }}</h1>
 		<div id="detaildesc">
-			<ul>
-				<li>{{ movie.description }}</li>
+			<ul  style="margin-top:5%;">
+				<li style="margin-right:5%;">{{ movie.description }}</li>
 				<br>
 				<li>Release Date: {{ movie.releaseDate }}</li>
-				<br>
+			<div id="detailinner">
+				<div>
+					{% if movie.genres.all %}
+						<li><h3>Genres:</h3>
+							<ul style="list-style-type: circle;">
+							{% for genre in movie.genres.all %}
+								<li><a id="desclist" href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li><h3>Genres are unknown</h3></li>
+					{% endif %}
+					{% if movie.directors.all %}
+						<li><h3>Directors:</h3> 
+							<ul style="list-style-type: circle;">
+							{% for director in movie.directors.all %}
+								<li><a id="desclist" href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li><h3>Directors are unknown</h3></li>
+					{% endif %}
+				</div>
+				<div>
 
-				{% if movie.genres.all %}
-					<li>Genres:
-						<ul>
-						{% for genre in movie.genres.all %}
-							<li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre }}</a></li>
-						{% endfor %}
-						</ul>
-					</li>
-				{% else %}
-					<li>Genres are unknown</li>
-				{% endif %}
-				<br>
-
-				{% if movie.directors.all %}
-					<li>Directors: 
-						<ul>
-						{% for director in movie.directors.all %}
-							<li><a href="{% url 'movies:director' director.directorId %}">{{ director }}</a></li>
-						{% endfor %}
-						</ul>
-					</li>
-				{% else %}
-					<li>Directors are unknown</li>
-				{% endif %}
-				<br>
-
-				{% if movie.actors.all %}
-					<li>Cast: 
-						<ul>
-						{% for actor in movie.actors.all %}
-							<li><a href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</a></li> 
-						{% endfor %}
-						</ul>
-					</li>
-				{% else %}
-					<li>Actors are unknown</li>
-				{% endif %}
-				<br>
-
-				{% if movie.writers.all %}
-					<li>Story by:
-						<ul>
-						{% for writer in movie.writers.all %}
-							<li><a href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
-						{% endfor %}
-						</ul>
-					</li>
-				{% else %}
-					<li>Writers are unknown</li>
-				{% endif %}
-			</ul>
-		</div>
+					{% if movie.actors.all %}
+						<li><h3>Cast:</h3> 
+							<ul style="list-style-type: circle;">
+							{% for actor in movie.actors.all %}
+								<li><a id="desclist" href="{% url 'movies:actor' actor.actorId %}">{{ actor }}</a></li> 
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li><h3>Actors are unknown</h3></li>
+					{% endif %}
+					{% if movie.writers.all %}
+						<li><h3>Story by:</h3>
+							<ul style="list-style-type: circle;">
+							{% for writer in movie.writers.all %}
+								<li><a id="desclist" href="{% url 'movies:writer' writer.writerId %}">{{ writer }}</a></li>
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li><h3>Writers are unknown</h3></li>
+					{% endif %}
+					</ul>
+				</div>
 		<div id="detailrating">
 			<h2>Average Customer Review:</h2>
 			<div>
@@ -103,7 +100,7 @@
 	    			{% endfor %}
 				{% endfor %}
 				<br>
-				<input type="submit" value="Submit" />
+				<input  style="margin-top:5px;" type="submit" value="Submit" />
 
 			</form>
 		</div>
