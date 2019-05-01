@@ -9,7 +9,7 @@
 		<iframe allow="autoplay" src="https://www.youtube.com/embed/{{ vidId }}?&autoplay=1" frameborder="0"></iframe>
 		<div align = "center">
 			<h1> Price: £{{movie.price}} </h1>
-			<p> Buy now to add this to your collection for two weeks </p>
+			<p> Buy now to add this to your Collection<img src="{% static 'img/collection.png' %}" width="2%" height="2%">.</p>
 		</div>
 		<div id="cartbutton">
 			<form method="POST" action="{% url 'cart:cart_add' movie.movieId %}">
