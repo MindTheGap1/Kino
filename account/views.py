@@ -1,5 +1,6 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from account.forms import Register
 from django.core.management import call_command
 from django.db.models import Q
 from django.views import generic
@@ -10,11 +11,20 @@ from movies.models import Genre
 from .models import FavouriteGenres, User, UserMovieStats
 from .forms import GenreSelect
 
-
-class signup(generic.CreateView):
-	form_class = UserCreationForm
-	success_url = '/account/genre'
-	template_name = 'account/signup.html'
+def register(request):
+	success_url = '/genre/'
+	if request.method == "POST":
+		form = Register(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect(success_url)
+		else:
+			args = {"form": form}
+			return render(request, 'account/signup.html', args)
+	else:
+		form = Register()
+		args = {"form": form}
+		return render(request, 'account/signup.html', args)
 
 def profile(request):
 	if not request.user.is_authenticated:
