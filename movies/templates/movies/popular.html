@@ -53,12 +53,11 @@
                     <a href="{% url 'orders:order_list' %}">
                         {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
                     </a>
-                <div class = "zoom">
-                <a href="{% url 'movies:detail' movie.movieId %}">
-                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                </a>
-                </div>
-                    <br>
+                    <div class = "zoom">
+                        <a href="{% url 'movies:detail' movie.movieId %}">
+                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                        </a>
+                    </div>
                     <a href="{% url 'movies:detail' movie.movieId %}">
                         {{ movie.movieName }}
                     </a>
@@ -79,15 +78,14 @@
                     <a href="{% url 'orders:order_list' %}">
                         {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
                     </a>
-                <div class = "zoom">
-                <a href="{% url 'movies:detail' movie.movieId %}">
-                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                </a>
-                </div>
+                    <div class = "zoom">
+                    <a href="{% url 'movies:detail' movie.movieId %}">
+                        <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                    </a>
+                    </div>
                     <a href="{% url 'movies:detail' movie.movieId %}">
                         {{ movie.movieName }}
                     </a>
-                    <br>
                     Ordered {{ movie.get_orders }} time{% if movie.get_orders != 1 %}s{% endif %} this week
                 </div>
             {% endfor %}

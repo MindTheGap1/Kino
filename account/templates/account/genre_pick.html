@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load index %}
 
 {% block title %}Pick Your Favourite Genres{% endblock %}
 
@@ -10,12 +11,13 @@ Pick your favorite genres:</h1>
 <div id="genreselection">
 	<form method='post'>
 	    {% csrf_token %}
+	    <h2>{{ genre_form.errors }}</h2>
 	    <ul>
 	    	{% for field in genre_form %}
 	    		{% for choice in field %}
 
-    			{% with v=forloop.counter %}
-	    		<li><input type="checkbox" name="pickedGenres" value ="{{v}}" id="{{choice.id_for_label}}" {%if v in field.initial %}checked="checked"{%endif%}>
+    			{% with v=forloop.counter0 %}
+	    		<li><input type="checkbox" name="pickedGenres" value ="{{ genre_ids|index:v }}" id="{{choice.id_for_label}}" {%if genre_ids|index:v in field.initial %}checked="checked"{%endif%}>
 	    		<label for="{{choice.id_for_label}}">{{choice.choice_label}}</label></li>
 	    		{% endwith %}
 	    		{% endfor %}

@@ -42,12 +42,12 @@ def genrePick(request):
 		except User.DoesNotExist:
 			user_entry = User.objects.create(user_id = user_id, name = current_user_object.username, completedTutorial=False)
 			user_entry.save()
-		print('hi')
 		if request.method == 'POST':
 			form = GenreSelect(request.POST)
 			if form.is_valid():
 				FavouriteGenres.objects.filter(userId = current_user_object).delete()
 				genres = form.cleaned_data.get('pickedGenres')
+
 				for genre in genres:
 					genreObject = Genre.objects.get(genreId=genre)
 					FavouriteGenres.objects.create(userId = current_user_object,
@@ -66,6 +66,8 @@ def genrePick(request):
 
 				return redirect('/')
 
+		
+		genreIds = Genre.objects.all().values_list('genreId', flat=True)
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)
 		preselect = []
 		for genre in genreQ:
@@ -73,6 +75,7 @@ def genrePick(request):
 		template = 'account/genre_pick.html'
 		form = GenreSelect(initial={'pickedGenres': preselect})
 		context = {
+			'genre_ids': genreIds,
 			'genre_form': form
 		}
 		print('wtf')

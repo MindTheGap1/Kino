@@ -124,34 +124,35 @@ class Command(BaseCommand):
 				sum_rating_adj = 0
 				sum_adj = 0
 				userstats_value = user_u.moviestats.filter(Q(movieId__movieId = movie.movieId) & Q(userId__id = user_u.id))
+
+				for v, user_v in enumerate(all_users):
+					if user_v != user_u:
+						if options['similarity'] == "P":
+							sum_rating_adj += movie_ratings_dict[movie.movieId][v] * user_ratings_pearsons[user_u.id][v]
+							sum_adj += user_ratings_pearsons[user_u.id][v]
+						else:
+							sum_rating_adj += movie_ratings_dict[movie.movieId][v] * total_user_adj[user_u.id][v]
+							sum_adj += total_user_adj[user_u.id][v]
+				if sum_adj == 0:
+					predicted_rating = 0
+				else:
+					predicted_rating = sum_rating_adj / sum_adj
+
 				if userstats_value:
 					rating = userstats_value.values_list('rating', flat=True)[0]
 					if rating:
-						list += [None]
-				
-				if rating == None:
-					for v, user_v in enumerate(all_users):
-						if user_v != user_u:
-							if options['similarity'] == "P":
-								sum_rating_adj += movie_ratings_dict[movie.movieId][v] * user_ratings_pearsons[user_u.id][v]
-								sum_adj += user_ratings_pearsons[user_u.id][v]
-							else:
-								sum_rating_adj += movie_ratings_dict[movie.movieId][v] * total_user_adj[user_u.id][v]
-								sum_adj += total_user_adj[user_u.id][v]
-					if sum_adj == 0:
-						predicted_rating = 0
-					else:
-						predicted_rating = sum_rating_adj / sum_adj
-					list += [predicted_rating]
+						if rating > 2.5:
+							predicted_rating = predicted_rating * (0.5 + (0.2 * (rating - 2.5)))
+						else:
+							predicted_rating = predicted_rating * (1 - 0.2 * (2.5 - rating))
+
+				list += [predicted_rating]
 
 			if options['similarity'] == "P":
-				range_vals = max(abs(max(x for x in list if x is not None)), abs(min(x for x in list if x is not None)))
+				range_vals = max( abs(max(x for x in list if x is not None)), abs(min(x for x in list if x is not None)) )
+			
 			for i, movie in enumerate(movie_list):
-				if list[i] == None:
-					userstats_value = user_u.moviestats.filter(Q(movieId__movieId = movie.movieId) & Q(userId__id = user_u.id))
-					rating = userstats_value.values_list('rating', flat=True)[0]
-					list[i] = rating
-				elif options['similarity'] == "P":
+				if options['similarity'] == "P":
 					if range_vals == 0:
 						list[i] = 0
 					else:
