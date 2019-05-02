@@ -44,6 +44,7 @@
                     {{ movie.movieName }}
                 </a>
                 <br>
+                Rated: {{movie.overallRating|floatformat:"1"|intcomma}} / 5.0
             </div>
         {% endfor %}
         <div id="button_box">

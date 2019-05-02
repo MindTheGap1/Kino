@@ -81,7 +81,7 @@
 			<h2>Average Customer Review:</h2>
 			<div>
 				{% if movie.overallRating %}
-					<p>{{movie.overallRating|floatformat:"1"|intcomma}} <img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%">/ 5<img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%"></p>
+					<p>{{movie.overallRating|floatformat:"1"|intcomma}} <img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%">/ 5.0<img src="{% static 'img/clapper_yellow.png' %}" height="5%" width="5%"></p>
 				{% else %}
 					<p> Nobody has rated this film yet! </p>
 				{% endif %}
