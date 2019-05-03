@@ -9,6 +9,9 @@
 {% block content %}
   <div class="form">
     <a href="/"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
+    {% if request.session.success_signup %}
+      <p><strong>You have successfully signed up!</strong></p>
+    {% endif %}
     <br>
     <p class="SignIn">Sign in</p>
     <form name="Login" method="post">
@@ -21,7 +24,7 @@
         <button class="button2">Forgot Password</button>
       </div>
       <div id="right">
-        <button onclick="window.location.href='/account/signup'" class="button3">Sign up</button>
+        <button onclick="window.location.href='/signup'" class="button3">Sign up</button>
       </div>
     </section>
   </div>

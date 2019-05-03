@@ -14,6 +14,7 @@ import pytz
 import math
 
 def index(request,page_no=1):
+    request.session['success_signup'] = False
     if not request.user.is_authenticated:
         return redirect('/landing/')
     #if user has not completed cold-start

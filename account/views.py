@@ -13,8 +13,13 @@ from .forms import GenreSelect
 
 class signup(generic.CreateView):
 	form_class = UserCreationForm
-	success_url = '/genre'
+	success_url = '/login'
 	template_name = 'account/signup.html'
+
+	def form_valid(self, form):
+		form.save()
+		self.request.session['success_signup'] = True
+		return redirect(self.success_url)
 
 def profile(request):
 	if not request.user.is_authenticated:
@@ -78,5 +83,4 @@ def genrePick(request):
 			'genre_ids': genreIds,
 			'genre_form': form
 		}
-		print('wtf')
 		return render(request, template, context)
