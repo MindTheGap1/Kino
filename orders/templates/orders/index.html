@@ -10,7 +10,7 @@
         <h2>Your Orders</h2>
     </div>
     <div id="collectionsort">
-        <form method="post" action="{% url "orders:order_list" %}">
+        <form method="post" action="{% url 'orders:order_list' %}">
             {% csrf_token %}
             {{ sort_form }}
             <input type="submit" value="Sort">
@@ -21,10 +21,10 @@
         {% if started_list %}
             {% for movie in started_list %}
                 {% if movie.startedWatching > 0 %}
-                    <div class="item">
+                    <div class="item" style="height: 610px !important;">
                         <div class="zoom">
                         <a href="{% url 'movies:detail' movie.movieId %}">
-                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
                         </div>
                             <br>
                             <h4>{{ movie.movieName }}</h4>
@@ -47,10 +47,10 @@
         {% if unwatched_list %}
             {% for movie in movie_list %}
                 {% if movie.isUnwatched > 0 %}
-                    <div class="item">
+                    <div class="item" style="height: 610px !important;">
                         <div class="zoom">
                         <a href="{% url 'movies:detail' movie.movieId %}">
-                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
                         </div>
                             <h4>{{ movie.movieName }}</h4>
                         </a>
@@ -70,10 +70,10 @@
         <h3>All Previously Ordered Movies:</h3>
         {% if movie_list %}
             {% for movie in movie_list %}
-                <div class="item">
+                <div class="item" style="height: 590px !important;">
                         <div class="zoom">
                         <a href="{% url 'movies:detail' movie.movieId %}">
-                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                            <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
                         </div>
                         <h4>{{ movie.movieName }}</h4>
                     </a>
