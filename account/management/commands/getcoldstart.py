@@ -70,7 +70,7 @@ class Command(BaseCommand):
 				else:
 					usv = UserMovieStats(movieId = movie_i, userId = user_u, recommendValue = value)
 					usv.save()
-				
+
 
 
 

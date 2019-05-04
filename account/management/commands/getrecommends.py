@@ -127,12 +127,12 @@ class Command(BaseCommand):
 
 				for v, user_v in enumerate(all_users):
 					if user_v != user_u:
-						if options['similarity'] == "P":
-							sum_rating_adj += movie_ratings_dict[movie.movieId][v] * user_ratings_pearsons[user_u.id][v]
-							sum_adj += user_ratings_pearsons[user_u.id][v]
-						else:
+						if options['similarity'] == "C":
 							sum_rating_adj += movie_ratings_dict[movie.movieId][v] * total_user_adj[user_u.id][v]
 							sum_adj += total_user_adj[user_u.id][v]
+						else:
+							sum_rating_adj += movie_ratings_dict[movie.movieId][v] * user_ratings_pearsons[user_u.id][v]
+							sum_adj += user_ratings_pearsons[user_u.id][v]
 				if sum_adj == 0:
 					predicted_rating = 0
 				else:
@@ -144,15 +144,15 @@ class Command(BaseCommand):
 						if rating > 2.5:
 							predicted_rating = predicted_rating * (0.5 + (0.2 * (rating - 2.5)))
 						else:
-							predicted_rating = predicted_rating * (1 - 0.2 * (2.5 - rating))
+							predicted_rating = predicted_rating * (0.5 - 0.2 * (2.5 - rating))
 
 				list += [predicted_rating]
 
-			if options['similarity'] == "P":
+			if options['similarity'] != "C":
 				range_vals = max( abs(max(x for x in list if x is not None)), abs(min(x for x in list if x is not None)) )
-			
+
 			for i, movie in enumerate(movie_list):
-				if options['similarity'] == "P":
+				if options['similarity'] != "C":
 					if range_vals == 0:
 						list[i] = 0
 					else:
@@ -165,7 +165,7 @@ class Command(BaseCommand):
 				else:
 					usv = UserMovieStats(movieId = movie, userId = user_u, recommendValue = list[i])
 					usv.save()
-				
+
 			recommend_dict[user_u.id] = list
 
 
