@@ -5,6 +5,7 @@ from movies.models import Movie, Genre, Actor, Writer, Director
 from django.db.models import Q
 import numpy as np
 import math
+import time
 
 class Command(BaseCommand):
 	help = 'Gathers all the values for recommending movies (or specific movies) to users (or specific users). Done by Cosine Similarity by default.'
@@ -15,6 +16,7 @@ class Command(BaseCommand):
 		parser.add_argument('-s', '--similarity', dest='similarity', help = 'Indicates what correlation to use: \'P\' for Pearson\'s Correlation, \'C\' for Cosine Similarity')
 
 	def handle(self, *args, **options):
+		start_time = time.time()
 		all_movies = Movie.objects.all()
 		all_genres = Genre.objects.all()
 		all_users = Auth_User.objects.all()
@@ -167,6 +169,7 @@ class Command(BaseCommand):
 					usv.save()
 
 			recommend_dict[user_u.id] = list
+		print("--- %s seconds ---" % (time.time() - start_time))
 
 
 

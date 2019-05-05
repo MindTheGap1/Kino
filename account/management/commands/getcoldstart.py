@@ -5,6 +5,7 @@ from movies.models import Movie, Genre, Actor, Writer, Director
 from django.db.models import Q
 import numpy as np
 import math
+import time
 
 class Command(BaseCommand):
 	help = 'Gathers all the values for recommending movies (or specific movies) to users (or specific users). Done by Cosine Similarity.'
@@ -14,6 +15,7 @@ class Command(BaseCommand):
 		parser.add_argument('-m', '--movie', dest='movie_id', nargs='+', type=int, help = 'Indicates the Movie(s) to be updated, leave blank to do all movies')
 
 	def handle(self, *args, **options):
+		start_time = time.time()
 		all_movies = Movie.objects.all()
 		all_genres = Genre.objects.all()
 		all_users = Auth_User.objects.all()
@@ -70,6 +72,7 @@ class Command(BaseCommand):
 				else:
 					usv = UserMovieStats(movieId = movie_i, userId = user_u, recommendValue = value)
 					usv.save()
+		print("--- %s seconds ---" % (time.time() - start_time))
 
 
 
