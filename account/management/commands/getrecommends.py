@@ -119,6 +119,8 @@ class Command(BaseCommand):
 
 		recommend_dict = {}
 
+		new_database_entries_list = []
+		updated_database_entries_list = []
 		for user_u in user_list:
 			list = []
 			for movie in movie_list:
@@ -163,12 +165,16 @@ class Command(BaseCommand):
 				userstats_value = user_u.moviestats.filter(Q(movieId__movieId = movie.movieId) & Q(userId__id = user_u.id))
 				if userstats_value:
 					userstats_value[0].recommendValue = list[i]
-					userstats_value[0].save()
+					updated_database_entries_list += [userstats_value[0]]
+					#userstats_value[0].save()
 				else:
 					usv = UserMovieStats(movieId = movie, userId = user_u, recommendValue = list[i])
-					usv.save()
+					new_database_entries_list += [usv]
+					#usv.save()
 
 			recommend_dict[user_u.id] = list
+		UserMovieStats.objects.bulk_create(new_database_entries_list)
+		UserMovieStats.objects.bulk_update(updated_database_entries_list, ['recommendValue'])
 		total_time = (time.time() - start_time)
 		print("%s" % total_time)
 

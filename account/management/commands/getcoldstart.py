@@ -56,7 +56,8 @@ class Command(BaseCommand):
 
 		user_movie_genres_adj = self.get_adj_dict(user_genres_dict, movie_genres_dict)
 
-
+		new_database_entries_list = []
+		updated_database_entries_list = []
 		for u, user_u in enumerate(user_list):
 			for i, movie_i in enumerate(movie_list):
 				value = 0
@@ -68,10 +69,14 @@ class Command(BaseCommand):
 				userstats_value = user_u.moviestats.filter(Q(movieId__movieId = movie_i.movieId) & Q(userId__id = user_u.id))
 				if userstats_value:
 					userstats_value[0].recommendValue = value
-					userstats_value[0].save()
+					updated_database_entries_list += [userstats_value[0]]
+					#userstats_value[0].save()
 				else:
 					usv = UserMovieStats(movieId = movie_i, userId = user_u, recommendValue = value)
-					usv.save()
+					new_database_entries_list += [usv]
+					#usv.save()
+		UserMovieStats.objects.bulk_create(new_database_entries_list)
+		UserMovieStats.objects.bulk_update(updated_database_entries_list, ['recommendValue'])
 		print("--- %s seconds ---" % (time.time() - start_time))
 
 
