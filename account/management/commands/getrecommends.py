@@ -169,7 +169,8 @@ class Command(BaseCommand):
 					usv.save()
 
 			recommend_dict[user_u.id] = list
-		print("--- %s seconds ---" % (time.time() - start_time))
+		total_time = (time.time() - start_time)
+		print("%s" % total_time)
 
 
 
