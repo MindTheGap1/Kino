@@ -31,14 +31,14 @@ def searchMovie(request):
 		genre_select = request.POST.get("genre_select")
 		sort_select = int(request.POST.get("sort_select")) if request.POST.get("sort_select") != None else 0
 		movie_list, new_movie_list = [], []
-		sorting_list = ['movieName', '-movieName', 'price', '-price', 'overallRating', '-overallRating', 'length', '-length', 'releaseDate', '-releaseDate']
+		sorting_list = ['', 'movieName', '-movieName', 'price', '-price', 'overallRating', '-overallRating', 'length', '-length', 'releaseDate', '-releaseDate']
 		twoDaysAgo = datetime.now(pytz.UTC) - timedelta(days=2)
 
 		ordersUnwatched = OrderItem.objects.filter(orderId__userId = current_user_object,
 												movieId__movieId = OuterRef('pk'),
 												movieStartTime = None).values('movieStartTime')
-		ordersStarted = OrderItem.objects.filter(orderId__userId = current_user_object, 
-												movieId__movieId = OuterRef('pk'), 
+		ordersStarted = OrderItem.objects.filter(orderId__userId = current_user_object,
+												movieId__movieId = OuterRef('pk'),
 												movieStartTime__gte = twoDaysAgo).values('movieStartTime')
 		recValue = UserMovieStats.objects.filter(userId = current_user_object,
 												movieId__movieId = OuterRef('pk')).values('recommendValue')
@@ -46,20 +46,48 @@ def searchMovie(request):
 		if phrase:
 			phrase = phrase.strip()
 			phrase_sep = phrase.split(" ")
+			stop_words = ['the', 'and', 'by', 'or', 'of', 'to']
+			for word in list(phrase_sep):
+				if word in stop_words:
+					phrase_sep.remove(word)
 
-			
-			movie_list = Movie.objects.filter(	reduce(operator.or_, (Q(movieName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(description__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(actors__actorFirstName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(actors__actorLastName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(writers__writerFirstName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(writers__writerLastName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(directors__directorFirstName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(directors__directorLastName__icontains=word) for word in phrase_sep))
-												| reduce(operator.or_, (Q(genres__genreName__icontains=word) for word in phrase_sep))).distinct().annotate(
-												recValue=Subquery(recValue),
-												isUnwatched=Exists(ordersUnwatched),
-												startedWatching=Exists(ordersStarted)).order_by(sorting_list[sort_select], '-recValue')
+			if sort_select != 0:
+				movie_list = Movie.objects.filter(	reduce(operator.or_, (Q(movieName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(description__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(actors__actorFirstName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(actors__actorLastName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(writers__writerFirstName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(writers__writerLastName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(directors__directorFirstName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(directors__directorLastName__icontains=word) for word in phrase_sep))
+													| reduce(operator.or_, (Q(genres__genreName__icontains=word) for word in phrase_sep))).distinct().annotate(
+													recValue=Subquery(recValue),
+													isUnwatched=Exists(ordersUnwatched),
+													startedWatching=Exists(ordersStarted)).order_by(sorting_list[sort_select], '-recValue')
+			else:
+				print("hi")
+				movie_list = [Movie.objects.filter(reduce(operator.or_, (Q(movieName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(description__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(actors__actorFirstName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(actors__actorLastName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(writers__writerFirstName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(writers__writerLastName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(directors__directorFirstName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(directors__directorLastName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+				movie_list += [Movie.objects.filter(reduce(operator.or_, (Q(genres__genreName__icontains=word) for word in phrase_sep))).distinct().values_list('movieId', flat=True)]
+
+				id_list = []
+				for qset in movie_list:
+					for movieId in qset:
+						if not movieId in id_list:
+							id_list += [movieId]
+
+
+				print(id_list)
+				movie_list = Movie.objects.filter(movieId__in=id_list)
+				movie_list = dict([(obj.movieId, obj) for obj in movie_list])
+				movie_list = [movie_list[id] for id in id_list]
+				print(movie_list)
 		else:
 			movie_list = Movie.objects.order_by('movieName').annotate(
 												recValue=Subquery(recValue),
@@ -72,7 +100,19 @@ def searchMovie(request):
 				movie_genres = list(movie.genres.all().values_list('genreId', flat=True))
 				new_movie_list.append(movie) if int(genre_select) in movie_genres else None
 			movie_list = new_movie_list
-			movie_list.order_by(sorting_list[sort_select], '-recValue')
+			if sort_select != 0:
+				if movie_list:
+					new_movie_list = Movie.objects.filter(movieId=movie_list[0].movieId).annotate(
+												recValue=Subquery(recValue),
+												isUnwatched=Exists(ordersUnwatched),
+												startedWatching=Exists(ordersStarted))
+					for movie in list(movie_list[1:]):
+						new_movie_list = new_movie_list | Movie.objects.filter(movieId=movie.movieId).annotate(
+												recValue=Subquery(recValue),
+												isUnwatched=Exists(ordersUnwatched),
+												startedWatching=Exists(ordersStarted))
+					new_movie_list = new_movie_list.order_by(sorting_list[sort_select], '-recValue')
+					movie_list = new_movie_list
 
 		if request.POST.get("page_no"):
 			page_no = int(request.POST.get("page_no"))
@@ -82,7 +122,7 @@ def searchMovie(request):
 		movie_list = movie_list[(page_no - 1)*15:page_no*15]
 
 		total_genre_list = Genre.objects.order_by('genreName')
-		search_form = SearchForm(initial={'genre_select': genre_select, 
+		search_form = SearchForm(initial={'genre_select': genre_select,
 											'phrase': phrase,
 											'sort_select': sort_select,})
 

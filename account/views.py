@@ -71,7 +71,7 @@ def genrePick(request):
 
 				return redirect('/')
 
-		
+
 		genreIds = Genre.objects.all().values_list('genreId', flat=True)
 		genreQ = FavouriteGenres.objects.filter(userId=current_user_object)
 		preselect = []
