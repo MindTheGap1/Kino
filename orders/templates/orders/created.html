@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+</head>
     <h1>Thank you</h1>
     <p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
 {% endblock %}

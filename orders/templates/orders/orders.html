@@ -5,6 +5,9 @@
 
 
 {% block content %}
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+</head>
 <div id="orderhistory">
 	<h2>Orders</h2>
 	{% for order in orders %}

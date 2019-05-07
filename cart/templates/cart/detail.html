@@ -1,73 +1,49 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-    Your shopping cart
-{% endblock %}
+
 
 {% block content %}
 
 
-<div id="cartinfo">
-    <div style="background-color:#080808; border-style:solid; border-color:yellow">
-        <br>
-        <br>
-        <br>
-        <br>
-        <h1 align="center">Your shopping cart</h1>
-        <table id="cartinfotable" align="center" width="80%">
-            <thead>
-                <tr>
-                    <th align="left" style="font-size:20px">Movie</th>
-                    <th align="left" style="font-size:20px">Price</th>              
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for item in cart %}
-                {% with movie=item.movie %}
-                <tr>
-                    <td>{{ movie.movieName }}</td>
-                    <td class="num">£{{ item.price }}</td>
-                    <td><a href="{% url "cart:cart_remove" movie.movieId %}">(Remove)</a></td>
-                </tr>
-                {% endwith %}
-            {% endfor %}
-            <tr class="total">
-                <td>Total</td>
-                <td colspan="4"></td>
-                <td class="num">£{{ cart.get_total_price }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <br>
-        <div  id="checkout">
-            <div>
-                <h2 align="center"><a href="{% url "movies:index" %}" class="button" id="checkouttext">Continue Shopping</a></h2>
+<main class="page shopping-cart-page">
+        <section class="clean-block clean-cart dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Shopping Cart</h2>
+                </div>
+                <div class="content">
+                    <div class="row no-gutters shopping-cart">
+                        <div class="col-md-12 col-lg-8 product-cart">
+                            <div class="items">
+                                {% for item in cart %}
+                                {% with movie=item.movie %}
+                                <div class="product">
+                                    <div class="row justify-content-center align-items-center cart-info">
+                                        <div class="col-md-10 product-info"><a class="product-name" href="{% url 'movies:detail' movie.movieId %}">{{ movie.movieName }}</a>
+                                            <div class="product-specs">
+                                                <div><a class="remove" href="{% url "cart:cart_remove" movie.movieId %}">Remove</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2 price"><span>${{ item.price }}</span></div>
+                                    </div>
+
+                                </div>
+                                 {% endwith %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="summary">
+                                <h3>Summary</h3>
+                                <h4><span class="text">Total</span><span class="price">${{ cart.get_total_price }}</span></h4><br><a class="btn btn-primary btn-block btn-lg" href="{% url 'orders:checkout' %}" role="button">Checkout</a>
+                                <a class="btn btn-primary btn-block btn-lg" role="button" href="/" >Continue Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h2 align="center"><a href="{% url "orders:checkout" %}" class="button" id="checkouttext">Checkout</a></h2>
-            </div>
-        </div>
-    </div>
-    <div style="background-color:#080808; border-style:solid; border-color:yellow">
-        <br>
-        <br>
-        <br>
-        <br>
-        <h1 align="center">About your order:</h1>
-        <div style="margin:5%">
-            <ul style="list-style-type: circle; padding:2%;"><h2>How can I watch my movies?</h2>
-                <li  style="margin:1%">All of your Movies will be available in (<a href="{% url 'orders:order_list' %}" id="headerlist">MY COLLECTION</a><img src="{% static 'img/collection.png' %}" width="3%" height="3%">)</li>
-                <lI  style="margin:1%">Once a movie has been watched in it's entirety, it will automatically be removed from your Collection.</lI>
-                <li  style="margin:1%">If you can't finish a movie after starting it, worry not! Each movie will be available for two days after you have initially started watching it.</li>
-                <lI  style="margin:1%">A movie's two-day timer will ONLY start once you have started watching it.</lI>
-            </ul>
-            <ul style="list-style-type: circle; padding:2%;"><h2>What can I do once a movie's rental period is up?</h2>
-                <li  style="margin:1%">Upon expiry, a rented movie will automatically be removed from your collection. No action necessary!</li>
-                <li  style="margin:1%">If you want to watch a movie you have already rented, you can rent it again from the store.</li>
-            </ul>
-        </div>
-    </div>
-</div>
+        </section>
+    </main>
 {% endblock %}

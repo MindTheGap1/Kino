@@ -1,12 +1,98 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Your Profile{% endblock %}
 
 {% block content %}
-<div id="profile">
-	<h2>Your profile</h2>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}">
+</head>
 
-	<h3><a href="{% url 'orders:order_history' %}">Your Order History</a></h3>
-	<h3><a href="{% url 'orders:order_list' %}">Your Movie Collection</a></h3>
-</div> 
+
+
+</div>
+
+<div id="accountContainr">
+
+	<div class = "account_div" id="account_profile">
+
+
+		<span><a href="">Edit</a></span>
+
+
+	</div>
+</div>
+
+
+<div id="main_box">
+
+<h3 id="account_header">Account Settings</h3>
+
+<table id="accountContainer">
+
+	<tr>
+
+		<td>
+			MY PROFILE
+			<span class="updateText"><a href="">Edit</a></span>
+			<div class="accountBox">
+				Username: {{user.username}}
+
+			</div>
+
+		</td>
+
+
+		<td>
+			SAVED PAYMENT METHOD
+			<span class="updateText"><a href="">Update</a></span>
+				<div class="accountBox">
+					Bank Details
+				</div>
+		</td>
+	</tr>
+
+
+	<tr>
+		<td colspan="2">
+			SETTINGS
+			<span class="updateText"><a href="">Update</a></span>
+				<div class="accountBox">
+				<ul>
+					<li>Language</li>
+					<li>Playback</li>
+					<li>Ratings</li>
+					<li>Subtitles</li>
+				</ul>
+				</div>
+		</td>
+	</tr>
+
+
+	<tr>
+		<td colspan="2">
+			RENTAL HISTORY
+			<span class="updateText"><a href="">View All</a></span>
+				<div class="accountBox" id ="historyBox">
+					<h5>Orders:</h5>
+					{% if movie_list %}
+	            {% for movie in movie_list %}
+							<h6>{{ movie.movieName }}</h6>
+							You have ordered this {{ movie.numOrders }} time{% if movie.numOrders > 1 %}s{% endif %}
+							<br>
+							You last ordered this movie on <b>{{ movie.latestOrder|date:'d/m/Y' }}</b>
+							<br>
+							{% if movie.isUnwatched or movie.startedWatching > 0 %}This movie is watchable{% else %}This movie has expired{% endif %}
+					</div>
+					{% endfor %}
+					{% else %}
+					{% endif %}
+				</div>
+		</td>
+	</tr>
+
+
+</table>
+</div>
+<br>
+<br>
 {% endblock %}

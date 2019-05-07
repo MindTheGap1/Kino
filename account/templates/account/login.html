@@ -1,31 +1,27 @@
+{% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
-<head>
-  <meta charset="utf-8" />
-  <title>{% block title %}Login{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" rel="stylesheet">
-</head>
+
 
 {% block content %}
-  <div class="form">
-    <a href="/"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
-    {% if request.session.success_signup %}
-      <p><strong>You have successfully signed up!</strong></p>
-    {% endif %}
-    <br>
-    <p class="SignIn">Sign in</p>
-    <form name="Login" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Login</button>
-    </form>
-    <section>
-      <div id="left">
-        <button class="button2">Forgot Password</button>
-      </div>
-      <div id="right">
-        <button onclick="window.location.href='/signup'" class="button3">Sign up</button>
-      </div>
-    </section>
-  </div>
+<main class="page login-page">
+       <section class="clean-block clean-form dark login">
+           <div class="container">
+               <div class="block-heading">
+                  <br>
+                  <br>
+                  <br>
+                   <h2 class="text-info">Log In</h2>
+               </div>
+               <form class="login" method="post">
+                   <div class="form-group">
+                       {% csrf_token %}
+                       {{ form|crispy }}
+                   <div class="form-group">
+                       <div><a href="#">Forgot password&nbsp;</a><a class="sign-up-link" href="/signup">Sign Up</a></div>
+                   </div><button class="btn btn-primary btn-block" type="submit">Log In</button></form>
+           </div>
+       </section>
+   </main>
 {% endblock %}

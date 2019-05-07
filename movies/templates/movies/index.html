@@ -1,85 +1,109 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load humanize %}
 {% block title %}Kino{% endblock %}
 
 
 {% block content %}
-<div id="sidebar">
-    <br>
+<main class="page catalog-page">
+        <section class="clean-block clean-catalog dark">
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-3 genres">
+                        <div class="d-none d-md-block">
+                            <div class="filters">
+                                <div class="filter-item">
 
+                                    <h3>Genres</h3>
+                                    <form method="post" action="{% url 'search:search_movie' %}">
+                                      {% csrf_token %}
+                                      {{ search_form|crispy}}
+                                      <input type="submit" value="Search">
+                                  </form>
+                                  <br>
+                                    <ul class="list-unstyled">
+                                         {% if genre_list %}
+                                         {% for genre in genre_list %}
+                                             <li> <a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a> </li>
+                                         {% endfor %}
+                                         {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-md-none"><a class="btn btn-link text-center d-md-none filter-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="filters" href="#filters" role="button">Genres<i class="icon-arrow-down filter-caret"></i></a>
+                            <div class="collapse"
+                                id="filters">
+                                <div class="filters">
+                                    <div class="filter-item">
+                                        <h3>Genres</h3>
+                                        <form method="post" action="{% url 'search:search_movie' %}">
+                                         {% csrf_token %}
+                                         {{ search_form|crispy}}
+                                         <input type="submit" value="Search">
+                                        </form>
+                                        <br>
+                                        <ul class="list-unstyled">
+                                            {% if genre_list %}
+                                         {% for genre in genre_list %}
+                                             <li><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
+                                         {% endfor %}
+                                         {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-xl-10">
+                        <div class="products">
+                            <div class="row no-gutters">
+                                {% if movie_list %}
+                                 {% for movie in movie_list %}
+                                <div class="col-12 col-md-6 col-lg-3">
+                                    <div class="clean-product-item">
+                                        <div class="card">
+                                          <a href="{% url 'orders:order_list' %}">
+                                             {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
+                                         </a>
+                                         <div class="zoom">
+                                         <a href="{% url 'movies:detail' movie.movieId %}">
+                                             <img class="card-img-top rounded" src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                                             </a>
+                                             </div>
+                                            <div class="card-img-overlay">
 
+                                                <h6><a href="{% url 'movies:detail' movie.movieId %}">
+                                                {{ movie.movieName }}</h6>
+                                                <h6>Rated: {{movie.overallRating|floatformat:"1"|intcomma}} / 5.0</h6>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <p>No Movies :(</p>
+                            {% endif %}
+                            </div>
+                            <nav>
+                                <ul class="pagination">
+                                    {% if page_no > 1 %}
+                                    <li class="page-item"><a class="page-link" href="{% url 'movies:index' page_no|add:'-1' %}" aria-label="Previous"><span aria-hidden="true">Previous Page</span></a></li>
+                                    {% endif %}
 
-    <div id="search" align="left" style="margin-left:4%">
-        <form method="post" action="{% url 'search:search_movie' %}">
-            {% csrf_token %}
-            <table>
-                <h3> SEARCH <img src="{% static 'img/search.png' %}" width="10%" height="10%"></h3>
-                {{ search_form.as_table }}
-            </table>
-            <br>
-        <div align="center">
-            <input type="submit" value="Search" align = "center">
-        </div>
-        </form>
-    </div>
-
-    <br>
-    <br>
-    <br>
-
-    <div align="left" style="margin-left:4%">
-        <h3>GENRES <img src="{% static 'img/genre.png' %}" width="10%" height="10%"></h3>
-        <ul id="genrelist">
-        {% if genre_list %}
-            {% for genre in genre_list %}
-                <li id="genrelistitem"><a href="{% url 'movies:genre' genre.genreId %}">{{ genre.genreName }}</a></li>
-            {% endfor %}
-        {% endif %}
-        </ul>
-    </div>
-
-
-</div>
-
-
-<div id="index">
-    <h1>Recommended for you:</h1>
-    {% if movie_list %}
-        {% for movie in movie_list %}
-            <div class="item">
-                <a href="{% url 'orders:order_list' %}">
-                    {% if movie.isUnwatched or movie.startedWatching %}<div class="rentedlabel">Renting</div>{% endif %}
-                </a>
-                <div class = "zoom">
-                <a href="{% url 'movies:detail' movie.movieId %}">
-                    <img src="{% if movie.image %}{{ movie.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                </a>
+                                    {% if page_no < page_total %}
+                                    <li class="page-item"><a class="page-link" href="{% url 'movies:index' page_no|add:'1' %}" aria-label="Next"><span aria-hidden="true">Next Page</span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <a href="{% url 'movies:detail' movie.movieId %}">
-                    {{ movie.movieName }}
-                 </a>
-                <br>
-                Rated: {{movie.overallRating|floatformat:"1"|intcomma}} / 5.0
             </div>
-        {% endfor %}
-        <div id="button_box">
-            {% if page_no > 1 %}
-            <div id="back_button">
-                <a href="{% url 'movies:index' page_no|add:'-1' %}">Previous Page</a>
-            </div>
-            {% endif %}
-            {% if page_no < page_total %}
-            <div id="next_button">
-                <a href="{% url 'movies:index' page_no|add:'1' %}">Next Page</a>
-            </div>
-            {% endif %}
-        </div>
-    {% else %}
-        <p>No Movies :(</p>
-    {% endif %}
-</div>
-        
+        </section>
+    </main>
+
 
 {% endblock %}

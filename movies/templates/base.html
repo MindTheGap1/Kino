@@ -1,69 +1,111 @@
 {% load static %}
+{% load crispy_forms_tags %}
+
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}{% endblock %}</title>
-    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{% block title %}{% endblock %}</title>
+  <!-- Bootstrap CSS -->
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/simple-line-icons.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/simple-line-icons.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+
+
+
+
+
 </head>
+
 <body>
-<div id="container">
-  <div id="header">
-    <nav>
-      <div id="headleft">
-        <ul>
-          <li><a href="/" id="headerlist">ALL FILMS</a><img src="{% static 'img/clapper_yellow.png' %}" class="icon"></li>
-          <li><a href="{% url 'movies:popular' %}" id="headerlist">POPULAR</a><img src="{% static 'img/popular.png' %}" class="icon"></li>
-        </ul>
-      </div>
-      <div id="headright">
-        <ul>
-          <li><a href="{% url 'cart:cart_detail' %}" id="headerlist">MY CART</a> <img src="{% static 'img/cart.png' %}" class="icon"></li>
-          <li><a href="{% url 'orders:order_list' %}" id="headerlist">MY COLLECTION</a><img src="{% static 'img/collection.png' %}" class="icon"></li>
-          <li><a href="/profile/" id="headerlist">My Account</a></li>
-          <li><a href="/logout/" id="headerlist">Logout</a></li>
-        </ul>
-      </div>
-      <div>
-        <a href="/" class="logo">
-          <img src="{% static 'img/Logo.png' %}">
-        </a>
-      </div>
+  {% if user.is_authenticated %}
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top clean-navbar">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav flex-grow-1 ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/">all movies</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'movies:popular' %}">popular</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'orders:order_list' %}">my collection</a></li>
+                </ul>
+            </div><a class="navbar-brand logo" href="/"><img class="img-fluid"   <img src="{% static 'img/logo.png' %}" width="120px"></a>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'cart:cart_detail' %}">cart</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/">Search</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/profile/">account</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/logout/">logout</a></li>
+                </ul>
+            </div><button data-target="#navcol-1" data-toggle="collapse" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
     </nav>
-  </div>
-</div>
+    {% else %}
+    <nav class="navbar navbar-dark navbar-expand-sm fixed-top welcome">
+        <div class="container-fluid"><a class="navbar-brand" href="/landing"><img class="img-fluid" src="{% static 'img/logo.png' %}" width="120px"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div
+                class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav flex-grow-1 justify-content-end">
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/login">LOGIN</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/signup">SIGN UP</a></li>
+                </ul>
+        </div>
+        </div>
+    </nav>
+    {% endif %}
 
-
-  <div id="content">
   	{% block content %}
   	{% endblock %}
-  </div>
 
-  <div class="footer">
-    <div class="footer-content">
-      <div class="footer-columns" id="footer-column1">
-        <p class="footer-content-text"><a href="#">Audio & Subtitles</a></p>
-        <p class="footer-content-text"><a href="#">Privacy Policy</a></p>
-        <p class="footer-content-text"><a href="#">Terms of Use</a></p>
-      </div>
-      <div class="footer-columns" id="footer-column2">
-        <p class="footer-content-text"><a href="#">Help Center</a></p>
-        <p class="footer-content-text"><a href="#">Cookie Preferences</a></p>
-        <p class="footer-content-text"><a href="#">FAQ</a></p>
-      </div>
-      <div class="footer-columns" id="footer-column3">
-        <p class="footer-content-text"><a href="#">Contact Us</a></p>
-        <p class="footer-content-text">5 The Parade<br/>Cardiff<br/>CF24 3AA</p>
-        <p class="footer-content-text"></p>
-      </div>
-      <div id="footer-copyright">
-        <p id="footer-copyright-text">
-          Copyright Kino .Inc {i-bc4a6764533348735gdfshb3}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 
-</body>
-</html>
+    <footer class="page-footer dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h5>Get started</h5>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Sign up</a></li>
+                            <li><a href="#">Downloads</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>About us</h5>
+                        <ul>
+                            <li><a href="#">Company Information</a></li>
+                            <li><a href="#">Contact us</a></li>
+                            <li><a href="#">Reviews</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>Support</h5>
+                        <ul>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Help desk</a></li>
+                            <li><a href="#">Forums</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>Legal</h5>
+                        <ul>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2018 Copyright Text</p>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+
+    </html>

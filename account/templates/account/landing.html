@@ -1,46 +1,39 @@
-{% load static %}
-
-<head>
-  <meta charset="utf-8" />
-  <title>{% block title %}Welcome to Kino{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}" rel="stylesheet">
-</head>
+{% extends "base.html" %}
 
 {% block content %}
-<div class="header">
-  <a href="/login" id="link">Log in</a>
-</div>
-<br>
-<br>
-<div class="form">
-    <img src="{% static 'img/logo.png' %}" alt="Logo">
-    <h2>Welcome to Kino</h2>
-    <a href="/signup" id="link"><h2 style="font-size:20px;" id="link">Sign up for free today</h2></a>
-</div>
-<div class="about" height="80vh" width="80vw">
-  <img src="{% static 'img/kinopromo3.png' %}" alt="KinoPromo1" maxheight="100%" width="100%">
-  <br>
-  <br>
-  <br>
-  Kino possesses a huge library to choose from.
-  <br>
-  <br>
-  <br>
-  <img src="{% static 'img/kinopromo4.png' %}" alt="KinoPromo2" maxheight="100%" width="100%">
-  <br>
-  <br>
-  <br>
-  Rent films and watch them, any time, anywhere.
-  <br>
-  <br>
-  <br>
-  <a href="/signup" id="link"><h2 style="font-size:20px" id="link"><h2>Sign up for free today</h2></a>
-  No subscription required!
-  <br>
-  <br>
-  <br>
-</div> 
-<div class="footer">
-  
-</div>
+<main class="page landing-page">
+       <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background-color: #000000;">
+           <div class="text">
+               <h1 class="welcome">Welcome to Kino</h1>
+               <h3>Unlimited movies just for you.</h3>
+               <p>No subscription. Just sign up and watch.</p><a href="/signup" class="btn btn-outline-light btn-lg welcome" role="button">Sign Up</a></div>
+       </section>
+       <section class="clean-block features">
+           <div class="container">
+               <div class="block-heading">
+                   <h2 class="text-info">Great movies await.</h2>
+                   <p></p>
+               </div>
+               <div class="row justify-content-center">
+                   <div class="col-md-5 feature-box"><i class="icon-film icon welcome"></i>
+                       <h4>Movies just for you.</h4>
+                       <p>We make sure that you get to watch movies you like and find suggestions specific to your taste.</p>
+                   </div>
+                   <div class="col-md-5 feature-box"><i class="icon-diamond icon"></i>
+                       <h4><strong>No subscription.</strong></h4>
+                       <p>There is no subscription. Just watch when you want and only pay for what you watch.</p>
+                   </div>
+                   <div class="col-md-5 feature-box"><i class="icon-screen-smartphone icon"></i>
+                       <h4><strong>Watch everywhere.</strong></h4>
+                       <p>Our website is adapted to all screens.&nbsp;<br>Watch on your laptop or phone.</p>
+                   </div>
+                   <div class="col-md-5 feature-box"><i class="icon-refresh icon"></i>
+                       <h4>Always fresh.</h4>
+                       <p>Watch all the movies you love. Kino is frequently updated and hosts all new movies.</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+   </main>
 {% endblock %}
