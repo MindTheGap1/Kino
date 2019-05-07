@@ -13,6 +13,9 @@
                   <br>
                   <br>
                    <h2 class="text-info">Log In</h2>
+                   {% if request.session.success_signup %}
+                    <h3>You have successfully signed up!</h3>
+                    {% endif %}
                </div>
                <form class="login" method="post">
                    <div class="form-group">

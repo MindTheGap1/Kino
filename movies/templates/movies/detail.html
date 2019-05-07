@@ -102,7 +102,7 @@
 																									{% for choice in field %}
 																									{% with v=forloop.counter %}
 																									<input type="radio" name="rating" value="{{v}}" class="ratingLabel" id="{{choice.id_for_label}}" {% if v == rating %}checked="checked"{%endif%}>
-																									<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper_yellow.png' %}" class="icon" height="10%" width="10%"> </label>
+																									<label class="label_item" for="{{choice.id_for_label}}"> <img src="{% static 'img/clapper_yellow.png' %}" class="icon" height="50" width="50"> </label>
 																									{% endwith %}
 																									{% endfor %}
 																							{% endfor %}

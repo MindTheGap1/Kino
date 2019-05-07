@@ -564,8 +564,8 @@ a:hover {
 
 .ratingLabel{
 	display: none !important;
-	width: 10%;
-	height: 10%;
+	width: 30%;
+	height: 30%;
 }
 
 .ratingLabel [type=radio] {
